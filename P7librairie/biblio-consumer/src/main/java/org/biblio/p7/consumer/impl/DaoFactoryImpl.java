@@ -19,6 +19,7 @@ public class DaoFactoryImpl implements DaoFactory {
    private OuvrageGenreDao ouvrageGenreDao;
    private BibliothequeDao bibliothequeDao;
    private EmpruntDao empruntDao;
+   private ReservationDao reservationDao;
 
 
     public LecteurDao getLecteurDao() {
@@ -114,5 +115,13 @@ public class DaoFactoryImpl implements DaoFactory {
 
     public void setEmpruntDao(EmpruntDao empruntDao) {
         this.empruntDao = empruntDao;
+    }
+
+    public ReservationDao getReservationDao() {
+        return reservationDao;
+    }
+
+    public void setReservationDao(ReservationDao reservationDao) {
+        this.reservationDao = reservationDao;
     }
 }

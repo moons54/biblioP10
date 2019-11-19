@@ -17,6 +17,7 @@ public class ManagerFactoryImpl implements ManagerFactory {
     private EditionOuvrageManager editionOuvrageManager;
     private OuvrageManager ouvrageManager;
     private EmpruntManager empruntManager;
+    private ReservationManager reservationManager;
 
 
     public LecteurManager getLecteurManager() {
@@ -98,5 +99,14 @@ public class ManagerFactoryImpl implements ManagerFactory {
 
     public void setOuvrageManager(OuvrageManager ouvrageManager) {
         this.ouvrageManager = ouvrageManager;
+    }
+
+    @Override
+    public ReservationManager getReservationManager() {
+        return reservationManager;
+    }
+
+    public void setReservationManager(ReservationManager reservationManager) {
+        this.reservationManager = reservationManager;
     }
 }

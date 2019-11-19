@@ -51,4 +51,14 @@
         <property name="managerFactory" ref="managerFactory" />
     </bean>
 
+    <bean id="ReservationService" class="org.biblio.p7.service.ReservationServiceImpl">
+        <property name="managerFactory" ref="managerFactory"/>
+    </bean>
+    <jaxws:server
+            serviceClass="org.biblio.p7.service.ReservationService" address="/ReservationService"
+            serviceBean="#ReservationService">
+    </jaxws:server>
+
+
+
 </beans>

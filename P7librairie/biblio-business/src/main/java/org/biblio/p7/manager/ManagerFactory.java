@@ -24,4 +24,6 @@ public interface ManagerFactory {
 
    EmpruntManager getEmpruntManager();
 
+   ReservationManager getReservationManager();
+
 }
