@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.4.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>org.batch.p7</groupId>
+    <artifactId>batchlibrairie</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>batchlibrairie</name>
+    <description>projet pour batch</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-batch</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web-services</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.batch</groupId>
+            <artifactId>spring-batch-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+    </dependencies>
+
+    <build><plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+        <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-codegen-plugin</artifactId>
+        <version>3.2.7</version>
+        <executions>
+            <execution>
+                <id>generate-sources_Authentification</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                    <wsdlRoot>${basedir}/src/main/resources/wsdl</wsdlRoot>
+                    <wsdlOptions>
+                        <wsdlOption>
+                            <!--                                    <wsdl>${basedir}/src/main/resources/wsdl/OuvrageService.wsdl</wsdl>-->
+                            <wsdl>http://localhost:8080/biblio_webapp_war_exploded/services/AuthentificationService?wsdl</wsdl>
+                            <extraargs>
+                                <extraarg>-client</extraarg>
+                            </extraargs>
+                        </wsdlOption>
+                    </wsdlOptions>
+                </configuration>
+                <goals>
+                    <goal>wsdl2java</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>generate-sources_ouvrage</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                    <wsdlRoot>${basedir}/src/main/resources/wsdl</wsdlRoot>
+                    <wsdlOptions>
+                        <wsdlOption>
+                            <!--                                    <wsdl>${basedir}/src/main/resources/wsdl/OuvrageService.wsdl</wsdl>-->
+                            <wsdl>http://localhost:8080/biblio_webapp_war_exploded/services/OuvrageService?wsdl</wsdl>
+                            <extraargs>
+                                <extraarg>-client</extraarg>
+                            </extraargs>
+                        </wsdlOption>
+                    </wsdlOptions>
+                </configuration>
+                <goals>
+                    <goal>wsdl2java</goal>
+                </goals>
+            </execution>
+            <execution>
+                <id>generate-sources_emprunt</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                    <wsdlRoot>${basedir}/src/main/resources/wsdl</wsdlRoot>
+                    <wsdlOptions>
+                        <wsdlOption>
+                            <!--                                    <wsdl>${basedir}/src/main/resources/wsdl/OuvrageService.wsdl</wsdl>-->
+                            <wsdl>http://localhost:8080/biblio_webapp_war_exploded/services/PretService?wsdl</wsdl>
+                            <extraargs>
+                                <extraarg>-client</extraarg>
+                            </extraargs>
+                        </wsdlOption>
+                    </wsdlOptions>
+                </configuration>
+                <goals>
+                    <goal>wsdl2java</goal>
+                </goals>
+            </execution>
+        </executions>
+        </plugin>
+        </plugins>
+    </build>
+
+</project>

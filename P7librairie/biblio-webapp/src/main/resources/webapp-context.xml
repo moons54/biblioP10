@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-4.2.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <!-- ==== JNDI resource ===== -->
+
+         <!--   <bean id="mabiblio" class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="java:comp/env/jdbc/librairieP7"/>
+        </bean>-->
+
+
+    <jee:jndi-lookup id="mabiblio" jndi-name="jdbc/librairieP7"
+                     expected-type="javax.sql.DataSource" />
+
+
+    <jaxws:server
+            serviceClass="org.biblio.p7.service.AuthentificationService" address="/AuthentificationService"
+            serviceBean="#AuthentificationService">
+    </jaxws:server>
+
+
+    <bean id="AuthentificationService" class="org.biblio.p7.service.AuthentificationServiceImpl">
+        <property name="managerFactory" ref="managerFactory" />
+    </bean>
+
+    <jaxws:server
+            serviceClass="org.biblio.p7.service.OuvrageService" address="/OuvrageService"
+            serviceBean="#OuvrageService">
+    </jaxws:server>
+
+
+    <bean id="OuvrageService" class="org.biblio.p7.service.OuvrageServiceImpl">
+        <property name="managerFactory" ref="managerFactory" />
+    </bean>
+
+
+    <jaxws:server
+            serviceClass="org.biblio.p7.service.PretService" address="/PretService"
+            serviceBean="#PretService">
+    </jaxws:server>
+
+
+    <bean id="PretService" class="org.biblio.p7.service.PretServiceImpl">
+        <property name="managerFactory" ref="managerFactory" />
+    </bean>
+
+</beans>

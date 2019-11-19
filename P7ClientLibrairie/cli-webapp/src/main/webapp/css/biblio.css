@@ -1,0 +1,20 @@
+.primary {
+   color: red;
+}
+.ami_card {
+    margin: 30px 0px 0px 0px;
+}
+.ami_bouton {
+    background-color: aqua;
+    margin-top: 80px;
+}
+.ami_txtfield {
+    color: rebeccapurple;
+}
+.ami_desc{
+    color: blueviolet;
+    -webkit-text-size-adjust: 10%;
+}
+.ami_cadre {
+    margin: 40px 0px 0px 0px;
+}

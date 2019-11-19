@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<!--suppress ALL -->
+<struts>
+    <package name="default" extends="struts-default">
+
+        <!-- Action par défaut -->
+      <!--  <default-action-ref name="index" />
+        <global-results>
+            <result name="error">/jsp/error.jsp</result>
+        </global-results>-->
+
+        <!-- Action d'index -->
+        <action name="index">
+            <!-- gestion de la vue -->
+            <result>index.jsp</result>
+        </action>
+
+
+        <!-- Action Authentification -->
+        <action name="Login" class="action.LoginAction" method="doLogin">
+            <result name="input">jsp/login/authentification.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">index</param>
+            </result>
+            <result name="error">/jsp/error.jsp</result>
+        </action>
+
+        <!-- Action affichemonprofil -->
+        <action name="monprofil" class="action.LoginAction" method="doDetail">
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <!--   <result name="success">jsp/topo/detail.jsp</result> -->
+            <result>jsp/profil/profil.jsp</result>
+        </action>
+
+        <!-- Action Authentification -->
+        <action name="maliste" class="action.LoginAction" method="doList">
+            <result name="success">jsp/login/listeutilisateur.jsp</result>
+        </action>
+
+        <!--Action de delog -->
+        <action name="DoLogout" class="action.LoginAction" method="doLogout">
+            <result type="redirectAction">index</result>
+        </action>
+
+         <!-- Action "inscription" -->
+        <action name="nutilisateur" class="action.LoginAction" method="doCreate">
+            <result name="input">jsp/login/inscription.jsp</result>
+            <result name="success" type="redirectAction">
+
+                <param name="nom">${nom}</param>
+                <param name="actionName">confirme_user</param>
+
+            </result>
+            <result name="error">/jsp/error.jsp</result>
+        </action>
+
+        <!-- Action "inscription coordonnées page 2" -->
+        <action name="ncoordonnees" class="action.LoginAction" method="dovalidate">
+            <result name="input">jsp/login/inscriptionpage2.jsp</result>
+            <result name="success" type="redirectAction">Login
+<!--
+                <param name="idutilisateur">${idutilisateur}</param>
+                <param name="actionName">coordonnee_detail</param>-->
+
+
+            </result>
+<!--            <result name="success">jsp/login/detailutilisateur.jsp</result>-->
+        </action>
+
+        <!--Affiche detail d'un lecteur-->
+        <action name="confirme_user"
+                class="action.LoginAction"
+                method="doDetail1">
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <result>jsp/login/confirmeutilisateur.jsp</result>
+        </action>
+
+
+        <!--Action le detail utilisateur et coordonnées-->
+        <action name="coordonnee_detail"
+                class="action.LoginAction"
+                method="doDetail2">
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <result>jsp/login/detailutilisateur.jsp</result>
+        </action>
+
+        <!--Action permettant d'afficher le détail d'un utilisateur-->
+        <action name="utilisateur_detail"
+                class="action.LoginAction"
+                method="doDetail">
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <result>jsp/login/detailutilisateur.jsp</result>
+        </action>
+
+        <action name="utilisateur_supp"
+                class="action.LoginAction"
+                method="doSupp">
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <result>index.jsp</result>
+        </action>
+
+
+        <action name="utilisateur_mod"
+                class="action.LoginAction"
+                method="domodif">
+
+            <result name="input">/jsp/login/modifutilisateur.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">utilisateur_detail</param>
+                <param name="idutilisateur">${coordonnees.lecteur.id}</param>
+            </result>
+        </action>
+
+        <action name="coordonnees_mod"
+                class="action.LoginAction"
+                method="domodifcoordonnees">
+            <result name="input">/jsp/login/modifcoordonnees.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">utilisateur_detail</param>
+                <param name="idutilisateur">${coordonnees.lecteur.id}</param>
+            </result>
+        </action>
+
+        <action name="liste_ouvrage"
+                class="action.OuvrageAction"
+                method="doafficheouvrage">
+            <result name="success">jsp/ouvrage/listeouv.jsp</result>
+        </action>
+
+        <action name="liste_exemplaire"
+                class="action.OuvrageAction"
+                method="doafficheouvrage">
+            <result name="success">jsp/ouvrage/listeouv.jsp</result>
+        </action>
+
+
+        <action name="recherche"
+                class="action.OuvrageAction"
+                method="dorecherche">
+            <interceptor-ref name="store">
+                <param name="operationMode">STORE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <result name="input">jsp/ouvrage/recherchelivre.jsp</result>
+            <result name="success">jsp/ouvrage/listeouvrage.jsp</result>
+        </action>
+
+        <action name="rechercheisbn"
+                class="action.OuvrageAction"
+                method="dorech">
+            <interceptor-ref name="store">
+                <param name="operationMode">STORE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <result name="input">jsp/ouvrage/recherchelivre.jsp</result>
+            <result name="success">jsp/ouvrage/detailouvrage.jsp</result>
+        </action>
+
+        <action name="detail_livre"
+                class="action.OuvrageAction"
+                method="dodetailouvrage">
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <!--   <result name="success">jsp/topo/detail.jsp</result> -->
+            <result>jsp/ouvrage/detailouvrage.jsp</result>
+        </action>
+
+        <action name="detail_exemplaire"
+                class="action.OuvrageAction"
+                method="dodetailExmplaire">
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <result>jsp/ouvrage/detailexemplaire.jsp</result>
+        </action>
+
+
+        <action name="emprunt_mod" class="action.EmpruntAction" method="doprolongation">
+            <result name="input">jsp/login/prolongation.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">monprofil</param>
+                <param name="idutilisateur">${#session.user.id}</param>
+            </result>
+        </action>
+
+        <!-- Action "reservation" -->
+        <action name="nreservation" class="action.EmpruntAction" method="doemprunt">
+            <result name="input">jsp/login/reservation.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">monprofil</param>
+                <param name="idutilisateur">${#session.user.id}</param>
+            </result>
+        </action>
+    </package>
+
+</struts>

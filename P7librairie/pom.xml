@@ -1,0 +1,192 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- INFORMATIONS MAVEN-->
+  <groupId>org.biblio.p7</groupId>
+  <artifactId>bibliothequeP7</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <!--DESCRIPTION GENERAL-->
+  <name>bibliothequeP7</name>
+  <url>http://maven.apache.org</url>
+
+  <!--PROPRIETES DU PROJET-->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <cxf.version>3.3.2</cxf.version>
+    <spring.version>5.1.5.RELEASE</spring.version>
+    <struts2.version>2.5.20</struts2.version>
+  </properties>
+
+  <!--DEPENDANCES DU PROJET-->
+  <dependencyManagement>
+    <dependencies>
+      <!--      LES MODULES DU PROJET -->
+      <dependency>
+        <groupId>org.biblio.p7</groupId>
+        <artifactId>biblio-model</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+        <dependency>
+            <groupId>org.biblio.p7</groupId>
+            <artifactId>biblio-batch</artifactId>
+          <version>${project.version}</version>
+        </dependency>
+      <dependency>
+        <groupId>org.biblio.p7</groupId>
+        <artifactId>biblio-webapp</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.biblio.p7</groupId>
+        <artifactId>biblio-consumer</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.biblio.p7</groupId>
+        <artifactId>biblio-business</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.biblio.p7</groupId>
+        <artifactId>biblio-technical</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <!--     BIBLIOTHEQUE COMPLEMENTAIRES-->
+
+      <!-- Drivers JDBC PostgreSQL -->
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>9.4.1212</version>
+        <scope>runtime</scope>
+      </dependency>
+
+      <!-- Dépendance liés au Framework SPRING-->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-framework-bom</artifactId>
+        <version>${spring.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.security</groupId>
+        <artifactId>spring-security-bom</artifactId>
+        <version>5.1.2.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+
+      <!--Dépendance lié au Framework STRUTS2-->
+      <dependency>
+        <groupId>org.apache.struts</groupId>
+        <artifactId>struts2-bom</artifactId>
+        <version>${struts2.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.struts.xwork</groupId>
+        <artifactId>xwork-core</artifactId>
+        <version>2.3.34</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.6</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-collections4</artifactId>
+        <version>4.1</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>1</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+        <version>1.2</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-validator</groupId>
+        <artifactId>commons-validator</artifactId>
+        <version>1.6</version>
+      </dependency>
+
+
+    <!-- insertion des dépendances apache cxf pour mise en place des webservices -->
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-databinding-jaxb</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-transports-http</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>3.1.0</version>
+        <scope>provided</scope>
+      </dependency>
+
+    <!--Gestion des LOG : dans ce projet nous utilisons LOG4J2 -->
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.11.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.11.1</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-jcl</artifactId>
+      <version>2.11.1</version>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+
+
+<!--GESTION DES MODULES-->
+  <modules>
+    <module>biblio-model</module>
+    <module>biblio-consumer</module>
+    <module>biblio-business</module>
+    <module>biblio-batch</module>
+    <module>biblio-webapp</module>
+    <module>biblio-technical</module>
+  </modules>
+</project>

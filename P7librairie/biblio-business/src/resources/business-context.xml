@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- =======++++++++++++===== declaration du manager ====++++++++++++=================== -->
+    <bean id="lecteurManager"  class="org.biblio.p7.managerimpl.LecteurManagerImpl" />
+    <bean id="coordonneesManager" class="org.biblio.p7.managerimpl.CoordonneesManagerImpl"/>
+    <bean id="genreManager" class="org.biblio.p7.managerimpl.GenreManagerImpl"/>
+    <bean id="AuteurManager" class="org.biblio.p7.managerimpl.AuteurManagerImpl"/>
+    <bean id="EditeurManager" class="org.biblio.p7.managerimpl.EditeurManagerImpl"/>
+    <bean id="exemplaireManager" class="org.biblio.p7.managerimpl.ExemplaireManagerImpl"/>
+    <bean id="editionOuvrageManager" class="org.biblio.p7.managerimpl.EditionOuvrageManagerImpl"/>
+    <bean id="ouvrageManager" class="org.biblio.p7.managerimpl.OuvrageManagerImpl"/>
+    <bean id="empruntManager" class="org.biblio.p7.managerimpl.EmpruntManagerImpl"/>
+
+    <!-- =======++++++++++++===== declaration du managerFactory ====++++++++++++=================== -->
+    <bean id="managerFactory"  class="org.biblio.p7.managerimpl.ManagerFactoryImpl">
+        <property name="lecteurManager" ref="lecteurManager" />
+        <property name="coordonneesManager" ref="coordonneesManager" />
+        <property name="genreManager" ref="genreManager"/>
+        <property name="auteurManager" ref="AuteurManager"/>
+        <property name="editeurManager" ref="EditeurManager"/>
+        <property name="exemplaireManager" ref="exemplaireManager"/>
+        <property name="editionOuvrageManager" ref="editionOuvrageManager"/>
+        <property name="ouvrageManager" ref="ouvrageManager"/>
+        <property name="empruntManager" ref="empruntManager"/>
+
+    </bean>
+
+    <!-- =======++++++++++++===== Abstract manager ====++++++++++++=================== -->
+
+    <!-- AbstractResources -->
+
+
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+
+        <property name="targetClass" value="org.biblio.p7.managerimpl.AbstractManagerImpl"/>
+
+        <property name="targetMethod" value="setDaoFactory"/>
+
+        <property name="arguments" ref="daoFactory"/>
+
+    </bean>
+
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="mabiblio"/>
+    </bean>
+
+
+</beans>

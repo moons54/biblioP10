@@ -1,0 +1,460 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.p7.biblio.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="AuthentificationService" targetNamespace="http://service.p7.biblio.org/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.p7.biblio.org/" elementFormDefault="unqualified" targetNamespace="http://service.p7.biblio.org/" version="1.0">
+
+  <xs:element name="ajouterCoordonnees" type="tns:ajouterCoordonnees"/>
+
+  <xs:element name="ajouterCoordonneesResponse" type="tns:ajouterCoordonneesResponse"/>
+
+  <xs:element name="ajouterLecteur" type="tns:ajouterLecteur"/>
+
+  <xs:element name="ajouterLecteurResponse" type="tns:ajouterLecteurResponse"/>
+
+  <xs:element name="controlerLecteur" type="tns:controlerLecteur"/>
+
+  <xs:element name="controlerLecteurResponse" type="tns:controlerLecteurResponse"/>
+
+  <xs:element name="coordonneesparlecteur" type="tns:coordonneesparlecteur"/>
+
+  <xs:element name="coordonneesparlecteurResponse" type="tns:coordonneesparlecteurResponse"/>
+
+  <xs:element name="modifierCooronnees" type="tns:modifierCooronnees"/>
+
+  <xs:element name="modifierCooronneesResponse" type="tns:modifierCooronneesResponse"/>
+
+  <xs:element name="modifierLecteur" type="tns:modifierLecteur"/>
+
+  <xs:element name="modifierLecteurResponse" type="tns:modifierLecteurResponse"/>
+
+  <xs:element name="rechercher" type="tns:rechercher"/>
+
+  <xs:element name="rechercherResponse" type="tns:rechercherResponse"/>
+
+  <xs:element name="recherchercoordonnee" type="tns:recherchercoordonnee"/>
+
+  <xs:element name="recherchercoordonneeResponse" type="tns:recherchercoordonneeResponse"/>
+
+  <xs:element name="rechercherlesLecteurs" type="tns:rechercherlesLecteurs"/>
+
+  <xs:element name="rechercherlesLecteursResponse" type="tns:rechercherlesLecteursResponse"/>
+
+  <xs:element name="rechercherparNom" type="tns:rechercherparNom"/>
+
+  <xs:element name="rechercherparNomResponse" type="tns:rechercherparNomResponse"/>
+
+  <xs:element name="supprimerLecteur" type="tns:supprimerLecteur"/>
+
+  <xs:element name="supprimerLecteurResponse" type="tns:supprimerLecteurResponse"/>
+
+  <xs:complexType name="rechercherlesLecteurs">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="rechercherlesLecteursResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:Lecteur"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Lecteur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dateDeNaissance" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="dateInscription" type="xs:dateTime"/>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element minOccurs="0" name="identifiant" type="xs:string"/>
+      <xs:element minOccurs="0" name="motDePasse" type="xs:string"/>
+      <xs:element minOccurs="0" name="nom" type="xs:string"/>
+      <xs:element minOccurs="0" name="num_cni" type="xs:string"/>
+      <xs:element minOccurs="0" name="prenom" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifierLecteur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:Lecteur"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifierLecteurResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="recherchercoordonnee">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="iD" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="recherchercoordonneeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:Coordonnées"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Coordonnées">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codePostal" type="xs:string"/>
+      <xs:element minOccurs="0" name="email" type="xs:string"/>
+      <xs:element minOccurs="0" name="lecteur" type="tns:Lecteur"/>
+      <xs:element minOccurs="0" name="rue" type="xs:string"/>
+      <xs:element minOccurs="0" name="telephone" type="xs:string"/>
+      <xs:element minOccurs="0" name="ville" type="xs:string"/>
+      <xs:element name="iD" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="controlerLecteur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="identifiant" type="xs:string"/>
+      <xs:element minOccurs="0" name="motDepasse" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="controlerLecteurResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:Lecteur"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="coordonneesparlecteur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="coordonneesparlecteurResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:Coordonnées"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifierCooronnees">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:Coordonnées"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="modifierCooronneesResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="ajouterCoordonnees">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:Coordonnées"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ajouterCoordonneesResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="rechercher">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="iD" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="rechercherResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:Lecteur"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ajouterLecteur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="tns:Lecteur"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ajouterLecteurResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="supprimerLecteur">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="iD" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="supprimerLecteurResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="rechercherparNom">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="nom" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="rechercherparNomResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:Lecteur"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="rechercherlesLecteurs">
+    <wsdl:part element="tns:rechercherlesLecteurs" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="supprimerLecteurResponse">
+    <wsdl:part element="tns:supprimerLecteurResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modifierLecteur">
+    <wsdl:part element="tns:modifierLecteur" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ajouterLecteurResponse">
+    <wsdl:part element="tns:ajouterLecteurResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recherchercoordonnee">
+    <wsdl:part element="tns:recherchercoordonnee" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rechercherlesLecteursResponse">
+    <wsdl:part element="tns:rechercherlesLecteursResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="coordonneesparlecteur">
+    <wsdl:part element="tns:coordonneesparlecteur" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ajouterCoordonneesResponse">
+    <wsdl:part element="tns:ajouterCoordonneesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modifierCooronnees">
+    <wsdl:part element="tns:modifierCooronnees" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="coordonneesparlecteurResponse">
+    <wsdl:part element="tns:coordonneesparlecteurResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ajouterCoordonnees">
+    <wsdl:part element="tns:ajouterCoordonnees" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rechercher">
+    <wsdl:part element="tns:rechercher" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rechercherparNomResponse">
+    <wsdl:part element="tns:rechercherparNomResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modifierCooronneesResponse">
+    <wsdl:part element="tns:modifierCooronneesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="supprimerLecteur">
+    <wsdl:part element="tns:supprimerLecteur" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rechercherparNom">
+    <wsdl:part element="tns:rechercherparNom" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recherchercoordonneeResponse">
+    <wsdl:part element="tns:recherchercoordonneeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="modifierLecteurResponse">
+    <wsdl:part element="tns:modifierLecteurResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="controlerLecteurResponse">
+    <wsdl:part element="tns:controlerLecteurResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="controlerLecteur">
+    <wsdl:part element="tns:controlerLecteur" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="rechercherResponse">
+    <wsdl:part element="tns:rechercherResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ajouterLecteur">
+    <wsdl:part element="tns:ajouterLecteur" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AuthentificationService">
+    <wsdl:operation name="rechercherlesLecteurs">
+      <wsdl:input message="tns:rechercherlesLecteurs" name="rechercherlesLecteurs">
+    </wsdl:input>
+      <wsdl:output message="tns:rechercherlesLecteursResponse" name="rechercherlesLecteursResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifierLecteur">
+      <wsdl:input message="tns:modifierLecteur" name="modifierLecteur">
+    </wsdl:input>
+      <wsdl:output message="tns:modifierLecteurResponse" name="modifierLecteurResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recherchercoordonnee">
+      <wsdl:input message="tns:recherchercoordonnee" name="recherchercoordonnee">
+    </wsdl:input>
+      <wsdl:output message="tns:recherchercoordonneeResponse" name="recherchercoordonneeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="controlerLecteur">
+      <wsdl:input message="tns:controlerLecteur" name="controlerLecteur">
+    </wsdl:input>
+      <wsdl:output message="tns:controlerLecteurResponse" name="controlerLecteurResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="coordonneesparlecteur">
+      <wsdl:input message="tns:coordonneesparlecteur" name="coordonneesparlecteur">
+    </wsdl:input>
+      <wsdl:output message="tns:coordonneesparlecteurResponse" name="coordonneesparlecteurResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifierCooronnees">
+      <wsdl:input message="tns:modifierCooronnees" name="modifierCooronnees">
+    </wsdl:input>
+      <wsdl:output message="tns:modifierCooronneesResponse" name="modifierCooronneesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ajouterCoordonnees">
+      <wsdl:input message="tns:ajouterCoordonnees" name="ajouterCoordonnees">
+    </wsdl:input>
+      <wsdl:output message="tns:ajouterCoordonneesResponse" name="ajouterCoordonneesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="rechercher">
+      <wsdl:input message="tns:rechercher" name="rechercher">
+    </wsdl:input>
+      <wsdl:output message="tns:rechercherResponse" name="rechercherResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ajouterLecteur">
+      <wsdl:input message="tns:ajouterLecteur" name="ajouterLecteur">
+    </wsdl:input>
+      <wsdl:output message="tns:ajouterLecteurResponse" name="ajouterLecteurResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="supprimerLecteur">
+      <wsdl:input message="tns:supprimerLecteur" name="supprimerLecteur">
+    </wsdl:input>
+      <wsdl:output message="tns:supprimerLecteurResponse" name="supprimerLecteurResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="rechercherparNom">
+      <wsdl:input message="tns:rechercherparNom" name="rechercherparNom">
+    </wsdl:input>
+      <wsdl:output message="tns:rechercherparNomResponse" name="rechercherparNomResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AuthentificationServiceSoapBinding" type="tns:AuthentificationService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="rechercherlesLecteurs">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="rechercherlesLecteurs">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="rechercherlesLecteursResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifierLecteur">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="modifierLecteur">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="modifierLecteurResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recherchercoordonnee">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="recherchercoordonnee">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="recherchercoordonneeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="controlerLecteur">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="controlerLecteur">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="controlerLecteurResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="coordonneesparlecteur">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="coordonneesparlecteur">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="coordonneesparlecteurResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="modifierCooronnees">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="modifierCooronnees">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="modifierCooronneesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ajouterCoordonnees">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ajouterCoordonnees">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ajouterCoordonneesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="rechercher">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="rechercher">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="rechercherResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ajouterLecteur">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="ajouterLecteur">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ajouterLecteurResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="supprimerLecteur">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="supprimerLecteur">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="supprimerLecteurResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="rechercherparNom">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="rechercherparNom">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="rechercherparNomResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AuthentificationService">
+    <wsdl:port binding="tns:AuthentificationServiceSoapBinding" name="AuthentificationServicePort">
+      <soap:address location="http://localhost:8080/biblio_webapp_war_exploded/services/AuthentificationService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

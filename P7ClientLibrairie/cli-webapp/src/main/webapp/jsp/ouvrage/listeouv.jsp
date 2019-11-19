@@ -1,0 +1,63 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: aurelienmimouni
+  Date: 2019-04-11
+  Time: 22:53
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+    <%@ taglib prefix="s" uri="/struts-tags" %>
+    <%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
+    <%@ taglib prefix="margin-top" uri="/struts-dojo-tags" %>
+    <%@ include file="../_include/head.jsp" %>
+
+</head>
+<body>
+
+
+
+    <table class="table table-sm table-striped" style="margin-top: 10px">
+        <thead class="table-info">
+        <tr>
+
+            <th scope="col">Nom de l'ouvrage</th>
+            <th scope="col">Ref ISBN</th>
+            <th scope="col">Auteur</th>
+            <th scope="col">Editeur</th>
+            <th scope="col"></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <s:iterator value="ouvrageList" >
+            <tr>
+<%--                <th scope="row"></th>--%>
+                <td class="h4"><s:property value="intituleOuvrage" />
+                <td><s:property value="isbn"/></td>
+                <td><s:property value="auteur.intituleAuteur"/></td>
+                <s:iterator value="editeurs">
+                    <td><s:property value="intituleEditeur"/></td>
+                </s:iterator>
+                    <td>
+                        <s:a action="detail_livre">
+                            <s:param name="numISBN" value="isbn"/>
+                            <u>detail</u>
+                        </s:a>
+                    </td>
+            </tr>
+        </s:iterator>
+
+        </tbody>
+    </table>
+
+
+
+
+
+
+</body>
+
+</html>

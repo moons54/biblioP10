@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- ===== Dao declaration ===== -->
+    <bean id="lecteurDao" class="org.biblio.p7.consumer.impl.LecteurDaoImpl"/>
+    <bean id="coordonneesDao" class="org.biblio.p7.consumer.impl.CoordonneesDaoImpl"/>
+    <bean id="genreDao" class="org.biblio.p7.consumer.impl.GenreDaoImpl"/>
+    <bean id="auteurDao" class="org.biblio.p7.consumer.impl.AuteurDaoImpl"/>
+    <bean id="editeurDao" class="org.biblio.p7.consumer.impl.EditeurDaoImpl"/>
+    <bean id="exemplaireDao" class="org.biblio.p7.consumer.impl.ExemplaireDaoImpl"/>
+    <bean id="editionOuvrageDao" class="org.biblio.p7.consumer.impl.EditionOuvrageDaoImpl"/>
+    <bean id="ouvrageDao" class="org.biblio.p7.consumer.impl.OuvrageDaoImpl"/>
+    <bean id="ouvrageGenreDao" class="org.biblio.p7.consumer.impl.OuvrageGenreDaoImpl"/>
+    <bean id="bibliothequeDao" class="org.biblio.p7.consumer.impl.BibliothequeDaoImpl"/>
+<bean id="empruntDao" class="org.biblio.p7.consumer.impl.EmpruntDaoImpl"/>
+
+    <!-- ===== DaoFactory ===== -->
+    <bean id="daoFactory" class="org.biblio.p7.consumer.impl.DaoFactoryImpl">
+        <property name="lecteurDao" ref="lecteurDao"/>
+        <property name="coordonneesDao" ref="coordonneesDao"/>
+        <property name="genreDao" ref="genreDao"/>
+        <property name="auteurDao" ref="auteurDao"/>
+        <property name="editeurDao" ref="editeurDao"/>
+        <property name="exemplaireDao" ref="exemplaireDao"/>
+        <property name="editionOuvrageDao" ref="editionOuvrageDao"/>
+        <property name="ouvrageDao" ref="ouvrageDao"/>
+        <property name="ouvrageGenreDao" ref="ouvrageGenreDao"/>
+        <property name="bibliothequeDao" ref="bibliothequeDao"/>
+        <property name="empruntDao" ref="empruntDao"/>
+
+
+    </bean>
+
+
+
+
+    <!-- ==== AbstractDao ===== -->
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="org.biblio.p7.consumer.impl.AbstractDaoimpl"/>
+        <property name="targetMethod" value="setDataSource"/>
+        <property name="arguments" ref="mabiblio"/>
+    </bean>
+
+    <!--
+    <import resource="classpath:/webapp-context.xml" />
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="mabiblio" />
+    </bean>
+
+-->
+<!--
+    <bean id="mabiblio"
+
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+        <property name="driverClassName"
+
+                  value="org.postgresql.Driver" />
+
+        <property name="url"
+
+                  value="jdbc:postgresql://localhost:5432/librairieP7" />
+
+        <property name="username" value="root" />
+
+        <property name="password" value="1234" />
+
+    </bean>
+-->
+</beans>
