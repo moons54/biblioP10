@@ -82,8 +82,6 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     List<Reservation> reservationList;
 
 
-
-
     //GETTER AND SETTER
 
 
