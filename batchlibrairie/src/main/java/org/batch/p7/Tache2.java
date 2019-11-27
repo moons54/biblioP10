@@ -40,6 +40,12 @@ public class Tache2 implements Tasklet {
     @Value("${mail.smtp.auth")
     private String auth;
 
+    // CORRECTED TICKET 2
+    /**TICKET 2
+     * Mis en place Methode Tache2 ayant pour objectif de modifier
+     * le statut des ouvrages lorsque ceux ci sont en retard
+     * Dès lors, le lecteur ne peux plus prolonger le délais de son ouvrage
+     */
 
     public Tache2() {
     }
@@ -79,43 +85,16 @@ public class Tache2 implements Tasklet {
                   System.out.println("lecteur  "+emprunt.getLecteur().getNom()+"  ");
                   System.out.println("date de l'emprunt "+emprunt.getDateFin().toString()+ " <  "+df.format(calAujourdhui.getTime()) );
 
-
+                  // CORRECTED TICKET 2
+                  /**
+                   * Nous modifions le status de l'emprunt de tel sorte a signaler que celui ci est en retard
+                   * et donc non prorogeable
+                   */
                   emprunt.setSituationEmprunt(por3.recherchersituationdemprunt(4));
                   por3.changestatutemprunt(emprunt);
               }
               }
-           /*   HtmlEmail email = new HtmlEmail();
 
-              email.setHostName("smtp.googlemail.com");
-              email.setSmtpPort(587);
-              email.setAuthenticator(new DefaultAuthenticator("ami.test.dev@gmail.com", "Snickers3618"));
-              email.setSSLOnConnect(true);
-
-
-              try {
-                  email.addTo("aurelien.mimouni@gmail.com");
-                  email.setFrom("aurelien.mimouni@gmail.com");
-                  email.setSubject("premiere relance");
-
-
-                  String text = "<html> " +
-                          "<head></head>" +
-                          "<body>" +
-                          "<h1>Cher " + "</h1>" + emprunt.getLecteur().getNom() + "\n" +
-                          "<p>vous avez emprunté un livre " + emprunt.getExemplaire().getOuvrage().getIntituleOuvrage() + "</p>" + "\n" +
-                          "</p>merci de le retourner des que possible</p>" +
-                          "</body>" +
-                          "</html>";
-
-                  email.setHtmlMsg(text);
-                  email.send();
-
-              } catch (EmailException e) {
-                  // TODO Auto-generated catch block
-                  System.out.println("Unable to send an email" + e.getMessage());
-              }
-
-*/
           }
 
 

@@ -10,7 +10,7 @@
     </parent>
     <groupId>org.batch.p7</groupId>
     <artifactId>batchlibrairie</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>batchlibrairie</name>
     <description>projet pour batch</description>
 

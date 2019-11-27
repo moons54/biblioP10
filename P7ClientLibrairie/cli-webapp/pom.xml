@@ -5,7 +5,7 @@
     <parent>
         <artifactId>P7ClientLibrairie</artifactId>
         <groupId>org.cli.p7</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -36,13 +36,13 @@
         <dependency>
             <groupId>org.cli.p7</groupId>
             <artifactId>cli-model</artifactId>
-            <version>1.0-SNAPSHOT</version>
+
         </dependency>
 
         <dependency>
             <groupId>org.cli.p7</groupId>
             <artifactId>cli-business</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>3.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
