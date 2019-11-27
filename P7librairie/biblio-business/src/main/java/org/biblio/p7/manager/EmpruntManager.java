@@ -36,6 +36,12 @@ public interface EmpruntManager {
 
     public SituationDemprunt recherchersituationdemprunt(int id);
 
+    /**
+     * TICKET 2
+     * METhode utilise pour modifier le statut d'un livre étant en retard
+     * @param emprunt
+     * @return
+     */
     public Emprunt changestatutemprunt(Emprunt emprunt);
 
     public List<Emprunt> afficherlesempruntsenretarparLecteur(Integer iD);

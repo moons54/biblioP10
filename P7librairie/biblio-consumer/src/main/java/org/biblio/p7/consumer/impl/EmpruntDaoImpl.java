@@ -119,7 +119,7 @@ public class EmpruntDaoImpl extends AbstractDaoimpl implements EmpruntDao {
         return emprunt;
     }
 
-    /**
+    /**TICKET 2
      * Changement de statut d'un emmprunt
      * méthode utilisé pour passer un emprunt de status en cours à non rendu
      * Spécifique au traitement batch

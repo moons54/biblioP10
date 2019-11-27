@@ -9,7 +9,7 @@
   <groupId>org.cli.p7</groupId>
   <artifactId>P7ClientLibrairie</artifactId>
   <packaging>pom</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>3.0-SNAPSHOT</version>
 
   <!--GESTION DES MODULES-->
   <modules>
@@ -119,7 +119,7 @@ le gestion du livre par son emprunteur-->
       <dependency>
         <groupId>org.cli.p7</groupId>
         <artifactId>cli-model</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
       </dependency>
 
       <dependency>

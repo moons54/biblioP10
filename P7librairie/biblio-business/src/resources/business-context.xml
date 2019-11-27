@@ -15,6 +15,7 @@
     <bean id="editionOuvrageManager" class="org.biblio.p7.managerimpl.EditionOuvrageManagerImpl"/>
     <bean id="ouvrageManager" class="org.biblio.p7.managerimpl.OuvrageManagerImpl"/>
     <bean id="empruntManager" class="org.biblio.p7.managerimpl.EmpruntManagerImpl"/>
+    <bean id="reservationManager" class="org.biblio.p7.managerimpl.ReservationManagerImpl"/>
 
     <!-- =======++++++++++++===== declaration du managerFactory ====++++++++++++=================== -->
     <bean id="managerFactory"  class="org.biblio.p7.managerimpl.ManagerFactoryImpl">
@@ -27,6 +28,7 @@
         <property name="editionOuvrageManager" ref="editionOuvrageManager"/>
         <property name="ouvrageManager" ref="ouvrageManager"/>
         <property name="empruntManager" ref="empruntManager"/>
+        <property name="reservationManager" ref="reservationManager"/>
 
     </bean>
 

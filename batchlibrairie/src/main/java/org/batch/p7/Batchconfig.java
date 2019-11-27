@@ -31,6 +31,11 @@ public class Batchconfig {
                 .build();
     }
 
+    /**TICKET 2
+     * Il s'agit ici de l'étape deux ayant pour objectif la modification du status
+     * du lecteur lorsque celui ci n'a pas rendu le livre à temps
+     * @return
+     */
     @Bean
     public Step stepTwo(){
         return steps.get("stepTwo")

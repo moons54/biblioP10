@@ -27,4 +27,6 @@ public interface DaoFactory {
     BibliothequeDao getBibliothequeDao();
 
     EmpruntDao getEmpruntDao();
+
+    ReservationDao getReservationDao();
 }

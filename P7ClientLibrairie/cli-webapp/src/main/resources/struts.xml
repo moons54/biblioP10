@@ -214,6 +214,19 @@
                 <param name="idutilisateur">${#session.user.id}</param>
             </result>
         </action>
+
+        <action name="reservationlist"
+                class="action.EmpruntAction"
+                method="doresabyid">
+            <interceptor-ref name="store">
+                <param name="operationMode">STORE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"/>
+            <result name="input">jsp/ouvrage/recherchelivre.jsp</result>
+            <result name="success">jsp/ouvrage/listeouvrage.jsp</result>
+        </action>
+
+
     </package>
 
 </struts>

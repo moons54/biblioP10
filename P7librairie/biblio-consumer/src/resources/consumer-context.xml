@@ -16,7 +16,8 @@
     <bean id="ouvrageDao" class="org.biblio.p7.consumer.impl.OuvrageDaoImpl"/>
     <bean id="ouvrageGenreDao" class="org.biblio.p7.consumer.impl.OuvrageGenreDaoImpl"/>
     <bean id="bibliothequeDao" class="org.biblio.p7.consumer.impl.BibliothequeDaoImpl"/>
-<bean id="empruntDao" class="org.biblio.p7.consumer.impl.EmpruntDaoImpl"/>
+    <bean id="empruntDao" class="org.biblio.p7.consumer.impl.EmpruntDaoImpl"/>
+    <bean id="reservationDao" class="org.biblio.p7.consumer.impl.ReservationDaoImpl"/>
 
     <!-- ===== DaoFactory ===== -->
     <bean id="daoFactory" class="org.biblio.p7.consumer.impl.DaoFactoryImpl">
@@ -31,6 +32,7 @@
         <property name="ouvrageGenreDao" ref="ouvrageGenreDao"/>
         <property name="bibliothequeDao" ref="bibliothequeDao"/>
         <property name="empruntDao" ref="empruntDao"/>
+        <property name="reservationDao" ref="reservationDao"/>
 
 
     </bean>

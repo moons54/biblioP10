@@ -41,6 +41,11 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     PretService_Service pretServicePort_client=new PretService_Service();
     PretService por3=pretServicePort_client.getPretServicePort();
 
+    ReservationService_Service reservationService_service=new ReservationService_Service();
+    ReservationService por4=reservationService_service.getReservationServicePort();
+
+
+
     //Parametre en Entrée
     private Integer id;
     private Integer idutilisateur;
@@ -51,6 +56,9 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     private String referenceInterne;
     private Integer numemprunt;
     private boolean renouvellement;
+    private Date dateDemande;
+    private Boolean notification;
+    private Date dateNotification;
 
 
     private Ouvrage ouvrage;
@@ -60,6 +68,7 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     private OuvrageGenre ouvrageGenre;
     private Auteur auteur;
     private Emprunt emprunt;
+    private Reservation reservation;
     private Coordonnees coordonnees;
     private Lecteur lecteur;
     private Bibliotheque bibliotheque;
@@ -70,6 +79,7 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     private List<Auteur> auteurList;
     private List<OuvrageGenre> ouvrageGenreList;
     List<Emprunt> empruntList;
+    List<Reservation> reservationList;
 
 
 
@@ -307,7 +317,40 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     public void setMaxprolongation(int maxprolongation) {
         this.maxprolongation = maxprolongation;
     }
-//LES METHODES
+
+    public Date getDateDemande() {
+        return dateDemande;
+    }
+
+    public void setDateDemande(Date dateDemande) {
+        this.dateDemande = dateDemande;
+    }
+
+    public Boolean getNotification() {
+        return notification;
+    }
+
+    public void setNotification(Boolean notification) {
+        this.notification = notification;
+    }
+
+    public Date getDateNotification() {
+        return dateNotification;
+    }
+
+    public void setDateNotification(Date dateNotification) {
+        this.dateNotification = dateNotification;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
+    //LES METHODES
 
     String doemprunbyid(){
         LOGGER.info("dans la methode doemprunt");
@@ -350,11 +393,67 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         }
         return resultat;
     }
+
+    public String doresa(){
+        final DateTime now=new DateTime();
+
+        LOGGER.info("dans la methode reservation");
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        LocalDate date = currentTime.toLocalDate();
+        GregorianCalendar gcal = GregorianCalendar.from(date.atStartOfDay(ZoneId.systemDefault()));
+        XMLGregorianCalendar datefin = null;
+        try {
+            datefin = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcal);
+        } catch (DatatypeConfigurationException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
+        String vresult = ActionSupport.INPUT;
+        if(this.reservation!=null) {
+            if (this.reservation.getOuvrage().getID() == 0) {
+                this.addActionError("erreur");
+            } else {
+
+            }
+            {
+                if (!this.hasErrors()) {
+                    try {
+                        reservation.setDateDemande(datefin);
+                        reservation.setLecteur(this.reservation.getLecteur());
+                        reservation.setOuvrage(this.ouvrage);
+
+                        por4.ajouterunereservation(reservation);
+
+                        vresult = ActionSupport.SUCCESS;
+                    } catch (Exception e) {
+                        vresult = ActionSupport.ERROR;
+                    }
+                } else {
+                    lecteur = por.rechercher(idutilisateur);
+                    ouvrage = por2.rechercherparOuvrage(ouvrage.getIntituleOuvrage());
+                }
+
+            }
+        }
+                return vresult;
+
+
+
+    }
+
+    public String doresabyid(){
+        LOGGER.info("dans la methode doresa");
+        reservationList = por4.listerlesreservationparouvrage(id);
+        return ActionSupport.SUCCESS;
+    }
+
     public String doemprunt()
     {
 
         final DateTime now = new DateTime();
-       // DatatypeFactory.newInstance (). NewXMLGregorianCalendar (now.toGregorianCalendar ());
+        // DatatypeFactory.newInstance (). NewXMLGregorianCalendar (now.toGregorianCalendar ());
         LOGGER.info("Dans la methode doemprunt");
 
         LocalDateTime currentTime = LocalDateTime.now();
@@ -371,14 +470,14 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
             e1.printStackTrace();
         }
 
-       // Emprunt emprunt=new Emprunt();
+        // Emprunt emprunt=new Emprunt();
 
         String vresult = ActionSupport.INPUT;
 
         //condition validant l'ajout de formulaire
         if (this.emprunt!=null)
         {
-              if (this.emprunt.getExemplaire().getID()==0)
+            if (this.emprunt.getExemplaire().getID()==0)
             {
 
                 this.addActionError("erreur");
@@ -410,7 +509,7 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
             exemplaire=por2.afficherexemplairebyID(id);
         }
         return vresult;
-    };
+    }
     public String doprolongation()
     {
 
