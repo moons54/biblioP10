@@ -118,4 +118,12 @@ public interface OuvrageService {
 
     @WebMethod
     public Exemplaire changestatusexemplaire(Exemplaire exemplaire);
+
+
+    @WebMethod
+    public int getCountExemplaire(Exemplaire numexemplaire);
+
+    @WebMethod
+    public boolean etatStatus(@WebParam(name = "ouvrageid") Integer ouvrageid);
+
 }

@@ -36,4 +36,5 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
         return getDaoFactory().getReservationDao().listerlesreservationparouvrage(iD);
     }
 
+
 }

@@ -201,5 +201,24 @@ managerFactory.getOuvrageManager().supprimerOuvrage(id);
     @Override
     public Exemplaire changestatusexemplaire(Exemplaire exemplaire){
          return managerFactory.getExemplaireManager().changestatusexemplaire(exemplaire);
-    };
+    }
+
+
+    //CORRECTED TICKET 1
+
+    /**
+     * Ajout de la methode webservice pour compter les exemplaires d'un ouvrage
+     *
+     * @param numexemplaire
+     * @return
+     */
+    @Override
+    public int getCountExemplaire(Exemplaire numexemplaire) {
+        return managerFactory.getExemplaireManager().getCountExemplaire(numexemplaire);
+    }
+
+    @Override
+    public boolean etatStatus(Integer ouvrageid){
+        return managerFactory.getExemplaireManager().etatStatus(ouvrageid);
+    }
 }

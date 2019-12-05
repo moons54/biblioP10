@@ -206,8 +206,17 @@
             </result>
         </action>
 
-        <!-- Action "reservation" -->
+        <!-- Action "emprunt" -->
         <action name="nreservation" class="action.EmpruntAction" method="doemprunt">
+            <result name="input">jsp/login/reservation.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">monprofil</param>
+                <param name="idutilisateur">${#session.user.id}</param>
+            </result>
+        </action>
+        <!--CORRECTED TICKET 1-->
+        <!-- Action "emprunt" -->
+        <action name="nreserv" class="action.EmpruntAction" method="doresa">
             <result name="input">jsp/login/reservation.jsp</result>
             <result name="success" type="redirectAction">
                 <param name="actionName">monprofil</param>
@@ -225,8 +234,6 @@
             <result name="input">jsp/ouvrage/recherchelivre.jsp</result>
             <result name="success">jsp/ouvrage/listeouvrage.jsp</result>
         </action>
-
-
     </package>
 
 </struts>

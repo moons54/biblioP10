@@ -392,7 +392,14 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         return resultat;
     }
 
+    //CORRECTED TICKET 1
+
+    /**
+     * Creation de la methode permettant de creer une reservation
+     * @return
+     */
     public String doresa(){
+
         final DateTime now=new DateTime();
 
         LOGGER.info("dans la methode reservation");
@@ -446,6 +453,8 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         reservationList = por4.listerlesreservationparouvrage(id);
         return ActionSupport.SUCCESS;
     }
+
+
 
     public String doemprunt()
     {

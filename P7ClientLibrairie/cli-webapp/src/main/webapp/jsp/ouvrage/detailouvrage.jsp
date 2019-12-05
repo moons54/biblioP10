@@ -61,12 +61,12 @@
             <div class="row">
                 <s:iterator value="bibliothequeList">
                     <div class="card col-md alert-secondary bibliotheque">
-
-                       <s:property value="intituleBibliotheque"/>
-
+                        <s:property value="intituleBibliotheque"/>
                         <div class="container-fluid">
                             <s:iterator value="exemplaireList">
                                 <s:if test="%{intituleBibliotheque==bibliotheque.intituleBibliotheque}">
+
+                                    <s:if test="%{status==99||1}">
                                     <li> Ouvrage Référence : <strong><s:property value="referenceInterne"/></strong>
                                         <s:if test="%{#session.user==null}">
                                             <s:a action="Login">
@@ -79,14 +79,29 @@
                                             <s:param name="id" value="ID"/>
                                             <s:param name="idutilisateur" value="#session.user.id"/>
                                             <u>livre disponible</u>
-                                        </s:a>
+                                        </s:a></s:if>
                                     </li>
+
+                                   <%-- <s:a action="nreserv">
+                                        <s:param name="id" value="ID"/>
+                                        <s:param name="idutilisateur" value="#session.user.id"/>
+                                        <u>livre à reserver</u>
+                                    </s:a>--%>
+                                    </li>
+                                    </s:if>
+
+
+                                    <%--<s:elseif test="%{referenceInterne!=null}">
+                                        reservable
+                                    </s:elseif>--%>
                                 </s:if>
 
-                                <s:elseif test="%{referenceInterne!=null}">
-                                    non disponible
-                                </s:elseif></s:if>
                             </s:iterator>
+                            <s:if test="%{changestat==true}">
+                            OUVRAGE RESERVABLE
+                        </s:if>
+
+
 
                           <%--  <s:iterator value="">
                                 <s:if test="%{intituleBibliotheque==bibliotheque.intituleBibliotheque}">

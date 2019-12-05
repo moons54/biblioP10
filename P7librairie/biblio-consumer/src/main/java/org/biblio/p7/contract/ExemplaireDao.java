@@ -19,4 +19,12 @@ public interface ExemplaireDao {
 
     public Exemplaire changestatusexemplaire(Exemplaire exemplaire);
 
+    //CORRECTED TICKET 1
+
+    /**
+     * ajout de la méthode permettant de compter le nombre d'exemplaire
+     * @param numexemplaire
+     * @return
+     */
+    public int getCountExemplaire(Exemplaire numexemplaire);
 }

@@ -24,4 +24,8 @@ public interface ExemplaireManager {
     public Exemplaire afficherexemplairebyID(Integer id);
 
     public Exemplaire changestatusexemplaire(Exemplaire exemplaire);
+
+    public int getCountExemplaire(Exemplaire numexemplaire);
+
+    public boolean etatStatus(int ouvrageid);
 }
