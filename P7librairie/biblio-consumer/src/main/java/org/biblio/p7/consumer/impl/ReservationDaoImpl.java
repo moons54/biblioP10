@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
+import java.util.Date;
 import java.util.List;
 
 public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDao {
@@ -17,7 +18,7 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
     @Override
     public List<Reservation> listerlesreservations() {
         String vsql="SELECT * FROM public.reservation";
-        JdbcTemplate jdbcTemplate=new JdbcTemplate();
+        JdbcTemplate jdbcTemplate=new JdbcTemplate(getDataSource());
         ReservationRM reservationRM=new ReservationRM();
         List<Reservation> reservationList=jdbcTemplate.query(vsql,reservationRM);
         return reservationList;
@@ -32,10 +33,27 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         jdbcTemplate.update(vsql,vParams);
     }
 
+    public Reservation addreservation(Reservation reservation) {
+        String vSQL="INSERT into public.reservation(ouvrageid, date_de_demande, notification, date_notification, lecteurid) VALUES "+
+                "(:ouvrage,:dateDemande,:notification,:dateNotification,:lecteur)";
+//        SqlParameterSource vParams=new BeanPropertySqlParameterSource(emprunt);
+        SqlParameterSource vParams=new MapSqlParameterSource()
+                .addValue("ouvrage",reservation.getOuvrage().getiD())
+                .addValue("dateDemande",reservation.getDateDemande())
+                .addValue("notification",false)
+                .addValue("dateNotification",null)
+                .addValue("lecteur",reservation.getLecteur().getId());
+        NamedParameterJdbcTemplate vJdbcTemplate=new NamedParameterJdbcTemplate(getDataSource());
+        vJdbcTemplate.update(vSQL,vParams);
+        return reservation;
+    }
+
+
+
     @Override
     public Reservation supprimerReservation(Integer iD) {
         String vsql="DELETE from reservation where id=?";
-        JdbcTemplate jdbcTemplate=new JdbcTemplate();
+        JdbcTemplate jdbcTemplate=new JdbcTemplate(getDataSource());
         ReservationRM reservationRM=new ReservationRM();
         jdbcTemplate.update(vsql,new Object[]{iD});
         return null;
@@ -60,7 +78,7 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
     @Override
     public List<Reservation> listerlesreservationparlecteur(int iD) {
         String vsql="SELECT * FROM public.reservation where lecteurid=?";
-        JdbcTemplate jdbcTemplate=new JdbcTemplate();
+        JdbcTemplate jdbcTemplate=new JdbcTemplate(getDataSource());
         ReservationRM reservationRM=new ReservationRM();
         List<Reservation> reservationList=jdbcTemplate.query(vsql,new Object[]{iD},reservationRM);
 
@@ -70,7 +88,7 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
     @Override
     public List<Reservation> listerlesreservationparouvrage(int iD) {
         String vsql="SELECT * FROM public.reservation where ouvrageid=?";
-        JdbcTemplate jdbcTemplate=new JdbcTemplate();
+        JdbcTemplate jdbcTemplate=new JdbcTemplate(getDataSource());
         ReservationRM reservationRM=new ReservationRM();
         List<Reservation> reservationList=jdbcTemplate.query(vsql,new Object[]{iD},reservationRM);
 

@@ -278,6 +278,19 @@ LOGGER.info("val de changestat "+changestat.booleanValue());
         return ActionSupport.SUCCESS;
     }
 
+    public String dodetailouvrageattente(){
+
+        ouvrage =por.rechercherparId(id);
+      exemplaireList=por.listerlesExemplairesparintitule(ouvrage.getID());
+        bibliothequeList=por.listerlesbibliotheques();
+
+        changestat=por.etatStatus(ouvrage.getID());
+     //   LOGGER.info("val de changestat "+changestat.booleanValue());
+     //   System.out.println("valeur de bollean"+changestat.booleanValue());
+
+        return ActionSupport.SUCCESS;
+    }
+
     public String dodetailExmplaire(){
 
       ouvrage=por.rechercherparISBN(numISBN);

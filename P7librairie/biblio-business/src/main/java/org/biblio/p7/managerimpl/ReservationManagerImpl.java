@@ -1,5 +1,6 @@
 package org.biblio.p7.managerimpl;
 
+import org.biblio.p7.bean.Exemplaire;
 import org.biblio.p7.bean.Reservation;
 import org.biblio.p7.manager.ReservationManager;
 
@@ -36,5 +37,38 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
         return getDaoFactory().getReservationDao().listerlesreservationparouvrage(iD);
     }
 
+    @Override
+    public Reservation addreservation(Reservation reservation) {
 
+       /* List<Reservation> maliste=getDaoFactory().getReservationDao().listerlesreservationparouvrage(reservation.getOuvrage().getiD());
+        List<Exemplaire> exemplaireList=getDaoFactory().getExemplaireDao().afficherExemplaire();
+        for (Exemplaire exemplaire:exemplaireList){
+            if(exemplaire.getOuvrage()!=reservation.getOuvrage()){
+                exemplaireList.remove(exemplaire);
+            }
+        }
+        System.out.println("affiche la taille de ma liste d'exemplaire"+ exemplaireList.size());
+
+
+        if (maliste.size()<3){
+
+
+        }*/
+        return getDaoFactory().getReservationDao().addreservation(reservation);
+    }
+
+    @Override
+    public boolean controlereservation(Reservation reservation) {
+
+     //   List<Reservation> maliste=getDaoFactory().getReservationDao().listerlesreservationparouvrage(2);
+        List<Exemplaire> exemplaireList=getDaoFactory().getExemplaireDao().afficherExemplaire();
+        for (Exemplaire exemplaire:exemplaireList){
+            if(exemplaire.getOuvrage()!=reservation.getOuvrage()){
+                exemplaireList.remove(exemplaire);
+            }
+        }
+        System.out.println("affiche la taille de ma liste d'exemplaire"+ exemplaireList.size());
+
+        return false;
+    }
 }

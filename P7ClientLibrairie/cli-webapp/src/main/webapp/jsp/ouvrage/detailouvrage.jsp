@@ -97,9 +97,16 @@
                                 </s:if>
 
                             </s:iterator>
+                            <s:if test="%{#session.user.identifiant!=''}">
                             <s:if test="%{changestat==true}">
-                            OUVRAGE RESERVABLE
-                        </s:if>
+                                <s:a action="nreserv">
+                                    <s:param name="ouvrageid" value="%{ouvrage.ID}"/>
+                                    <s:param name="idutilisateur" value="#session.user.id"/>
+
+                                    <u>possibilité de reserver</u>
+                                </s:a>
+                        </s:if></s:if>
+
 
 
 

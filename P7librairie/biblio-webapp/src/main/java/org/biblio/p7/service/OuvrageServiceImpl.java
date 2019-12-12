@@ -174,6 +174,17 @@ managerFactory.getOuvrageManager().supprimerOuvrage(id);
         return managerFactory.getOuvrageManager().rechercheparISBN(isbn);
     }
 
+    //CORRECTED TICKET 1
+
+    /**
+     * nous ajoutons la methode recherchebyid pour les ouvrages
+     * @param iD
+     * @return
+     */
+    @Override
+    public Ouvrage rechercherparId(Integer iD) {
+        return managerFactory.getOuvrageManager().rechercherparId(iD);
+    }
 
     @Override
     public List<OuvrageGenre> multicriterouvgenre(Integer id){

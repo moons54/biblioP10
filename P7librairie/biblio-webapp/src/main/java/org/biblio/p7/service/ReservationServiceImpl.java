@@ -46,4 +46,17 @@ getManagerFactory().getReservationManager().ajouterunereservation(reservation);
     public List<Reservation> listerlesreservationparouvrage(int iD) {
         return getManagerFactory().getReservationManager().listerlesreservationparlecteur(iD);
     }
+
+
+    //CORRECTED TICKET 1 Ajout de la methode ajout d'une reservation
+    @Override
+    public Reservation addreservation(Reservation reservation) {
+        return getManagerFactory().getReservationManager().addreservation(reservation);
+    }
+
+
+    @Override
+    public boolean controlereservation(Reservation reservation) {
+        return getManagerFactory().getReservationManager().controlereservation(reservation);
+    }
 }

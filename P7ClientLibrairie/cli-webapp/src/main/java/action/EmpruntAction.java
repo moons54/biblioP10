@@ -59,6 +59,8 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     private Date dateDemande;
     private Boolean notification;
     private Date dateNotification;
+    private Integer ouvrageid;
+    private Boolean controlereservable;
 
 
     private Ouvrage ouvrage;
@@ -74,12 +76,12 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     private Bibliotheque bibliotheque;
     private List<Bibliotheque> bibliothequeList;
     private List<Ouvrage> ouvrageList;
-    private List<Exemplaire> exemplaireList;
+    private List<Exemplaire> exemplaireList=new ArrayList<>();
     private List<Editeur> editeurList;
     private List<Auteur> auteurList;
     private List<OuvrageGenre> ouvrageGenreList;
     List<Emprunt> empruntList;
-    List<Reservation> reservationList;
+    List<Reservation> reservationList=new ArrayList<>();
 
 
     //GETTER AND SETTER
@@ -348,6 +350,22 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         this.reservation = reservation;
     }
 
+    public Integer getOuvrageid() {
+        return ouvrageid;
+    }
+
+    public void setOuvrageid(Integer ouvrageid) {
+        this.ouvrageid = ouvrageid;
+    }
+
+    public Boolean getControlereservable() {
+        return controlereservable;
+    }
+
+    public void setControlereservable(Boolean controlereservable) {
+        this.controlereservable = controlereservable;
+    }
+
     //LES METHODES
 
     String doemprunbyid(){
@@ -399,7 +417,6 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
      * @return
      */
     public String doresa(){
-
         final DateTime now=new DateTime();
 
         LOGGER.info("dans la methode reservation");
@@ -416,36 +433,81 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         }
 
         String vresult = ActionSupport.INPUT;
-        if(this.reservation!=null) {
+        if(this.reservation!=null)
+        {
             if (this.reservation.getOuvrage().getID() == 0) {
                 this.addActionError("erreur");
             } else {
 
             }
-            {
-                if (!this.hasErrors()) {
-                    try {
-                        reservation.setDateDemande(datefin);
-                        reservation.setLecteur(this.reservation.getLecteur());
-                        reservation.setOuvrage(this.ouvrage);
 
-                        por4.ajouterunereservation(reservation);
+            if (!this.hasErrors()) {
+                try {
 
-                        vresult = ActionSupport.SUCCESS;
-                    } catch (Exception e) {
-                        vresult = ActionSupport.ERROR;
-                    }
-                } else {
-                    lecteur = por.rechercher(idutilisateur);
-                    ouvrage = por2.rechercherparOuvrage(ouvrage.getIntituleOuvrage());
+                    reservation.setDateDemande(datefin);
+                    reservation.setNotification(false);
+                    reservation.setDateNotification(datefin);
+                    reservation.setLecteur(this.reservation.getLecteur());
+                    reservation.setOuvrage(this.reservation.getOuvrage());
+
+                    por4.addreservation(this.reservation);
+
+                    vresult = ActionSupport.SUCCESS;
+                } catch (Exception e) {
+                    vresult = ActionSupport.ERROR;
                 }
-
             }
         }
-                return vresult;
+        else
+            {
+
+                lecteur = por.rechercher(idutilisateur);
+                ouvrage = por2.rechercherparId(ouvrageid);
+
+                //On crée une liste de toutes les reservations
+                List<Reservation> listerlesreservation = por4.listerlesreservation();
+                System.out.println("taille affiche reservation"+listerlesreservation.size());
+
+                //on crée une liste des tous les exemplaires
+                List<Exemplaire> exemplaireList1 = por2.afficherExemplaire();
+                System.out.println("taille affiche exemplaire"+exemplaireList1.size());
 
 
 
+                    for (int i = 0; i< exemplaireList1.size(); i++)
+                        {
+                            if (exemplaireList1.get(i).getOuvrage().getID()==ouvrage.getID())
+                            {
+                                exemplaireList.add(exemplaireList1.get(i));
+                            }
+                        }
+                    for (int i = 0; i < listerlesreservation.size(); i++)
+                        { System.out.println("affiche valeur getouvrage de listerlesresvation" + listerlesreservation.get(i).getOuvrage().getIntituleOuvrage());
+                            System.out.println("affiche valeur getouvrage de ouvrage" + ouvrage.getIntituleOuvrage());
+                            if (listerlesreservation.get(i).getOuvrage().getID()==ouvrage.getID())
+                            {
+
+
+                                reservationList.add(listerlesreservation.get(i));
+
+                            }
+                        }
+
+                    System.out.println("taille reservationliste a la sortie " + reservationList.size());
+
+                    if (reservationList.size() < 2 * exemplaireList.size())
+                        {
+                            controlereservable = true;
+                        }
+                    else
+                        {
+                            controlereservable = false;
+                        }
+            }
+              //  controlereservable = true;
+        System.out.println("valeur de list exemplaire" + controlereservable);
+        System.out.println("taille explaireliste a la sortie " + exemplaireList.size());
+        return vresult;
     }
 
     public String doresabyid(){

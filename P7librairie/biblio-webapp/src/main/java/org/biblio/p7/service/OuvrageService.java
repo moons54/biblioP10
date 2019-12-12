@@ -97,6 +97,8 @@ public interface OuvrageService {
     @WebMethod
     public Ouvrage rechercherparISBN(@WebParam(name = "isbn") String isbn);
 
+    @WebMethod
+    public Ouvrage rechercherparId(@WebParam(name = "id") Integer iD);
 
     @WebMethod
     public List<Exemplaire> ListerlesExemplairesparintitule(@WebParam(name ="ouvrageid" ) Integer ouvrageid);

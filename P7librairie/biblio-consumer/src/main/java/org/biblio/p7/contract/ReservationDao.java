@@ -19,6 +19,7 @@ public interface ReservationDao {
 
     public List <Reservation> listerlesreservationparouvrage(int iD);
 
+    public Reservation addreservation(Reservation reservation);
 
 
 
