@@ -80,7 +80,7 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     private List<Editeur> editeurList;
     private List<Auteur> auteurList;
     private List<OuvrageGenre> ouvrageGenreList;
-    List<Emprunt> empruntList;
+    List<Emprunt> empruntList=new ArrayList<>();
     List<Reservation> reservationList=new ArrayList<>();
 
 
@@ -460,41 +460,43 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         }
         else
             {
-
                 lecteur = por.rechercher(idutilisateur);
                 ouvrage = por2.rechercherparId(ouvrageid);
 
                 //On crée une liste de toutes les reservations
                 List<Reservation> listerlesreservation = por4.listerlesreservation();
-                System.out.println("taille affiche reservation"+listerlesreservation.size());
 
                 //on crée une liste des tous les exemplaires
-                List<Exemplaire> exemplaireList1 = por2.afficherExemplaire();
-                System.out.println("taille affiche exemplaire"+exemplaireList1.size());
+                List<Exemplaire> afficherExemplaire = por2.afficherExemplaire();
+
+                //on crée une liste de tous les emprunts
+                List<Emprunt> afficherlesemprunts = por3.afficherlesemprunts();
 
 
-
-                    for (int i = 0; i< exemplaireList1.size(); i++)
+                //Passe d'une double boucle ayant pour objet la selection de tous les exemplaires d'un ouvrage
+                    for (int i = 0; i< afficherExemplaire.size(); i++)
                         {
-                            if (exemplaireList1.get(i).getOuvrage().getID()==ouvrage.getID())
+                            if (afficherExemplaire.get(i).getOuvrage().getID()==ouvrage.getID())
                             {
-                                exemplaireList.add(exemplaireList1.get(i));
+                                exemplaireList.add(afficherExemplaire.get(i));
                             }
                         }
                     for (int i = 0; i < listerlesreservation.size(); i++)
-                        { System.out.println("affiche valeur getouvrage de listerlesresvation" + listerlesreservation.get(i).getOuvrage().getIntituleOuvrage());
-                            System.out.println("affiche valeur getouvrage de ouvrage" + ouvrage.getIntituleOuvrage());
+                        {
                             if (listerlesreservation.get(i).getOuvrage().getID()==ouvrage.getID())
                             {
-
-
                                 reservationList.add(listerlesreservation.get(i));
-
                             }
                         }
 
-                    System.out.println("taille reservationliste a la sortie " + reservationList.size());
-
+                    for (int i = 0; i < afficherlesemprunts.size(); i++)
+                        {
+                            if (afficherlesemprunts.get(i).getLecteur().getId()==lecteur.getId()){
+                                if (afficherlesemprunts.get(i).getExemplaire().getOuvrage().getID()==ouvrage.getID()){
+                                    controlereservable=false;
+                                }
+                            }
+                        }
                     if (reservationList.size() < 2 * exemplaireList.size())
                         {
                             controlereservable = true;
@@ -504,9 +506,6 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
                             controlereservable = false;
                         }
             }
-              //  controlereservable = true;
-        System.out.println("valeur de list exemplaire" + controlereservable);
-        System.out.println("taille explaireliste a la sortie " + exemplaireList.size());
         return vresult;
     }
 
