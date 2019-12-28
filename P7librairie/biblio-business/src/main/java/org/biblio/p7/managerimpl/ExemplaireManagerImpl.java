@@ -99,4 +99,8 @@ public boolean etatStatus(int ouvrageid){
     return etatStatus;
 }
 
+    @Override
+    public List<Exemplaire> getExemplaireRendus() {
+        return getDaoFactory().getExemplaireDao().getExemplaireRendus();
+    }
 }

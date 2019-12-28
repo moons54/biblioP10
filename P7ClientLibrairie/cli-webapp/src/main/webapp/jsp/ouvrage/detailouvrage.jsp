@@ -82,18 +82,9 @@
                                         </s:a></s:if>
                                     </li>
 
-                                   <%-- <s:a action="nreserv">
-                                        <s:param name="id" value="ID"/>
-                                        <s:param name="idutilisateur" value="#session.user.id"/>
-                                        <u>livre à reserver</u>
-                                    </s:a>--%>
                                     </li>
                                     </s:if>
 
-
-                                    <%--<s:elseif test="%{referenceInterne!=null}">
-                                        reservable
-                                    </s:elseif>--%>
                                 </s:if>
 
                             </s:iterator>
@@ -104,19 +95,11 @@
                                     <s:param name="idutilisateur" value="#session.user.id"/>
 
                                     <u>possibilité de reserver</u>
+
+
                                 </s:a>
                         </s:if></s:if>
 
-
-
-
-                          <%--  <s:iterator value="">
-                                <s:if test="%{intituleBibliotheque==bibliotheque.intituleBibliotheque}">
-                                    <li> ouvrage reference : <s:property value=""/> </li>
-                                </s:if>
-
-
-                            </s:iterator>--%>
                         </div>
 
                     </div>

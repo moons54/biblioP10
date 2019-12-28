@@ -28,4 +28,6 @@ public interface ExemplaireManager {
     public int getCountExemplaire(Exemplaire numexemplaire);
 
     public boolean etatStatus(int ouvrageid);
+
+    public List<Exemplaire> getExemplaireRendus();
 }

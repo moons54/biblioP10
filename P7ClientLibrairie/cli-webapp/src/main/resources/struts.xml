@@ -247,6 +247,14 @@
             <result name="input">jsp/ouvrage/recherchelivre.jsp</result>
             <result name="success">jsp/ouvrage/listeouvrage.jsp</result>
         </action>
+
+        <action name="annule_reservation" class="action.EmpruntAction" method="doresaannulation">
+        <result name="input">jsp/profil/profil.jsp</result>
+        <result name="success" type="redirectAction">
+            <param name="actionName">monprofil</param>
+            <param name="idutilisateur">${#session.user.id}</param>
+        </result></action>
+
     </package>
 
 </struts>

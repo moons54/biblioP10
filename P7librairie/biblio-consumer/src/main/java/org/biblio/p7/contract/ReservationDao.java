@@ -21,7 +21,7 @@ public interface ReservationDao {
 
     public Reservation addreservation(Reservation reservation);
 
+    public List<Reservation> listerLesReservationParPriorite(int iD);
 
-
-
+    public List<Reservation> listerLesReservationnNotifie();
 }

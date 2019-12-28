@@ -31,6 +31,15 @@ public class ExemplaireDaoImpl extends AbstractDaoimpl implements ExemplaireDao 
         return afficheliste;
     }
 
+    @Override
+    public List<Exemplaire> getExemplaireRendus() {
+        String vsql = "SELECT id, status,referenceinterne, ouvrageid,bibliothequeid FROM public.exemplaire where status='1'";
+        JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
+        ExemplaireRM exemplaireRM=new ExemplaireRM();
+        List<Exemplaire> afficheliste= vJdbcTemplate.query(vsql,exemplaireRM);
+        return afficheliste;
+    }
+
     /**
      * ajouter un exemplaire
      * @param exemplaire

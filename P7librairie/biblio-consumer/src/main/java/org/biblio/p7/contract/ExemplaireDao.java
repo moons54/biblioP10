@@ -27,4 +27,6 @@ public interface ExemplaireDao {
      * @return
      */
     public int getCountExemplaire(Exemplaire numexemplaire);
+
+    public List<Exemplaire> getExemplaireRendus();
 }

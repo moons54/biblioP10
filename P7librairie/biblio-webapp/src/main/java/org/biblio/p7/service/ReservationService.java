@@ -34,4 +34,16 @@ public interface ReservationService {
     @WebMethod
     public boolean controlereservation(Reservation reservation);
 
+    @WebMethod
+    public List<Reservation> listerlesreservationsparordre(@WebParam(name = "iD") int iD);
+
+    @WebMethod
+    public Reservation attribuerUneReservation();
+
+    @WebMethod
+    public List<Reservation> AnnulerlesReservations();
+
+    @WebMethod
+    public List<Reservation> SupprimerLesReservation();
+
 }

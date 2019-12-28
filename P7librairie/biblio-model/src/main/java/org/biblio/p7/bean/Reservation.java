@@ -1,5 +1,6 @@
 package org.biblio.p7.bean;
 
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -80,4 +81,12 @@ public class Reservation {
                 ", lecteur=" + lecteur +
                 '}';
     }
+
+
+    public static Comparator<Reservation> comparatorDatedemande=new Comparator<Reservation>() {
+        @Override
+        public int compare(Reservation o1, Reservation o2) {
+            return o1.getDateDemande().compareTo(o2.dateDemande);
+        }
+    };
 }

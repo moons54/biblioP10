@@ -14,6 +14,18 @@
     <%@ include file="../_include/head.jsp" %>
 
 </head>
+<script>jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
+    return this.flatten().reduce( function ( a, b ) {
+        if ( typeof a === 'string' ) {
+            a = a.replace(/[^\d.-]/g, '') * 1;
+        }
+        if ( typeof b === 'string' ) {
+            b = b.replace(/[^\d.-]/g, '') * 1;
+        }
+
+        return a + b;
+    }, 0 );
+} );</script>
 <body>
 <link href="css/detailOuvrage.css" rel="stylesheet">
 <div class="container-fluid">
@@ -63,29 +75,87 @@
         <s:if test="%{controlereservable==true}">
             Vous pouvez reserver cet ouvrage
 
-        <li class="list-group-item alert-primary">Exemplaires Disponibles</li>
+        <li class="list-group-item alert-primary">ouvrage Disponibles</li>
 
             <div class="container-fluid bibliomarge">
                 <li class="list-group-item alert-primary">Demande de réservation de l'ouvrage <s:property value="referenceInterne"/></li>
+                <%--<s:iterator value="filedattente">
+                    <li><td><s:property value="lecteur.nom"/></td></li>
+
+                </s:iterator>--%>
+                <table class="table table-striped table-bordered table-hover exemple1" style="width: 100%">
+                    <h3>reservation en cours</h3>
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Nom de l'ouvrage</th>
+                        <th scope="col">Date de demande</th>
+                        <th scope="col">Nombre de demande en cours</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                           <th scope="row">
+                                <strong><s:property value="ouvrage.intituleOuvrage"/></strong></th>
+                            <td><s:property value="dateDemande"/></td></td>
+                    <td><s:property value="nombreOuvrageAttente"/> </td>
+
+                    </tbody>
+
+
+                </table>
+
                 <div class="card container-fluid">
-                    <div class="card-body">
-                        <h3>Cliquer sur valider pour enregistrer la reservation de cet ouvrage</h3>
-                        <h4>Vous devrez le retourner au plus tard le : <script>calcdateretour()</script></h4>
+                    <div class="row">
                         <s:hidden name="reservation.lecteur.id" label="numéro id lecteur" requiredLabel="true" value="%{idutilisateur}"/>
                         <s:hidden name="reservation.ouvrage.ID"  label="num ref exemplaire" value="%{ouvrageid}" requiredLabel="true"/>
 
-                        <div class="row">
-                            <div class="col-md-offset-5 col-md-2 col-lg-offset-5 col-lg-2">
-                                <s:reset value="Annuler" class="btn btn-danger btn-block" />
-                                <s:submit value="Valider" class="btn btn-primary btn-block" />
-                            </div></s:if><s:else>Vous ne pouvez reserver cetouvrage</s:else>
-                        </div>
-                        </s:form>
+                        <div class="col-md-offset-5 col-md-2 col-lg-offset-5 col-lg-2">
+                            <s:reset value="Annuler" class="btn btn-danger btn-block" />
+                            <s:submit value="Valider" class="btn btn-primary btn-block" />
+                        </div></s:if> <s:else>vous ne pouvez pas reserver cette ouvrage : <s:property value="message"/> </s:else></s:form>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
+    </div>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.0/js/mdb.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.20/api/sum().js"></script>
+
+<script>
+   /* $('.exemple1').DataTable({
+        "scrollY": "245",
+        "scrollCollapse": true,
+        "pagingType": "numbers",
+        drawCallback: function () {
+            var api = this.api();
+            $( api.table().footer() ).html(
+                api.column( 4, {page:'current'} ).data().sum()
+            );
+        }
+    })
+}*/
+   $('#example').DataTable( {
+       drawCallback: function () {
+           var api = this.api();
+           $( api.table().footer() ).html(
+               api.column( 4, {page:'current'} ).data().sum()
+           );
+       }
+   } );
+
+</script>
+</div>
 </div>
 </body>
 </html>

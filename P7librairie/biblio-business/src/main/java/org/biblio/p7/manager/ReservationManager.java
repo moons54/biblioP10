@@ -25,4 +25,13 @@ public interface ReservationManager {
     public boolean controlereservation(Reservation reservation);
 
 
+    public List<Reservation> listerlesreservationsparordre(int iD);
+
+    public Reservation attribuerUneReservation();
+
+    public List<Reservation> listerLesReservationParPriorite(int iD);
+
+    public List<Reservation> AnnulerlesReservations();
+
+    public List<Reservation> SupprimerLesReservation();
 }

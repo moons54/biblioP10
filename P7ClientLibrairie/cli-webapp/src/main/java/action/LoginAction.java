@@ -42,6 +42,11 @@ LoginAction extends ActionSupport implements SessionAware {
     PretService_Service pretServicePort_client=new PretService_Service();
     PretService por3=pretServicePort_client.getPretServicePort();
 
+    //WEB SERVICE RESERVATION
+    ReservationService_Service reservationService_service=new ReservationService_Service();
+    ReservationService por4=reservationService_service.getReservationServicePort();
+
+
 
     //PARAMETRE EN ENTREE
     Integer id;
@@ -60,6 +65,7 @@ LoginAction extends ActionSupport implements SessionAware {
     String telephone;
     String email;
     String dtp;
+    public List<Reservation> reservationList=new ArrayList<>();
 
     @Value("${duree.emprunt}")
     private int maxemprunt;
@@ -338,6 +344,15 @@ LoginAction extends ActionSupport implements SessionAware {
         this.maxprolongation = maxprolongation;
     }
 
+    public List<Reservation> getReservationList() {
+        return reservationList;
+    }
+
+    public void setReservationList(List<Reservation> reservationList) {
+        this.reservationList = reservationList;
+    }
+
+
     //METHODE
 
 
@@ -431,6 +446,7 @@ LoginAction extends ActionSupport implements SessionAware {
             coordonnees=por.recherchercoordonnee(Integer.parseInt(this.getSession().get("id").toString()));
             empruntList=por3.afficherlesempruntsparLecteur(lecteur.getId());
             empruntencours=por3.afficherlesempruntsparLecteurencours(lecteur.getId());
+            reservationList=por4.listerlesreservationparlecteur(lecteur.getId());
             {
             }
         return (this.hasErrors())? ActionSupport.ERROR : ActionSupport.SUCCESS;
