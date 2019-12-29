@@ -5,8 +5,8 @@ import org.biblio.p7.bean.Exemplaire;
 import org.biblio.p7.bean.SituationDemprunt;
 import org.biblio.p7.manager.EmpruntManager;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class EmpruntManagerImpl extends AbstractManagerImpl implements EmpruntManager {
     @Override
@@ -115,5 +115,18 @@ public class EmpruntManagerImpl extends AbstractManagerImpl implements EmpruntMa
     @Override
     public List<Emprunt> regrouperlesempruntsenretard(){
         return getDaoFactory().getEmpruntDao().regrouperlesempruntsenretard();
+    }
+
+    @Override
+    public List<Emprunt> listerlesEmpruntParDateFin(int iD) {
+        List<Emprunt> empruntList=getDaoFactory().getEmpruntDao().afficherlesempruntbyOuvrage(iD);
+
+        Collections.sort(empruntList,Emprunt.comparatorDateRetour);
+
+        List<Emprunt> empruntListclasse=empruntList.stream()
+                .limit(1)
+                .collect(Collectors.toList());
+
+        return empruntListclasse;
     }
 }

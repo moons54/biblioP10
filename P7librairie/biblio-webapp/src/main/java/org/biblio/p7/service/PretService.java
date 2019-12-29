@@ -64,4 +64,7 @@ public interface PretService {
 
     @WebMethod
     public List<Emprunt> regrouperlesempruntsenretard();
+
+    @WebMethod
+    public List<Emprunt> listerlesEmpruntParDateFin(@WebParam(name = "id") int iD);
 }

@@ -246,6 +246,8 @@ public class EmpruntDaoImpl extends AbstractDaoimpl implements EmpruntDao {
         return afficheliste;
     }
 
+
+
     @Override
     public List<Emprunt> afficherleslivresdisponible() {
         String vsql = "SELECT * FROM public.emprunt where situation_empruntid=2";
@@ -281,6 +283,18 @@ public class EmpruntDaoImpl extends AbstractDaoimpl implements EmpruntDao {
 
         EmpruntRM empruntRM=new EmpruntRM();
         List <Emprunt> affichelist= vJdbcTemplate.query(vsql,new Object[]{isbn},empruntRM);
+
+        return affichelist;
+    }
+
+    @Override
+    public List<Emprunt> afficherlesempruntbyOuvrage(int Id) {
+        String vsql = "SELECT DISTINCT emprunt.id, date_debut, date_fin, date_retour_effectif, renouvellement, situation_empruntid, exemplaireid, lecteurid FROM public.emprunt join exemplaire e on emprunt.exemplaireid = e.id join ouvrage o on e.ouvrageid = o.id where ouvrageid =?";
+
+        JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
+
+        EmpruntRM empruntRM=new EmpruntRM();
+        List <Emprunt> affichelist= vJdbcTemplate.query(vsql,new Object[]{Id},empruntRM);
 
         return affichelist;
     }

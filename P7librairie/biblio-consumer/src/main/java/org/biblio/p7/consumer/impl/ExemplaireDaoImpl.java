@@ -109,6 +109,8 @@ public class ExemplaireDaoImpl extends AbstractDaoimpl implements ExemplaireDao 
     }
 
 
+
+
     /**
      * changement du statut d'un exemplaire
      * methode utilisé lorsqu'un ouvrage est emprunté

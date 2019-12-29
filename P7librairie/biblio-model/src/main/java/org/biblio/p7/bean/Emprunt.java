@@ -1,5 +1,6 @@
 package org.biblio.p7.bean;
 
+import java.util.Comparator;
 import java.util.Date;
 
 public class Emprunt {
@@ -99,4 +100,11 @@ public class Emprunt {
 				", lecteur=" + lecteur +
 				'}';
 	}
+
+	public static Comparator<Emprunt> comparatorDateRetour=new Comparator<Emprunt>() {
+		@Override
+		public int compare(Emprunt o1, Emprunt o2) {
+			return o1.getDateFin().compareTo(o2.dateFin);
+		}
+	};
 }

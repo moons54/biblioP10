@@ -14,6 +14,14 @@
     <%@ include file="../_include/head.jsp" %>
 
 </head>
+<script type="text/javascript">
+    function getDate() {
+        /* methode conv date */
+        let dateTemp = '<s:property value="dteretour"/>';
+        var dateLocale = new Date(dateTemp).toLocaleDateString();
+        document.write(dateLocale);
+    }
+</script>
 <script>jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
     return this.flatten().reduce( function ( a, b ) {
         if ( typeof a === 'string' ) {
@@ -88,7 +96,7 @@
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">Nom de l'ouvrage</th>
-                        <th scope="col">Date de demande</th>
+                        <th scope="col">Date du prochain retour de l'ouvrage</th>
                         <th scope="col">Nombre de demande en cours</th>
                     </tr>
                     </thead>
@@ -96,8 +104,9 @@
 
                            <th scope="row">
                                 <strong><s:property value="ouvrage.intituleOuvrage"/></strong></th>
-                            <td><s:property value="dateDemande"/></td></td>
-                    <td><s:property value="nombreOuvrageAttente"/> </td>
+                            <td><script>getDate()</script></td></td>
+                           <td><s:property value="nombreOuvrageAttente"/> </td>
+
 
                     </tbody>
 

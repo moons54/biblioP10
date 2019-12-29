@@ -27,6 +27,13 @@
         var dateLocale = new Date(dateTemp).toLocaleDateString();
         document.write(dateLocale);
     }
+
+    function getretourprevu1() {
+        let dateTemp1 = '<s:property value="dteretour"/>';
+        var dateLocale3 = new Date(dateTemp1).toLocaleDateString();
+        document.write(dateLocale3);
+    }
+
 </script>
 <link href="css/profilUtilisateur.css" rel="stylesheet">
 <div class="ami_decal container-fluid">
@@ -159,10 +166,15 @@
                 </thead>
                 <tbody>
                 <s:iterator value="reservationList">
+
                     <tr>
                     <th scope="row">
                         <strong><s:property value="ouvrage.intituleOuvrage"/></strong></th>
                     <td><s:property value="dateDemande"/></td>
+
+
+                            <td><script>getretourprevu1()</script></td>
+
                       <td>  <s:if test="%{dateNotification!=Null}">
                             Vite ! Votre livre vous attend !
                       </s:if></td>

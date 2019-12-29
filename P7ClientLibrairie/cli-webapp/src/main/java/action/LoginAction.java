@@ -66,6 +66,8 @@ LoginAction extends ActionSupport implements SessionAware {
     String email;
     String dtp;
     public List<Reservation> reservationList=new ArrayList<>();
+    private XMLGregorianCalendar dteretour;
+
 
     @Value("${duree.emprunt}")
     private int maxemprunt;
@@ -88,6 +90,7 @@ LoginAction extends ActionSupport implements SessionAware {
     private List<Exemplaire> exemplaireList;
     private List<Emprunt> empruntList;
     private List<Emprunt> empruntencours;
+    private List<Emprunt> empruntList1;
 
 
     //GETTER AND SETTER
@@ -352,7 +355,21 @@ LoginAction extends ActionSupport implements SessionAware {
         this.reservationList = reservationList;
     }
 
+    public XMLGregorianCalendar getDteretour() {
+        return dteretour;
+    }
 
+    public void setDteretour(XMLGregorianCalendar dteretour) {
+        this.dteretour = dteretour;
+    }
+
+    public List<Emprunt> getEmpruntList1() {
+        return empruntList1;
+    }
+
+    public void setEmpruntList1(List<Emprunt> empruntList1) {
+        this.empruntList1 = empruntList1;
+    }
     //METHODE
 
 
@@ -360,8 +377,8 @@ LoginAction extends ActionSupport implements SessionAware {
 
     //Authentification de l'utilisateur
     public String doLogin() {
-       LOGGER.info("DANS LA METHODE DOLOGIN");
-       String vresult = ActionSupport.INPUT;
+        LOGGER.info("DANS LA METHODE DOLOGIN");
+        String vresult = ActionSupport.INPUT;
 
         if (!StringUtils.isAllEmpty(identifiant, motDePasse)) {
             try {
@@ -422,7 +439,7 @@ LoginAction extends ActionSupport implements SessionAware {
                     lecteur.setDateDeNaissance(dateNaissance);
                     lecteur.setNumCni("34333232");
                     por.ajouterLecteur(lecteur);
-                setIdutilisateur(lecteur.getId());
+                    setIdutilisateur(lecteur.getId());
                     vresult = ActionSupport.SUCCESS;
                     this.addActionMessage("premier etape pour   "+identifiant);
                 } catch (Exception e)
@@ -443,12 +460,28 @@ LoginAction extends ActionSupport implements SessionAware {
             //  this.addActionError(getText("error.topo.missing.id."));
         }else
             lecteur=por.rechercher(Integer.parseInt(this.getSession().get("id").toString()));
-            coordonnees=por.recherchercoordonnee(Integer.parseInt(this.getSession().get("id").toString()));
-            empruntList=por3.afficherlesempruntsparLecteur(lecteur.getId());
-            empruntencours=por3.afficherlesempruntsparLecteurencours(lecteur.getId());
-            reservationList=por4.listerlesreservationparlecteur(lecteur.getId());
-            {
+        coordonnees=por.recherchercoordonnee(Integer.parseInt(this.getSession().get("id").toString()));
+        empruntList=por3.afficherlesempruntsparLecteur(lecteur.getId());
+        empruntencours=por3.afficherlesempruntsparLecteurencours(lecteur.getId());
+        reservationList=por4.listerlesreservationparlecteur(lecteur.getId());
+        empruntList1=por3.afficherlesemprunts();
+
+        for (Reservation reservation:reservationList
+             ) {
+            for (Emprunt emprunt:empruntList1
+                 ) {
+                if (emprunt.getExemplaire().getOuvrage().getID()==reservation.getOuvrage().getID()){
+                    dteretour=por3.listerlesEmpruntParDateFin(emprunt.getExemplaire().getOuvrage().getID()).get(0).getDateFin();
+                }
             }
+
+        }
+
+       // XMLGregorianCalendar dteretourtemp=por3.listerlesEmpruntParDateFin(exemplaire.getOuvrage().getID()).get(0).getDateFin();
+
+      //  dteretour=dteretourtemp;
+        {
+        }
         return (this.hasErrors())? ActionSupport.ERROR : ActionSupport.SUCCESS;
     };
     //METHODE POUR DETAIL D'UN temp UTILISATEUR
@@ -460,9 +493,7 @@ LoginAction extends ActionSupport implements SessionAware {
             //  this.addActionError(getText("error.topo.missing.id."));
         }else
             lecteur=por.rechercherparNom(this.nom);
-        // coordonnees=por.recherchercoordonnee(Integer.parseInt(this.getSession().get("id").toString()));
-       // empruntList=por3.afficherlesempruntsparLecteur(lecteur.getId());
-       // empruntencours=por3.afficherlesempruntsparLecteurencours(lecteur.getId());
+
         {
         }
         return (this.hasErrors())? ActionSupport.ERROR : ActionSupport.SUCCESS;
@@ -471,15 +502,10 @@ LoginAction extends ActionSupport implements SessionAware {
     public String doDetail2() throws Exception{
         lecteur = new Lecteur();
         LOGGER.info("DANS LA METHODE DODETAIL");
-        //gestion des erreurs si id du topo null
         if(this.nom==null){
-            //  this.addActionError(getText("error.topo.missing.id."));
         }else
             lecteur=por.rechercher(idutilisateur);
-            coordonnees=por.recherchercoordonnee(idutilisateur);
-        // coordonnees=por.recherchercoordonnee(Integer.parseInt(this.getSession().get("id").toString()));
-        // empruntList=por3.afficherlesempruntsparLecteur(lecteur.getId());
-        // empruntencours=por3.afficherlesempruntsparLecteurencours(lecteur.getId());
+        coordonnees=por.recherchercoordonnee(idutilisateur);
         {
         }
         return (this.hasErrors())? ActionSupport.ERROR : ActionSupport.SUCCESS;
@@ -526,7 +552,7 @@ LoginAction extends ActionSupport implements SessionAware {
     public String docontrole() throws Exception {
         LOGGER.info("DANS LA METHODE DOCONTROLE");
         if(nom==null){
-             this.addActionError(getText("error.missing"));
+            this.addActionError(getText("error.missing"));
         }else
             lecteur=por.rechercherparNom(this.nom);
         {
@@ -546,11 +572,11 @@ LoginAction extends ActionSupport implements SessionAware {
         }
         else
             por.supprimerLecteur(idutilisateur);
-            vresult= ActionSupport.SUCCESS;
-            this.addActionMessage("utilisateur a bien été supprimé avec succes");
+        vresult= ActionSupport.SUCCESS;
+        this.addActionMessage("utilisateur a bien été supprimé avec succes");
         {
         }
-    return vresult;
+        return vresult;
     }
 
     public String domodif() throws Exception {
@@ -574,14 +600,14 @@ LoginAction extends ActionSupport implements SessionAware {
                 }
                 catch (NoSuchElementException e)
                 {
-                ServletActionContext.getResponse().setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    ServletActionContext.getResponse().setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
                 resultat = ActionSupport.SUCCESS;
             } else
-                {
+            {
                 this.addActionError("Id doit être défini");
                 resultat = ActionSupport.ERROR;
-                }
+            }
         } else {
             // Si topo est null c'est qu'on va entrer sur la jsp update.jsp, il faut embarquer les données sur lecteur afin de pré-rempir les champs de la page web
             lecteur = por.rechercher(idutilisateur);
@@ -600,51 +626,51 @@ LoginAction extends ActionSupport implements SessionAware {
             if (coordonnees.getEmail() != null)
             {
                 try {
-                        Coordonnees tmputil = por.recherchercoordonnee(coordonnees.getLecteur().getId());
-                        tmputil.setRue(coordonnees.getRue());
-                        tmputil.setEmail(coordonnees.getEmail());
-                        tmputil.setCodePostal(coordonnees.getCodePostal());
-                        tmputil.setVille(coordonnees.getVille());
-                        tmputil.setTelephone(coordonnees.getTelephone());
-                        tmputil.setID(coordonnees.getID());
-                        tmputil.setLecteur(por.rechercher(coordonnees.getLecteur().getId()));
-                        por.modifierCooronnees(tmputil);
-                    }catch (NoSuchElementException e)
-                        {
-                            ServletActionContext.getResponse().setStatus(HttpServletResponse.SC_NOT_FOUND);
-                        }
-                            resultat = ActionSupport.SUCCESS;
-            } else
+                    Coordonnees tmputil = por.recherchercoordonnee(coordonnees.getLecteur().getId());
+                    tmputil.setRue(coordonnees.getRue());
+                    tmputil.setEmail(coordonnees.getEmail());
+                    tmputil.setCodePostal(coordonnees.getCodePostal());
+                    tmputil.setVille(coordonnees.getVille());
+                    tmputil.setTelephone(coordonnees.getTelephone());
+                    tmputil.setID(coordonnees.getID());
+                    tmputil.setLecteur(por.rechercher(coordonnees.getLecteur().getId()));
+                    por.modifierCooronnees(tmputil);
+                }catch (NoSuchElementException e)
                 {
-                    this.addActionError("Id doit être défini");
-                    resultat = ActionSupport.ERROR;
+                    ServletActionContext.getResponse().setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
-        } else
+                resultat = ActionSupport.SUCCESS;
+            } else
             {
-            // Si topo est null c'est qu'on va entrer sur la jsp update.jsp, il faut embarquer les données sur lecteur afin de pré-rempir les champs de la page web
-                coordonnees = por.recherchercoordonnee(idutilisateur);
+                this.addActionError("Id doit être défini");
+                resultat = ActionSupport.ERROR;
             }
-                return resultat;
+        } else
+        {
+            // Si topo est null c'est qu'on va entrer sur la jsp update.jsp, il faut embarquer les données sur lecteur afin de pré-rempir les champs de la page web
+            coordonnees = por.recherchercoordonnee(idutilisateur);
+        }
+        return resultat;
     }
 
     public String doProfil()
     {
-            LOGGER.info("DANS LA METHODE DODETAIL");
-            idutilisateur=Integer.parseInt(getSession().get("id").toString());
-            //gestion des erreurs si id du Utilisateur null
-            if(idutilisateur==null)
+        LOGGER.info("DANS LA METHODE DODETAIL");
+        idutilisateur=Integer.parseInt(getSession().get("id").toString());
+        //gestion des erreurs si id du Utilisateur null
+        if(idutilisateur==null)
         {
-           //  this.addActionError(getText("error.topo.missing.id."));
+            //  this.addActionError(getText("error.topo.missing.id."));
         }
         else
-            {
-                lecteur=por.rechercher(idutilisateur);
-                coordonnees=por.recherchercoordonnee(lecteur.getId());
-                empruntList=por3.afficherlesemprunts();
-            }
+        {
+            lecteur=por.rechercher(idutilisateur);
+            coordonnees=por.recherchercoordonnee(lecteur.getId());
+            empruntList=por3.afficherlesemprunts();
+        }
 
-            {
-            }
-            return (this.hasErrors())? ActionSupport.ERROR : ActionSupport.SUCCESS;
+        {
+        }
+        return (this.hasErrors())? ActionSupport.ERROR : ActionSupport.SUCCESS;
     };
 }

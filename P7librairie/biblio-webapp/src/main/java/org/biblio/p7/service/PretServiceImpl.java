@@ -102,4 +102,9 @@ managerFactory.getEmpruntManager().ajouterunemprunt(emprunt);
     public List<Emprunt> regrouperlesempruntsenretard(){
         return getManagerFactory().getEmpruntManager().regrouperlesempruntsenretard();
     }
+
+    @Override
+    public List<Emprunt> listerlesEmpruntParDateFin(int iD) {
+        return getManagerFactory().getEmpruntManager().listerlesEmpruntParDateFin(iD);
+    }
 }

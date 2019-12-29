@@ -63,6 +63,8 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     private Boolean controlereservable;
     private Integer nombreOuvrageAttente;
     private String message;
+    private Date dateRetour;
+    private XMLGregorianCalendar dteretour;
 
 
     private Ouvrage ouvrage;
@@ -394,6 +396,21 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         this.message = message;
     }
 
+    public Date getDateRetour() {
+        return dateRetour;
+    }
+
+    public void setDateRetour(Date dateRetour) {
+        this.dateRetour = dateRetour;
+    }
+
+    public XMLGregorianCalendar getDteretour() {
+        return dteretour;
+    }
+
+    public void setDteretour(XMLGregorianCalendar dteretour) {
+        this.dteretour = dteretour;
+    }
     //LES METHODES
 
     String doemprunbyid(){
@@ -499,6 +516,7 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
                 //on crée une liste des tous les exemplaires
                 List<Exemplaire> afficherExemplaire = por2.afficherExemplaire();
 
+
                 //on crée une liste de tous les emprunts
                 List<Emprunt> afficherlesemprunts = por3.afficherlesemprunts();
 
@@ -536,6 +554,13 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
 //                                    .filter(x->x.getOuvrage().getID()==exemplaire.getOuvrage().getID())
                                     .collect(Collectors.toList());
                              nombreOuvrageAttente=filedattente.size();
+                             empruntList=por3.afficherlesemprunts();
+
+                            XMLGregorianCalendar dteretourtemp=por3.listerlesEmpruntParDateFin(ouvrageid).get(0).getDateFin();
+
+                            dteretour=dteretourtemp;
+                           // dteretour=DatatypeFactory.newInstance().newXMLGregorianCalendar(dteretourtemp);
+
                         }
                     else
                         {
