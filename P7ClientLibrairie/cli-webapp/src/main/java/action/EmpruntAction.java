@@ -462,8 +462,8 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
      * Creation de la methode permettant de creer une reservation
      * @return
      */
-    public String doresa(){
-        final DateTime now=new DateTime();
+    public String doresa() {
+        final DateTime now = new DateTime();
 //por4.attribuerUneReservation();
         LOGGER.info("dans la methode reservation");
         LocalDateTime currentTime = LocalDateTime.now();
@@ -479,8 +479,7 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         }
 
         String vresult = ActionSupport.INPUT;
-        if(this.reservation!=null)
-        {
+        if (this.reservation != null) {
             if (this.reservation.getOuvrage().getID() == 0) {
                 this.addActionError("erreur");
             } else {
@@ -490,7 +489,7 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
             if (!this.hasErrors()) {
                 try {
 
-                 //   reservation.setDateDemande(datefin);
+                    //   reservation.setDateDemande(datefin);
                     reservation.setNotification(false);
                     reservation.setDateNotification(datefin);
                     reservation.setLecteur(this.reservation.getLecteur());
@@ -503,73 +502,77 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
                     vresult = ActionSupport.ERROR;
                 }
             }
-        }
-        else
-            {
-                lecteur = por.rechercher(idutilisateur);
-                ouvrage = por2.rechercherparId(ouvrageid);
-                nombreOuvrageAttente=reservationList.size();
+        } else {
+            lecteur = por.rechercher(idutilisateur);
+            ouvrage = por2.rechercherparId(ouvrageid);
+            nombreOuvrageAttente = reservationList.size();
 
-                //On crée une liste de toutes les reservations
-                List<Reservation> listerlesreservation = por4.listerlesreservation();
+            //On crée une liste de toutes les reservations
+            List<Reservation> listerlesreservation = por4.listerlesreservation();
 
-                //on crée une liste des tous les exemplaires
-                List<Exemplaire> afficherExemplaire = por2.afficherExemplaire();
+            //on crée une liste des tous les exemplaires
+            List<Exemplaire> afficherExemplaire = por2.afficherExemplaire();
 
 
-                //on crée une liste de tous les emprunts
-                List<Emprunt> afficherlesemprunts = por3.afficherlesemprunts();
+            //on crée une liste de tous les emprunts
+            List<Emprunt> afficherlesemprunts = por3.afficherlesemprunts();
 
 
-                //Passe d'une double boucle ayant pour objet la selection de tous les exemplaires d'un ouvrage
-                    for (int i = 0; i< afficherExemplaire.size(); i++)
-                        {
-                            if (afficherExemplaire.get(i).getOuvrage().getID()==ouvrage.getID())
-                            {
-                                exemplaireList.add(afficherExemplaire.get(i));
-                            }
-                        }
-                    for (int i = 0; i < listerlesreservation.size(); i++)
-                        {
-                            if (listerlesreservation.get(i).getOuvrage().getID()==ouvrage.getID())
-                            {
-                                reservationList.add(listerlesreservation.get(i));
-                            }
-                        }
-
-                    for (int i = 0; i < afficherlesemprunts.size(); i++)
-                        {
-                            if (afficherlesemprunts.get(i).getLecteur().getId()==lecteur.getId()){
-                                if (afficherlesemprunts.get(i).getExemplaire().getOuvrage().getID()==ouvrage.getID()){
-                                    controlereservable=false;
-                                    message="Vous avez deja cet ouvrage en cours d'emprunt, pensez aux autres lecteurs";
-                                }
-                            }
-                        }
-                    if (reservationList.size() < 2 * exemplaireList.size())
-                        {
-                            System.out.println("taille resaliste   ----"+reservationList.size());
-                            controlereservable = true;
-                             filedattente=reservationList.stream()
-//                                    .filter(x->x.getOuvrage().getID()==exemplaire.getOuvrage().getID())
-                                    .collect(Collectors.toList());
-                             nombreOuvrageAttente=filedattente.size();
-                             empruntList=por3.afficherlesemprunts();
-
-                            XMLGregorianCalendar dteretourtemp=por3.listerlesEmpruntParDateFin(ouvrageid).get(0).getDateFin();
-
-                            dteretour=dteretourtemp;
-                           // dteretour=DatatypeFactory.newInstance().newXMLGregorianCalendar(dteretourtemp);
-
-                        }
-                    else
-                        {
-                            controlereservable = false;
-                            message="Il y a beaucoup de demande pour cette ouvrage, reessayez plus tard";
-                        }
+            //Passe d'une double boucle ayant pour objet la selection de tous les exemplaires d'un ouvrage
+            for (int i = 0; i < afficherExemplaire.size(); i++) {
+                if (afficherExemplaire.get(i).getOuvrage().getID() == ouvrage.getID()) {
+                    exemplaireList.add(afficherExemplaire.get(i));
+                }
             }
+            for (int i = 0; i < listerlesreservation.size(); i++) {
+                if (listerlesreservation.get(i).getOuvrage().getID() == ouvrage.getID()) {
+                    reservationList.add(listerlesreservation.get(i));
+                }
+            }
+
+
+            //CORRECTED TICKET 1
+            /*
+            Boucle permettant de vériier que le nombre de reservation soit infèrieur a 2 fois le nombre d'exemplaire
+            Regle de gestion Ticket 1
+             */
+            if (reservationList.size() < 2 * exemplaireList.size()) {
+                controlereservable = true;
+                filedattente = reservationList.stream()
+                       .collect(Collectors.toList());
+                nombreOuvrageAttente = filedattente.size();
+                empruntList = por3.afficherlesemprunts();
+
+                XMLGregorianCalendar dteretourtemp = por3.listerlesEmpruntParDateFin(ouvrageid).get(0).getDateFin();
+
+                dteretour = dteretourtemp;
+
+            } else {
+                controlereservable = false;
+                message = "Liste d'attente importante actuellement, reessayez plus tard";
+            }
+
+            //CORRECTED TICKET 1
+            /*
+              Boucle permettant de controler que le lecteur ne puisse réserver un ouvrage qu’il a déjà en cours d’emprunt
+              Regle de gestion Ticket 1
+           */
+            empruntList = por3.afficherlesemprunts();
+            for (Emprunt emprunt : empruntList
+            ) {
+                if (emprunt.getLecteur().getId() == lecteur.getId()) {
+                    if (emprunt.getExemplaire().getOuvrage().getID() == ouvrage.getID()) {
+                        controlereservable = false;
+                        message="vous êtes en possession d'un exemplaire actuellement";
+                        System.out.println("valeur de controlersv"+controlereservable.toString());
+                    }
+                }
+            }
+        }
+
         return vresult;
     }
+
 
     public String doresabyid(){
         LOGGER.info("dans la methode doresa");
@@ -599,9 +602,6 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-
-        // Emprunt emprunt=new Emprunt();
-
         String vresult = ActionSupport.INPUT;
 
         //condition validant l'ajout de formulaire
@@ -698,7 +698,7 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     };
 
     public String doresaannulation(){
-      por4.supprimerunereservation(id);
+        por4.supprimerunereservation(id);
         return ActionSupport.SUCCESS;
     };
 

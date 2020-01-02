@@ -36,99 +36,78 @@
 } );</script>
 <body>
 <link href="css/detailOuvrage.css" rel="stylesheet">
-<div class="container-fluid">
-    <s:form action="nreserv" class="container-fluid">
-    <title>Détail d'un ouvrage</title>
-    <div class="row ami_card">
-        <div class="col-sm-4">
-            <div class="card header">
-                <li class="list-group-item alert-primary text-uppercase"><strong><s:property
-                        value="ouvrage.intituleOuvrage"/></strong></li>
-            </div>
-            <li class="list-group-item">REFERENCE ISBN : <s:property value="ouvrage.isbn"/></li>
-            <li class="list-group-item">reservable : <s:property  value="controlereservable"/></li>
-
-            <li class="list-group-item">NOM AUTEUR : <s:property value="auteur.intituleAuteur"/></li>
-            <li class="list-group-item">EDITION :
-                <s:iterator value="ouvrage.editeurs">
-                    <td><s:property value="intituleEditeur"/></td>
-                </s:iterator>
-            </li>
-            <li class="list-group-item">Lien Web :
-                <s:iterator value="ouvrage.editeurs">
-                    <td><s:property value="lienweb"/></td>
-                </s:iterator>
-            </li>
-            <li class="list-group-item">GENRE :
-                <s:iterator value="ouvrage.genres">
-                    <td><s:property value="intituleGenre"/></td>
-                </s:iterator>
-            </li>
+<title>Détail d'un ouvrage</title>
+<div class="row ami_card fluid">
+    <div class="col-sm-8">
+        <div class="card header">
+            <li class="list-group-item alert-primary text-uppercase"><strong><s:property
+                    value="ouvrage.intituleOuvrage"/></strong></li>
         </div>
-        <div class="col-sm-4">
-            <div class="card header ">
-                <li class="list-group-item alert-primary">Description</li>
-            </div>
-            <li class="list-group-item" style="height: 230px"><s:property value="ouvrage.description"/></li>
-        </div>
-        <div class="col-sm-4">
-            <div class="card header">
-                <li class="list-group-item alert-primary">Photo</li>
-                <ul class="text-center"><img height="215" width="190" src="images/<s:property value="ouvrage.photo"/>"/>
-                </ul>
-            </div>
-        </div>
+        <li class="list-group-item">REFERENCE ISBN : <s:property value="ouvrage.isbn"/></li>
+        <li class="list-group-item">NOM AUTEUR : <s:property value="ouvrage.auteur.intituleAuteur"/></li>
+        <li class="list-group-item">EDITION :
+            <s:iterator value="ouvrage.editeurs">
+                <td><s:property value="intituleEditeur"/></td>
+            </s:iterator>
+        </li>
+        <li class="list-group-item">Lien Web :
+            <s:iterator value="ouvrage.editeurs">
+                <td><s:property value="lienweb"/></td>
+            </s:iterator>
+        </li>
+        <li class="list-group-item">GENRE :
+            <s:iterator value="ouvrage.genres">
+                <td><s:property value="intituleGenre"/></td>
+            </s:iterator>
+        </li>
     </div>
-    <div class="container-fluid bibliomarge">
-        <s:if test="%{controlereservable==true}">
-            Vous pouvez reserver cet ouvrage
-
-        <li class="list-group-item alert-primary">ouvrage Disponibles</li>
-
-            <div class="container-fluid bibliomarge">
-                <li class="list-group-item alert-primary">Demande de réservation de l'ouvrage <s:property value="referenceInterne"/></li>
-                <%--<s:iterator value="filedattente">
-                    <li><td><s:property value="lecteur.nom"/></td></li>
-
-                </s:iterator>--%>
-                <table class="table table-striped table-bordered table-hover exemple1" style="width: 100%">
-                    <h3>reservation en cours</h3>
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Nom de l'ouvrage</th>
-                        <th scope="col">Date du prochain retour de l'ouvrage</th>
-                        <th scope="col">Nombre de demande en cours</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                           <th scope="row">
-                                <strong><s:property value="ouvrage.intituleOuvrage"/></strong></th>
-                            <td><script>getDate()</script></td></td>
-                           <td><s:property value="nombreOuvrageAttente"/> </td>
-
-
-                    </tbody>
-
-
-                </table>
-
-                <div class="card container-fluid">
-                    <div class="row">
-                        <s:hidden name="reservation.lecteur.id" label="numéro id lecteur" requiredLabel="true" value="%{idutilisateur}"/>
-                        <s:hidden name="reservation.ouvrage.ID"  label="num ref exemplaire" value="%{ouvrageid}" requiredLabel="true"/>
-
-                        <div class="col-md-offset-5 col-md-2 col-lg-offset-5 col-lg-2">
-                            <s:reset value="Annuler" class="btn btn-danger btn-block" />
-                            <s:submit value="Valider" class="btn btn-primary btn-block" />
-                        </div></s:if> <s:else>vous ne pouvez pas reserver cette ouvrage : <s:property value="message"/> </s:else></s:form>
-                    </div>
-                </div>
-            </div>
-    </div>
+    <div class="col-sm-4">
+        <div class="card header">
+            <li class="list-group-item alert-primary">Photo</li>
+            <ul class="text-center"><img height="215" width="190" src="images/<s:property value="ouvrage.photo"/>"/>
+            </ul>
+        </div>
     </div>
 </div>
 
+
+<div class="container-fluid bibliomarge">
+    <li class="list-group-item alert-primary">Reservation d'un ouvrage</li>
+    <s:if test="%{controlereservable==true}">
+
+        <table class="table table-striped table-bordered table-hover exemple1" style="width: 100%">
+
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nom de l'ouvrage</th>
+                <th scope="col">Date du prochain retour de l'ouvrage</th>
+                <th scope="col">Nombre de demande en cours</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th scope="row">
+                <strong><s:property value="ouvrage.intituleOuvrage"/></strong></th>
+            <td><script>getDate()</script></td></td>
+            <td><s:property value="nombreOuvrageAttente"/> </td>
+            </tbody>
+
+        </table>
+        <s:form action="nreserv" class="container-fluid">
+            <s:hidden name="reservation.lecteur.id" label="numéro id lecteur" requiredLabel="true" value="%{idutilisateur}"/>
+            <s:hidden name="reservation.ouvrage.ID"  label="num ref exemplaire" value="%{ouvrageid}" requiredLabel="true"/>
+
+            <s:submit value="Demande de Réservation" class="btn btn-primary btn-block"/>
+
+
+        </s:form>
+
+    </s:if>
+    <li class="list-group-item ami_txtfield text-center">
+
+    <s:else>ATTENTION : Impossible de reserver cet ouvrage : <s:property value="message"/> </s:else>
+
+    </li>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -142,29 +121,18 @@
 <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.20/api/sum().js"></script>
 
 <script>
-   /* $('.exemple1').DataTable({
-        "scrollY": "245",
-        "scrollCollapse": true,
-        "pagingType": "numbers",
+    $('#example').DataTable( {
         drawCallback: function () {
             var api = this.api();
             $( api.table().footer() ).html(
                 api.column( 4, {page:'current'} ).data().sum()
             );
         }
-    })
-}*/
-   $('#example').DataTable( {
-       drawCallback: function () {
-           var api = this.api();
-           $( api.table().footer() ).html(
-               api.column( 4, {page:'current'} ).data().sum()
-           );
-       }
-   } );
-
+    } );
 </script>
 </div>
 </div>
+</div>
+
 </body>
 </html>

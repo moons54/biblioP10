@@ -34,6 +34,7 @@
         document.write(dateLocale3);
     }
 
+
 </script>
 <link href="css/profilUtilisateur.css" rel="stylesheet">
 <div class="ami_decal container-fluid">
@@ -161,23 +162,31 @@
                     <th scope="col">Livres en attente</th>
                     <th scope="col">Date de demande</th>
                     <th scope="col">Date de retour prévue</th>
-                    <th scope="col">Opérations</th>
+                    <th scope="col">Etat de la demande</th>
+                    <th scope="col">Action</th>
+
                 </tr>
                 </thead>
                 <tbody>
                 <s:iterator value="reservationList">
-
+<script>
+    function getdatededemande() {
+        let dateTemp1 = '<s:property value="dateDemande"/>';
+        var dateLocale3 = new Date(dateTemp1).toLocaleDateString();
+        document.write(dateLocale3);
+    }
+</script>
                     <tr>
                     <th scope="row">
                         <strong><s:property value="ouvrage.intituleOuvrage"/></strong></th>
-                    <td><s:property value="dateDemande"/></td>
+<%--                    <td><s:property value="dateDemande"/></td>--%>
 
-
+<td><script>getdatededemande()</script></td>
                             <td><script>getretourprevu1()</script></td>
 
                       <td>  <s:if test="%{dateNotification!=Null}">
                             Vite ! Votre livre vous attend !
-                      </s:if></td>
+                      </s:if><s:else>Livre en cours d'emprunt</s:else></td>
                    <%-- <td><s:property value="dateNotification"/></td>--%>
                     <td><s:a action="annule_reservation">
                         <s:param name="id" value="ID"/>Annuler la reservation </s:a></td>

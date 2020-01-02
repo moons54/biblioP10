@@ -46,7 +46,7 @@ Cas d'exception :
  Description         |     Processus  |       Affichage |
 | :------------: | :-------------: | :-------------: |
 |Le lecteur a le livre en cours d'emprunt       |   <ul> Il ne peut donc le reserver comme indiqué dans les regles de gestion</ul>  |        ![Texte alternatif](images/feature1/exception1.png) |
-| la file d'attente est trop importante l'ouvrage ne peut etre reservé   |   <ul>il doit revenir en arriere pour valider une autre reservation</ul>  |      ![Texte alternatif](images/feature1/exception1.png) |
+| la file d'attente est trop importante l'ouvrage ne peut etre reservé   |   <ul>il doit revenir en arriere pour valider une autre reservation</ul>  |      ![Texte alternatif](images/feature1/exception2.png) |
 
   
   
