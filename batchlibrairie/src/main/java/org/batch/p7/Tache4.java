@@ -72,7 +72,6 @@ public class Tache4 implements Tasklet {
         List<Exemplaire> exemplaireList=por2.afficherExemplaire();
         List<Emprunt> empruntList=por3.afficherlesemprunts();
 
-
         por4.attribuerUneReservation();
 
         return RepeatStatus.FINISHED;

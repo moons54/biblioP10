@@ -63,7 +63,7 @@ public class Tache6 implements Tasklet {
     GregorianCalendar gcal = GregorianCalendar.from(date.atStartOfDay(ZoneId.systemDefault()));
 
 
-
+//TODO problematique liée à une annulation
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
@@ -71,11 +71,7 @@ public class Tache6 implements Tasklet {
         SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
         List<Exemplaire> exemplaireList=por2.afficherExemplaire();
         List<Emprunt> empruntList=por3.afficherlesemprunts();
-
-
-por4.annulerlesReservations();
-
-
+        por4.annulerlesReservations();
         return RepeatStatus.FINISHED;
     }
 }

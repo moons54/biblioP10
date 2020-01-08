@@ -114,10 +114,10 @@ public static final Date DATE_JOUR= new Date();
             //TODO si reservation disponible mais il y a une resa en cours mettre etat rendu
                 List<Reservation> reservationList = listerLesReservationParPriorite(exemplaire.getOuvrage().getiD());
                 for (Reservation reservation: reservationList) {
-
-                    reservation.setDateNotification(new Date());
-                    getDaoFactory().getReservationDao().modifieReservation(reservation);
-                }
+if (reservation.getDateNotification()==null) {
+    reservation.setDateNotification(new Date());
+    getDaoFactory().getReservationDao().modifieReservation(reservation);
+}}
         }
         return null;
     }

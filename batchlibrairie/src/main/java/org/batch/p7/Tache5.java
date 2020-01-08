@@ -139,10 +139,8 @@ public class Tache5 implements Tasklet {
                for (Reservation em : reservationList) {
                     text += "<li><strong>" + em.getOuvrage().getIntituleOuvrage() + "Indentification :  " + em.getOuvrage().getIsbn() + "</strong></li>" + "\n";
                 }
-                // }
-                // text+="<p>Vous devez retourner les livres suivant  :  "+"<strong>" + emprunt.getExemplaire().getOuvrage().getIntituleOuvrage()  + "Indentification :  "+emprunt.getExemplaire().getReferenceInterne()+"</strong>"+ "\n" +
                 text += "<p class='row'>" +
-                        "<p class='red-text'><strong>Pas d'inquietude, vous pouvez vous répositionner des a présent afin de reserver a nouveau votre ouvrage</strong>" + "\n" + "</p>" +
+                        "<p class='red-text'><strong>Pas d'inquietude, vous pouvez vous repositionner des a présent afin de reserver a nouveau votre ouvrage</strong>" + "\n" + "</p>" +
                          "<p class='card-head alert-info'>L'equipe oc Classbook</p>" +
                         "</p>" +
                         "</div>" +

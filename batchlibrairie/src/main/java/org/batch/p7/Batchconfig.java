@@ -18,11 +18,11 @@ import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 public class Batchconfig {
 
 
-        @Autowired
-        private JobBuilderFactory jobs;
+    @Autowired
+    private JobBuilderFactory jobs;
 
-        @Autowired
-        private StepBuilderFactory steps;
+    @Autowired
+    private StepBuilderFactory steps;
 
     @Bean
     public Step stepOne(){
@@ -81,11 +81,11 @@ public class Batchconfig {
     public Job demoJob(){
         return jobs.get("demoJob")
                 .incrementer(new RunIdIncrementer())
-               .start(stepTwo())
-      //          .next(stepOne())
-       //         .next(stepFour())
-         //       .next(stepThree())
-          //      .next(stepSix())
+                .start(stepTwo())
+           //     .next(stepOne())
+                .next(stepFour())
+                .next(stepThree())
+                .next(stepSix())
                 .next(stepSeven())
                 .next(stepEight())
                 .build();

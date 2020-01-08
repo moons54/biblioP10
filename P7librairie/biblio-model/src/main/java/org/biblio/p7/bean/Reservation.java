@@ -17,6 +17,15 @@ public class Reservation {
     public Reservation() {
     }
 
+    public Reservation(int iD, Date dateDemande, Boolean notification, Date dateNotification, Ouvrage ouvrage, Lecteur lecteur) {
+        this.iD = iD;
+        this.dateDemande = dateDemande;
+        this.notification = notification;
+        this.dateNotification = dateNotification;
+        this.ouvrage = ouvrage;
+        this.lecteur = lecteur;
+    }
+
     public Reservation(int iD) {
         this.iD = iD;
     }
