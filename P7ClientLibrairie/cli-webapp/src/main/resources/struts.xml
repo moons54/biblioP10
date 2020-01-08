@@ -109,6 +109,9 @@
             <result>jsp/login/detailutilisateur.jsp</result>
         </action>
 
+
+
+
         <action name="utilisateur_supp"
                 class="action.LoginAction"
                 method="doSupp">
@@ -187,6 +190,16 @@
             <result>jsp/ouvrage/detailouvrage.jsp</result>
         </action>
 
+        <action name="detail_en_attente"
+                class="action.OuvrageAction"
+                method="dodetailouvrageattente">
+            <interceptor-ref name="store">
+                <param name="operationMode">RETRIEVE</param>
+            </interceptor-ref>
+            <interceptor-ref name="defaultStack"></interceptor-ref>
+            <result>jsp/ouvrage/detailouvrageenattente.jsp</result>
+        </action>
+
         <action name="detail_exemplaire"
                 class="action.OuvrageAction"
                 method="dodetailExmplaire">
@@ -206,9 +219,18 @@
             </result>
         </action>
 
-        <!-- Action "reservation" -->
+        <!-- Action "emprunt" -->
         <action name="nreservation" class="action.EmpruntAction" method="doemprunt">
             <result name="input">jsp/login/reservation.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">monprofil</param>
+                <param name="idutilisateur">${#session.user.id}</param>
+            </result>
+        </action>
+        <!--CORRECTED TICKET 1-->
+        <!-- Action "reservation " -->
+        <action name="nreserv" class="action.EmpruntAction" method="doresa">
+            <result name="input">jsp/login/detailouvrageenattente.jsp</result>
             <result name="success" type="redirectAction">
                 <param name="actionName">monprofil</param>
                 <param name="idutilisateur">${#session.user.id}</param>
@@ -226,6 +248,12 @@
             <result name="success">jsp/ouvrage/listeouvrage.jsp</result>
         </action>
 
+        <action name="annule_reservation" class="action.EmpruntAction" method="doresaannulation">
+        <result name="input">jsp/profil/profil.jsp</result>
+        <result name="success" type="redirectAction">
+            <param name="actionName">monprofil</param>
+            <param name="idutilisateur">${#session.user.id}</param>
+        </result></action>
 
     </package>
 

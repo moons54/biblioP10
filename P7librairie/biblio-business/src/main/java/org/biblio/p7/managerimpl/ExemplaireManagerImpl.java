@@ -55,4 +55,52 @@ public class ExemplaireManagerImpl extends AbstractManagerImpl implements Exempl
     public Exemplaire changestatusexemplaire(Exemplaire exemplaire) {
         return getDaoFactory().getExemplaireDao().changestatusexemplaire(exemplaire);
     }
+
+    //CORRECTED TICKET 1
+
+    /**
+     * ajout de la methode compte exemplaire par ouvrage
+     *
+     * @param numexemplaire
+     * @return
+     */
+    @Override
+    public int getCountExemplaire(Exemplaire numexemplaire) {
+        return getDaoFactory().getExemplaireDao().getCountExemplaire(numexemplaire);
+    }
+
+    //TODO creer une methode permettant de passer en boucle les exemplaires disponibles
+    //via true / false
+    //true etant livre indisponible
+    //false etant livre disponible
+
+
+public boolean etatStatus(int ouvrageid){
+    boolean etatStatus=false;
+
+//CORRECTED TICKET 1
+    /**
+     * on appel la methode rechercherlisteexemplaire
+     * pour lequel nous selectionnons uniquement les ouvrages disponible
+     * Si la liste est superieur a une ligne alors le l'ouvrage peut
+     * être réservé
+     */
+    List<Exemplaire> exemplaireList=getDaoFactory().getExemplaireDao().rechercherlisteExemplaire(ouvrageid);
+   /* for (int i = 0; i < exemplaireList.size(); i++) {
+        if (exemplaireList.get(i).getStatus()=="1"|exemplaireList.get(i).getStatus()==null){
+            etatStatus=false;
+        }
+        else {
+            etatStatus=true;
+        }*/
+
+   if (exemplaireList.size()<1) etatStatus=true;
+
+    return etatStatus;
+}
+
+    @Override
+    public List<Exemplaire> getExemplaireRendus() {
+        return getDaoFactory().getExemplaireDao().getExemplaireRendus();
+    }
 }

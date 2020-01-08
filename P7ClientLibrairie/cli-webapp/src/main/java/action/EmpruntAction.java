@@ -1,7 +1,6 @@
 package action;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.struts2.ServletActionContext;
@@ -19,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EmpruntAction extends ActionSupport implements SessionAware {
 
@@ -59,6 +59,12 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     private Date dateDemande;
     private Boolean notification;
     private Date dateNotification;
+    private Integer ouvrageid;
+    private Boolean controlereservable;
+    private Integer nombreOuvrageAttente;
+    private String message;
+    private Date dateRetour;
+    private XMLGregorianCalendar dteretour;
 
 
     private Ouvrage ouvrage;
@@ -74,13 +80,13 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
     private Bibliotheque bibliotheque;
     private List<Bibliotheque> bibliothequeList;
     private List<Ouvrage> ouvrageList;
-    private List<Exemplaire> exemplaireList;
+    private List<Exemplaire> exemplaireList=new ArrayList<>();
     private List<Editeur> editeurList;
     private List<Auteur> auteurList;
     private List<OuvrageGenre> ouvrageGenreList;
-    List<Emprunt> empruntList;
-    List<Reservation> reservationList;
-
+    List<Emprunt> empruntList=new ArrayList<>();
+    List<Reservation> reservationList=new ArrayList<>();
+    List<Reservation> filedattente=new ArrayList<>();
 
 
 
@@ -350,6 +356,61 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         this.reservation = reservation;
     }
 
+    public Integer getOuvrageid() {
+        return ouvrageid;
+    }
+
+    public void setOuvrageid(Integer ouvrageid) {
+        this.ouvrageid = ouvrageid;
+    }
+
+    public Boolean getControlereservable() {
+        return controlereservable;
+    }
+
+    public void setControlereservable(Boolean controlereservable) {
+        this.controlereservable = controlereservable;
+    }
+
+    public Integer getNombreOuvrageAttente() {
+        return nombreOuvrageAttente;
+    }
+
+    public void setNombreOuvrageAttente(Integer nombreOuvrageAttente) {
+        this.nombreOuvrageAttente = nombreOuvrageAttente;
+    }
+
+    public List<Reservation> getFiledattente() {
+        return filedattente;
+    }
+
+    public void setFiledattente(List<Reservation> filedattente) {
+        this.filedattente = filedattente;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Date getDateRetour() {
+        return dateRetour;
+    }
+
+    public void setDateRetour(Date dateRetour) {
+        this.dateRetour = dateRetour;
+    }
+
+    public XMLGregorianCalendar getDteretour() {
+        return dteretour;
+    }
+
+    public void setDteretour(XMLGregorianCalendar dteretour) {
+        this.dteretour = dteretour;
+    }
     //LES METHODES
 
     String doemprunbyid(){
@@ -390,13 +451,20 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
             coordonnees=por.recherchercoordonnee(lecteur.getId());
             empruntList=por3.afficherlesempruntsparLecteur(lecteur.getId());
 
+
         }
         return resultat;
     }
 
-    public String doresa(){
-        final DateTime now=new DateTime();
+    //CORRECTED TICKET 1
 
+    /**
+     * Creation de la methode permettant de creer une reservation
+     * @return
+     */
+    public String doresa() {
+        final DateTime now = new DateTime();
+//por4.attribuerUneReservation();
         LOGGER.info("dans la methode reservation");
         LocalDateTime currentTime = LocalDateTime.now();
 
@@ -411,43 +479,108 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         }
 
         String vresult = ActionSupport.INPUT;
-        if(this.reservation!=null) {
+        if (this.reservation != null) {
             if (this.reservation.getOuvrage().getID() == 0) {
                 this.addActionError("erreur");
             } else {
 
             }
-            {
-                if (!this.hasErrors()) {
-                    try {
-                        reservation.setDateDemande(datefin);
-                        reservation.setLecteur(this.reservation.getLecteur());
-                        reservation.setOuvrage(this.ouvrage);
 
-                        por4.ajouterunereservation(reservation);
+            if (!this.hasErrors()) {
+                try {
 
-                        vresult = ActionSupport.SUCCESS;
-                    } catch (Exception e) {
-                        vresult = ActionSupport.ERROR;
-                    }
-                } else {
-                    lecteur = por.rechercher(idutilisateur);
-                    ouvrage = por2.rechercherparOuvrage(ouvrage.getIntituleOuvrage());
+                    //   reservation.setDateDemande(datefin);
+                    reservation.setNotification(false);
+                    reservation.setDateNotification(datefin);
+                    reservation.setLecteur(this.reservation.getLecteur());
+                    reservation.setOuvrage(this.reservation.getOuvrage());
+
+                    por4.addreservation(this.reservation);
+
+                    vresult = ActionSupport.SUCCESS;
+                } catch (Exception e) {
+                    vresult = ActionSupport.ERROR;
                 }
+            }
+        } else {
+            lecteur = por.rechercher(idutilisateur);
+            ouvrage = por2.rechercherparId(ouvrageid);
+            nombreOuvrageAttente = reservationList.size();
 
+            //On crée une liste de toutes les reservations
+            List<Reservation> listerlesreservation = por4.listerlesreservation();
+
+            //on crée une liste des tous les exemplaires
+            List<Exemplaire> afficherExemplaire = por2.afficherExemplaire();
+
+
+            //on crée une liste de tous les emprunts
+            List<Emprunt> afficherlesemprunts = por3.afficherlesemprunts();
+
+
+            //Passe d'une double boucle ayant pour objet la selection de tous les exemplaires d'un ouvrage
+            for (int i = 0; i < afficherExemplaire.size(); i++) {
+                if (afficherExemplaire.get(i).getOuvrage().getID() == ouvrage.getID()) {
+                    exemplaireList.add(afficherExemplaire.get(i));
+                }
+            }
+            for (int i = 0; i < listerlesreservation.size(); i++) {
+                if (listerlesreservation.get(i).getOuvrage().getID() == ouvrage.getID()) {
+                    reservationList.add(listerlesreservation.get(i));
+                }
+            }
+
+
+            //CORRECTED TICKET 1
+            /*
+            Boucle permettant de vériier que le nombre de reservation soit infèrieur a 2 fois le nombre d'exemplaire
+            Regle de gestion Ticket 1
+             */
+            if (reservationList.size() < 2 * exemplaireList.size()) {
+                controlereservable = true;
+                filedattente = reservationList.stream()
+                       .collect(Collectors.toList());
+                nombreOuvrageAttente = filedattente.size();
+                empruntList = por3.afficherlesemprunts();
+
+                XMLGregorianCalendar dteretourtemp = por3.listerlesEmpruntParDateFin(ouvrageid).get(0).getDateFin();
+
+                dteretour = dteretourtemp;
+
+            } else {
+                controlereservable = false;
+                message = "Liste d'attente importante actuellement, reessayez plus tard";
+            }
+
+            //CORRECTED TICKET 1
+            /*
+              Boucle permettant de controler que le lecteur ne puisse réserver un ouvrage qu’il a déjà en cours d’emprunt
+              Regle de gestion Ticket 1
+           */
+            empruntList = por3.afficherlesemprunts();
+            for (Emprunt emprunt : empruntList
+            ) {
+                if (emprunt.getLecteur().getId() == lecteur.getId()) {
+                    if (emprunt.getExemplaire().getOuvrage().getID() == ouvrage.getID()) {
+                        controlereservable = false;
+                        message="vous êtes en possession d'un exemplaire actuellement";
+                        System.out.println("valeur de controlersv"+controlereservable.toString());
+                    }
+                }
             }
         }
-                return vresult;
 
-
-
+        return vresult;
     }
+
 
     public String doresabyid(){
         LOGGER.info("dans la methode doresa");
         reservationList = por4.listerlesreservationparouvrage(id);
         return ActionSupport.SUCCESS;
     }
+
+
 
     public String doemprunt()
     {
@@ -469,9 +602,6 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-
-        // Emprunt emprunt=new Emprunt();
-
         String vresult = ActionSupport.INPUT;
 
         //condition validant l'ajout de formulaire
@@ -566,4 +696,12 @@ public class EmpruntAction extends ActionSupport implements SessionAware {
         }
         return vresult;
     };
+
+    public String doresaannulation(){
+        por4.supprimerunereservation(id);
+        return ActionSupport.SUCCESS;
+    };
+
+
+
 }

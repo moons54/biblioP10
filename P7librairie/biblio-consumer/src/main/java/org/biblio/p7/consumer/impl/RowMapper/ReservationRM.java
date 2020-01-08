@@ -21,7 +21,7 @@ public class ReservationRM implements RowMapper<Reservation> {
 
         //insertion du resultat d'un ouvrage
         OuvrageDaoImpl ouvrageDao=new OuvrageDaoImpl();
-        reservation.setOuvrage(ouvrageDao.afficherOuvrage().get(rs.getInt("ouvrageid")));
+        reservation.setOuvrage(ouvrageDao.rechercherparId(rs.getInt("ouvrageid")));
 
 
         //insertion du resultat d'un lecteur

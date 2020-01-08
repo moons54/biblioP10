@@ -24,7 +24,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public void ajouterunereservation(Reservation reservation) {
-getManagerFactory().getReservationManager().ajouterunereservation(reservation);
+    getManagerFactory().getReservationManager().ajouterunereservation(reservation);
     }
 
     @Override
@@ -44,6 +44,39 @@ getManagerFactory().getReservationManager().ajouterunereservation(reservation);
 
     @Override
     public List<Reservation> listerlesreservationparouvrage(int iD) {
-        return getManagerFactory().getReservationManager().listerlesreservationparlecteur(iD);
+        return getManagerFactory().getReservationManager().listerlesreservationparouvrage(iD);
+    }
+
+
+    //CORRECTED TICKET 1 Ajout de la methode ajout d'une reservation
+    @Override
+    public Reservation addreservation(Reservation reservation) {
+        return getManagerFactory().getReservationManager().addreservation(reservation);
+    }
+
+
+    @Override
+    public boolean controlereservation(Reservation reservation) {
+        return getManagerFactory().getReservationManager().controlereservation(reservation);
+    }
+
+    @Override
+    public List<Reservation> listerlesreservationsparordre(int iD) {
+        return getManagerFactory().getReservationManager().listerlesreservationsparordre(iD);
+    }
+
+    @Override
+    public Reservation attribuerUneReservation() {
+        return getManagerFactory().getReservationManager().attribuerUneReservation();
+    }
+
+    @Override
+    public List<Reservation> AnnulerlesReservations() {
+        return getManagerFactory().getReservationManager().AnnulerlesReservations();
+    }
+
+    @Override
+    public List<Reservation> SupprimerLesReservation() {
+        return getManagerFactory().getReservationManager().SupprimerLesReservation();
     }
 }

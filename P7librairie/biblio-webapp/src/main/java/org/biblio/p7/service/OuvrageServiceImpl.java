@@ -174,6 +174,17 @@ managerFactory.getOuvrageManager().supprimerOuvrage(id);
         return managerFactory.getOuvrageManager().rechercheparISBN(isbn);
     }
 
+    //CORRECTED TICKET 1
+
+    /**
+     * nous ajoutons la methode recherchebyid pour les ouvrages
+     * @param iD
+     * @return
+     */
+    @Override
+    public Ouvrage rechercherparId(Integer iD) {
+        return managerFactory.getOuvrageManager().rechercherparId(iD);
+    }
 
     @Override
     public List<OuvrageGenre> multicriterouvgenre(Integer id){
@@ -201,5 +212,24 @@ managerFactory.getOuvrageManager().supprimerOuvrage(id);
     @Override
     public Exemplaire changestatusexemplaire(Exemplaire exemplaire){
          return managerFactory.getExemplaireManager().changestatusexemplaire(exemplaire);
-    };
+    }
+
+
+    //CORRECTED TICKET 1
+
+    /**
+     * Ajout de la methode webservice pour compter les exemplaires d'un ouvrage
+     *
+     * @param numexemplaire
+     * @return
+     */
+    @Override
+    public int getCountExemplaire(Exemplaire numexemplaire) {
+        return managerFactory.getExemplaireManager().getCountExemplaire(numexemplaire);
+    }
+
+    @Override
+    public boolean etatStatus(Integer ouvrageid){
+        return managerFactory.getExemplaireManager().etatStatus(ouvrageid);
+    }
 }

@@ -30,6 +30,8 @@ public abstract class AbstractDaoimpl {
         AbstractDaoimpl.dataSource = dataSource;
     }
 
-
+    public JdbcTemplate getJdbcTemplate() {
+        return new JdbcTemplate(getDataSource());
+    }
 }
 

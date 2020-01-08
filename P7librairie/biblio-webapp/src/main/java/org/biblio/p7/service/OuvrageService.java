@@ -97,6 +97,8 @@ public interface OuvrageService {
     @WebMethod
     public Ouvrage rechercherparISBN(@WebParam(name = "isbn") String isbn);
 
+    @WebMethod
+    public Ouvrage rechercherparId(@WebParam(name = "id") Integer iD);
 
     @WebMethod
     public List<Exemplaire> ListerlesExemplairesparintitule(@WebParam(name ="ouvrageid" ) Integer ouvrageid);
@@ -118,4 +120,12 @@ public interface OuvrageService {
 
     @WebMethod
     public Exemplaire changestatusexemplaire(Exemplaire exemplaire);
+
+
+    @WebMethod
+    public int getCountExemplaire(Exemplaire numexemplaire);
+
+    @WebMethod
+    public boolean etatStatus(@WebParam(name = "ouvrageid") Integer ouvrageid);
+
 }

@@ -129,6 +129,25 @@
                     <goal>wsdl2java</goal>
                 </goals>
             </execution>
+            <execution>
+                <id>generate-sources_Reservation</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                    <wsdlRoot>${basedir}/src/main/resources/wsdl</wsdlRoot>
+                    <wsdlOptions>
+                        <wsdlOption>
+                            <!--                                    <wsdl>${basedir}/src/main/resources/wsdl/OuvrageService.wsdl</wsdl>-->
+                            <wsdl>http://localhost:8080/biblio_webapp_war_exploded/services/ReservationService?wsdl</wsdl>
+                            <extraargs>
+                                <extraarg>-client</extraarg>
+                            </extraargs>
+                        </wsdlOption>
+                    </wsdlOptions>
+                </configuration>
+                <goals>
+                    <goal>wsdl2java</goal>
+                </goals>
+            </execution>
         </executions>
         </plugin>
         </plugins>

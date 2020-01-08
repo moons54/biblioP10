@@ -27,11 +27,19 @@
         var dateLocale = new Date(dateTemp).toLocaleDateString();
         document.write(dateLocale);
     }
+
+    function getretourprevu1() {
+        let dateTemp1 = '<s:property value="dteretour"/>';
+        var dateLocale3 = new Date(dateTemp1).toLocaleDateString();
+        document.write(dateLocale3);
+    }
+
+
 </script>
 <link href="css/profilUtilisateur.css" rel="stylesheet">
 <div class="ami_decal container-fluid">
     <div class="row container-fluid">
-         <div class="col-md-3 col-lg-3">
+        <div class="col-md-3 col-lg-3">
             <div class="card">
                 <div class="card-header">
                     <h3> <i class="far fa-address-card fa-2x"> Mes Données</i></h3>
@@ -51,37 +59,37 @@
                 <h3><i class="fas fa-book fax-2x"></i>Historique de mes lectures</h3>
                 <table class="table table-striped table-borderHd table-hover exemple1" style="width:100%" >
                     <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Ouvrage</th>
-                            <th scope="col">Editeur</th>
-                            <th scope="col">Auteur</th>
-                            <th scope="col">Date d'emprunt</th>
-                            <th scope="col">Ref ISBN</th>
-                            <th scope="col">Description</th>
-                        </tr>
+                    <tr>
+                        <th scope="col">Ouvrage</th>
+                        <th scope="col">Editeur</th>
+                        <th scope="col">Auteur</th>
+                        <th scope="col">Date d'emprunt</th>
+                        <th scope="col">Ref ISBN</th>
+                        <th scope="col">Description</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <s:iterator value="empruntList">
-                            <script>function getdemprunt() {
-                                let dateTemp1 = '<s:property value="%{dateDebut}"/>';
-                                var dateLocale2 = new Date(dateTemp1).toLocaleDateString();
-                                console.log("valeur date "+dateTemp1)
-                                document.write(dateLocale2);
-                            }</script>
-                                <tr>
-                                    <th scope="row"><s:property value="exemplaire.ouvrage.intituleOuvrage"/> </th>
-                                        <s:iterator value="exemplaire.ouvrage.editeurs">
-                                            <td><s:property value="intituleEditeur"/></td>
-                                        </s:iterator>
-                                    <td><s:property value="exemplaire.ouvrage.auteur.intituleAuteur"/></td>
-                                    <td><script>getdemprunt()</script></td>
-                                    <td><s:property value="exemplaire.ouvrage.isbn"/></td>
-                                    <td> <s:a action="detail_livre">
-                                        <s:param name="numISBN" value="exemplaire.ouvrage.isbn"/>
-                                        <u>detail</u>
-                                    </s:a></td>
-                                </tr>
-                        </s:iterator>
+                    <s:iterator value="empruntList">
+                        <script>function getdemprunt() {
+                            let dateTemp1 = '<s:property value="%{dateDebut}"/>';
+                            var dateLocale2 = new Date(dateTemp1).toLocaleDateString();
+                            console.log("valeur date "+dateTemp1)
+                            document.write(dateLocale2);
+                        }</script>
+                        <tr>
+                            <th scope="row"><s:property value="exemplaire.ouvrage.intituleOuvrage"/> </th>
+                            <s:iterator value="exemplaire.ouvrage.editeurs">
+                                <td><s:property value="intituleEditeur"/></td>
+                            </s:iterator>
+                            <td><s:property value="exemplaire.ouvrage.auteur.intituleAuteur"/></td>
+                            <td><script>getdemprunt()</script></td>
+                            <td><s:property value="exemplaire.ouvrage.isbn"/></td>
+                            <td> <s:a action="detail_livre">
+                                <s:param name="numISBN" value="exemplaire.ouvrage.isbn"/>
+                                <u>detail</u>
+                            </s:a></td>
+                        </tr>
+                    </s:iterator>
                     </tbody>
                 </table>
             </div>
@@ -106,45 +114,88 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <s:iterator value="empruntencours">
-                        <script>
-                            function getdemprunt() {
-                        let dateTemp1 = '<s:property value="%{dateDebut}"/>';
-                        var dateLocale2 = new Date(dateTemp1).toLocaleDateString();
-                        document.write(dateLocale2);
+                <s:iterator value="empruntencours">
+                    <script>
+                        function getdemprunt() {
+                            let dateTemp1 = '<s:property value="%{dateDebut}"/>';
+                            var dateLocale2 = new Date(dateTemp1).toLocaleDateString();
+                            document.write(dateLocale2);
                         }
 
-                            function getretourprevu() {
-                                let dateTemp1 = '<s:property value="%{dateFin}"/>';
-                                var dateLocale3 = new Date(dateTemp1).toLocaleDateString();
-                                document.write(dateLocale3);
-                            }
-                        </script>
-                            <tr>
-                                <th scope="row">
-                                        <strong><s:property value="exemplaire.ouvrage.intituleOuvrage"/></strong></th>
-                                <td><script>getdemprunt()</script></td>
-                                <td><script>getretourprevu()</script></td>
-                                <td><s:if test="%{renouvellement==false}">
+                        function getretourprevu() {
+                            let dateTemp1 = '<s:property value="%{dateFin}"/>';
+                            var dateLocale3 = new Date(dateTemp1).toLocaleDateString();
+                            document.write(dateLocale3);
+                        }
+                    </script>
+                    <tr>
+                        <th scope="row">
+                            <strong><s:property value="exemplaire.ouvrage.intituleOuvrage"/></strong></th>
+                        <td><script>getdemprunt()</script></td>
+                        <td><script>getretourprevu()</script></td>
+                        <td><s:if test="%{renouvellement==false}">
 
-                                    <s:if test="%{situationEmprunt.situation=='En cours'}">
-                                        <s:a action="emprunt_mod">
-                                            <s:param name="numISBN" value="exemplaire.ouvrage.isbn"/>
-                                            <s:param name="id" value="exemplaire.ID"/>
-                                            <s:param name="numemprunt" value="ID"/> Prolonger votre emprunt
-                                        <s:param name="idutilisateur" value="idutilisateur"/></s:a>
-                                    </s:if>
-                                </s:if>
-                                    <s:else>Déja prolongé</s:else>
-                                </td></td>
-                                <td>
-                                <s:if test="%{situationEmprunt.situation=='Non rendus à temps'}">
-                                    <i class="fas fa-info-circle fa-1x altColor">  votre delais d'emprunt est dépassé merci de nous contacter</i>
-                                    </s:if>
-                                    <s:else><s:property value="situationEmprunt.situation"/></s:else>
-                                    </td>
-                            </tr>
-                    </s:iterator>
+                            <s:if test="%{situationEmprunt.situation=='En cours'}">
+                                <s:a action="emprunt_mod">
+                                    <s:param name="numISBN" value="exemplaire.ouvrage.isbn"/>
+                                    <s:param name="id" value="exemplaire.ID"/>
+                                    <s:param name="numemprunt" value="ID"/> Prolonger votre emprunt
+                                    <s:param name="idutilisateur" value="idutilisateur"/></s:a>
+                            </s:if>
+                        </s:if>
+                            <s:else>Déja prolongé</s:else>
+                        </td></td>
+                        <td>
+                            <s:if test="%{situationEmprunt.situation=='Non rendus à temps'}">
+                                <i class="fas fa-info-circle fa-1x altColor">  votre delais d'emprunt est dépassé merci de nous contacter</i>
+                            </s:if>
+                            <s:else><s:property value="situationEmprunt.situation"/></s:else>
+                        </td>
+                    </tr>
+                </s:iterator>
+                </tbody>
+            </table>
+            <table class="table table-striped table-bordered table-hover exemple1" style="width: 100%">
+                <h3>Mes livres Reservés</h3>
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Livres en attente</th>
+                    <th scope="col">Date de demande</th>
+                    <th scope="col">Date de retour prévue</th>
+                    <th scope="col">Etat de la demande</th>
+                    <th scope="col">Action</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <s:iterator value="reservationList">
+<script>
+    function getdatededemande() {
+        let dateTemp1 = '<s:property value="dateDemande"/>';
+        var dateLocale3 = new Date(dateTemp1).toLocaleDateString();
+        document.write(dateLocale3);
+    }
+</script>
+                    <tr>
+                    <th scope="row">
+                        <strong><s:property value="ouvrage.intituleOuvrage"/></strong></th>
+<%--                    <td><s:property value="dateDemande"/></td>--%>
+
+<td><script>getdatededemande()</script></td>
+                            <td><script>getretourprevu1()</script></td>
+
+                      <td>  <s:if test="%{dateNotification!=Null}">
+                            Vite ! Votre livre vous attend !
+                      </s:if><s:else>Livre en cours d'emprunt</s:else></td>
+                   <%-- <td><s:property value="dateNotification"/></td>--%>
+                    <td><s:a action="annule_reservation">
+                        <s:param name="id" value="ID"/>Annuler la reservation </s:a></td>
+                </tr>
+                </s:iterator>
+
+
+
+
                 </tbody>
             </table>
         </div>

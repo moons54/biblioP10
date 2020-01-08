@@ -47,4 +47,7 @@ public interface EmpruntManager {
     public List<Emprunt> afficherlesempruntsenretarparLecteur(Integer iD);
 
     public List<Emprunt> regrouperlesempruntsenretard();
+
+    public List<Emprunt> listerlesEmpruntParDateFin(int iD);
+
 }
