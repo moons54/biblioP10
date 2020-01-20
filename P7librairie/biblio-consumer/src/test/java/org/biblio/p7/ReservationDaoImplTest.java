@@ -48,16 +48,23 @@ public class ReservationDaoImplTest {
     }
 
     @Test
-    public Reservation addReservationTest(){
-       // Reservation reservation=jeureservation();
-
-        return null;
+    public void ListerlesReservationparLecteur(){
+        List<Reservation> reservationListTest=reservationDao.listerlesreservationparlecteur(1);
+        Assert.assertEquals(true,reservationListTest.get(0).getNotification().booleanValue());
     }
 
     @Test
-    public void ListerlesReservationparLecteur(){
-       List<Reservation> reservationListTest=reservationDao.listerlesreservationparlecteur(1);
+    public void listerlesreservationparouvrage(){
+        List<Reservation> reservationListTest=reservationDao.listerlesreservationparouvrage(1);
         Assert.assertEquals(true,reservationListTest.get(0).getNotification().booleanValue());
+    }
+
+
+   @Test
+   public void addReservationTest(){
+        Reservation reservation=jeureservation();
+        reservationDao.addreservation(reservation);
+        Assert.assertEquals("true",reservationDao.listerlesreservations().get(1).getNotification().toString());
     }
 
     public Reservation jeureservation() {
@@ -71,12 +78,22 @@ public class ReservationDaoImplTest {
             return null;
         }
 
-        public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(){
+
+        public NamedParameterJdbcTemplate getNameParameterJdbcTemplate() {
             return null;
         }
 
-        public MapSqlParameterSource getMapSqlParameterSource(){
+
+       public MapSqlParameterSource getMapSqlParameterSource(){
             return null;
+        }
+
+
+        @Override
+        protected void addreservationQuery(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, String querySqlAjoutReservation) {
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+
         }
 
         @Override
@@ -85,11 +102,50 @@ public class ReservationDaoImplTest {
             lecteur.setId(1);
             Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
             lecteur.setId(3);
-            Reservation reservation2 = new Reservation(4, new Date(), false, new Date(), ouvrage, lecteur);
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
             reservationList.add(reservation);
             reservationList.add(reservation2);
             return reservationList;
         }
+
+        @Override
+        public List<Reservation> getQueryListerLesReservationParLecteur(JdbcTemplate jdbcTemplate, ReservationRM reservationRM) {
+            List<Reservation> reservationList=new ArrayList<>();
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+            lecteur.setId(3);
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
+            reservationList.add(reservation);
+            reservationList.add(reservation2);
+            return reservationList;
+        }
+
+
+        @Override
+        public List<Reservation> getQueryListerLesReservationParOuvrage(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, ReservationRM reservationRM) {
+            List<Reservation> reservationList=new ArrayList<>();
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+            lecteur.setId(3);
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
+            reservationList.add(reservation);
+            reservationList.add(reservation2);
+            return reservationList;
+        }
+
+        @Override
+        public List<Reservation> getQueryListerLesReservationParPriorite(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, ReservationRM reservationRM) {
+            List<Reservation> reservationList=new ArrayList<>();
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+            lecteur.setId(3);
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
+            reservationList.add(reservation);
+            reservationList.add(reservation2);
+            return reservationList;
+        }
+
+
     }
 }
 

@@ -33,5 +33,7 @@ public abstract class AbstractDaoimpl {
     public JdbcTemplate getJdbcTemplate() {
         return new JdbcTemplate(getDataSource());
     }
+
+    public NamedParameterJdbcTemplate getNameParameterJdbcTemplate(){return new NamedParameterJdbcTemplate(getDataSource());}
 }
 
