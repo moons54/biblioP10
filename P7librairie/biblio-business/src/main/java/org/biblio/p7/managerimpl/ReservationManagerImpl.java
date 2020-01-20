@@ -23,9 +23,7 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
         cal.add(Calendar.DAY_OF_MONTH, nbJour);
         return cal.getTime();
     }
-public static final Date DATE_JOUR= new Date();
-//public static final LocalDate DATE_48;
-//public static final Date DATE_48H= new Date()-DATE_JOUR.toInstant().get(DATE_JOUR);
+    public static final Date DATE_JOUR= new Date();
 
     @Override
     public List<Reservation> Listerlesreservation() {
@@ -98,7 +96,7 @@ public static final Date DATE_JOUR= new Date();
         List<Reservation> filedattente = getDaoFactory().getReservationDao().listerlesreservationparouvrage(iD);
 
 
-     //   Collections.sort(filedattente, Reservation.comparatorDatedemande);
+        //   Collections.sort(filedattente, Reservation.comparatorDatedemande);
         //  };
         return filedattente;
     }
@@ -109,15 +107,15 @@ public static final Date DATE_JOUR= new Date();
     @Override
     public Reservation attribuerUneReservation() {
 
-       List<Exemplaire> exemplaireList=getDaoFactory().getExemplaireDao().getExemplaireRendus();
+        List<Exemplaire> exemplaireList=getDaoFactory().getExemplaireDao().getExemplaireRendus();
         for(Exemplaire exemplaire:exemplaireList) {
             //TODO si reservation disponible mais il y a une resa en cours mettre etat rendu
-                List<Reservation> reservationList = listerLesReservationParPriorite(exemplaire.getOuvrage().getiD());
-                for (Reservation reservation: reservationList) {
-if (reservation.getDateNotification()==null) {
-    reservation.setDateNotification(new Date());
-    getDaoFactory().getReservationDao().modifieReservation(reservation);
-}}
+            List<Reservation> reservationList = listerLesReservationParPriorite(exemplaire.getOuvrage().getiD());
+            for (Reservation reservation: reservationList) {
+                if (reservation.getDateNotification()==null) {
+                    reservation.setDateNotification(new Date());
+                    getDaoFactory().getReservationDao().modifieReservation(reservation);
+                }}
         }
         return null;
     }
@@ -125,9 +123,9 @@ if (reservation.getDateNotification()==null) {
 
     @Override
     public List<Reservation> listerLesReservationParPriorite(int iD) {
-       List<Reservation> reservationList= getDaoFactory().getReservationDao().listerLesReservationParPriorite(iD);
+        List<Reservation> reservationList= getDaoFactory().getReservationDao().listerLesReservationParPriorite(iD);
 
-       Collections.sort(reservationList,Reservation.comparatorDatedemande);
+        Collections.sort(reservationList,Reservation.comparatorDatedemande);
 
         List<Reservation> reservationList1=reservationList.stream()
                 .limit(1)
@@ -141,17 +139,17 @@ if (reservation.getDateNotification()==null) {
         List<Exemplaire> exemplaireList = getDaoFactory().getExemplaireDao().getExemplaireRendus();
         List<Reservation> reservationList=new ArrayList<>();
         for (Exemplaire exemplaire : exemplaireList) {
-           reservationList = listerLesReservationParPriorite(exemplaire.getOuvrage().getiD());
-              for (Reservation reservation:reservationList){
-                  System.out.println("val date jour "+ajouterJour(DATE_JOUR,-2));
-                  System.out.println("val de date resa "+reservation.getDateNotification());
-                  System.out.println("val de resa id"+reservation.getiD());
-                      if (ajouterJour(DATE_JOUR,-2).after(reservation.getDateNotification())){
-                          reservation.setNotification(true);
-                          getDaoFactory().getReservationDao().modifieReservation(reservation);
+            reservationList = listerLesReservationParPriorite(exemplaire.getOuvrage().getiD());
+            for (Reservation reservation:reservationList){
+                System.out.println("val date jour "+ajouterJour(DATE_JOUR,-2));
+                System.out.println("val de date resa "+reservation.getDateNotification());
+                System.out.println("val de resa id"+reservation.getiD());
+                if (ajouterJour(DATE_JOUR,-2).after(reservation.getDateNotification())){
+                    reservation.setNotification(true);
+                    getDaoFactory().getReservationDao().modifieReservation(reservation);
 
-                      }
-              }
+                }
+            }
         }
 
 
@@ -162,7 +160,7 @@ if (reservation.getDateNotification()==null) {
     public List<Reservation> SupprimerLesReservation(){
         List<Reservation> reservationList=getDaoFactory().getReservationDao().listerLesReservationnNotifie();
         for (Reservation reservation:reservationList
-             ) {
+        ) {
             getDaoFactory().getReservationDao().supprimerReservation(reservation.getiD());
 
         }

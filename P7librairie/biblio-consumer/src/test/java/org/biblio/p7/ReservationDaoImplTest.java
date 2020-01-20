@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,9 +43,15 @@ public class ReservationDaoImplTest {
 
     @Test
     public void ListerlesReservationTest() {
-
-      List<Reservation> reservationListTest=reservationDao.listerlesreservations();
+        List<Reservation> reservationListTest=reservationDao.listerlesreservations();
       Assert.assertEquals("true",reservationListTest.get(0).getNotification().toString());
+    }
+
+    @Test
+    public Reservation addReservationTest(){
+       // Reservation reservation=jeureservation();
+
+        return null;
     }
 
     @Test
@@ -64,6 +71,10 @@ public class ReservationDaoImplTest {
             return null;
         }
 
+        public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate(){
+            return null;
+        }
+
         public MapSqlParameterSource getMapSqlParameterSource(){
             return null;
         }
@@ -75,10 +86,8 @@ public class ReservationDaoImplTest {
             Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
             lecteur.setId(3);
             Reservation reservation2 = new Reservation(4, new Date(), false, new Date(), ouvrage, lecteur);
-
             reservationList.add(reservation);
             reservationList.add(reservation2);
-
             return reservationList;
         }
     }

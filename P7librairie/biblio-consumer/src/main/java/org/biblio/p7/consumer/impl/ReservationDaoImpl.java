@@ -68,22 +68,22 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         return reservationList;
     }
 
-  /*  private static String querySqlListerLesReservationsParLecteur(){
+   private static String querySqlListerLesReservationsParLecteur(){
         return "SELECT * FROM public.reservation where lecteurid=?";
     }
 
     public List<Reservation> getQueryListerLesReservationParLecteur(JdbcTemplate jdbcTemplate,int iD,ReservationRM reservationRM){
         return jdbcTemplate.query(querySqlListerLesReservationsParLecteur(),new Object[]{iD},reservationRM);
     }
-*/
+
 
     @Override
     public List<Reservation> listerlesreservationparlecteur(int iD) {
         String vsql="SELECT * FROM public.reservation where lecteurid=?";
         JdbcTemplate jdbcTemplate= getJdbcTemplate();
         ReservationRM reservationRM=new ReservationRM();
-        List<Reservation> reservationList=jdbcTemplate.query(vsql,new Object[]{iD},reservationRM);
-  //  List<Reservation> reservationList=getQueryListerLesReservationParLecteur(jdbcTemplate,iD,reservationRM);
+//        List<Reservation> reservationList=jdbcTemplate.query(vsql,new Object[]{iD},reservationRM);
+    List<Reservation> reservationList=getQueryListerLesReservationParLecteur(jdbcTemplate,iD,reservationRM);
         return reservationList;
     }
 
