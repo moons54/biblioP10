@@ -67,6 +67,23 @@ public class ReservationDaoImplTest {
         Assert.assertEquals("true",reservationDao.listerlesreservations().get(1).getNotification().toString());
     }
 
+    @Test
+    public void annuleReservationTest(){
+        List<Reservation> reservationListTest=reservationDao.listerlesreservations();
+        reservationDao.supprimerReservation(reservationListTest.get(0).getiD());
+        Assert.assertFalse(reservationListTest.size()<1);
+    }
+
+    @Test
+    public void modifieReservationTest(){
+
+       Reservation reservation=reservationDao.listerlesreservations().get(1);
+
+       reservation.setNotification(false);
+        reservationDao.modifieReservation(reservation);
+        Assert.assertEquals("false",reservation.getNotification().toString());
+    }
+
     public Reservation jeureservation() {
         Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
         return reservation;
@@ -97,6 +114,18 @@ public class ReservationDaoImplTest {
         }
 
         @Override
+        protected void annulereservationQuery(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, String querySqlAjoutReservation) {
+            List<Reservation> reservationList=new ArrayList<>();
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+            lecteur.setId(3);
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
+            reservationList.add(reservation);
+            reservationList.add(reservation2);
+
+        }
+
+        @Override
         public List<Reservation> getQueryListerLesReservations(JdbcTemplate jdbcTemplate, ReservationRM reservationRM) {
             List<Reservation> reservationList=new ArrayList<>();
             lecteur.setId(1);
@@ -109,7 +138,7 @@ public class ReservationDaoImplTest {
         }
 
         @Override
-        public List<Reservation> getQueryListerLesReservationParLecteur(JdbcTemplate jdbcTemplate, ReservationRM reservationRM) {
+        public List<Reservation> getQueryListerLesReservationParLecteur(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, ReservationRM reservationRM) {
             List<Reservation> reservationList=new ArrayList<>();
             lecteur.setId(1);
             Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
@@ -146,6 +175,13 @@ public class ReservationDaoImplTest {
         }
 
 
+        @Override
+        protected void modifiereservationQuery(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, String querySqlAjoutReservation) {
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+
+
+        }
     }
 }
 
