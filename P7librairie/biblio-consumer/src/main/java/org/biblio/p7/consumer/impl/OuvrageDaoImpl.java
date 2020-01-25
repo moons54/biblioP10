@@ -104,7 +104,7 @@ public class OuvrageDaoImpl extends AbstractDaoimpl implements OuvrageDao {
      */
     @Override
     public Ouvrage rechercherparId(Integer id) {
-        LOGGER.info("methode recehrcer ouvrage");
+        LOGGER.info("methode rechercher ouvrage par l'id");
         String vsql = "SELECT  id,intitule_ouvrage, description, photo, num_isbn, auteurid FROM public.ouvrage WHERE id=?";
         JdbcTemplate vJdbcTemplate = new JdbcTemplate((getDataSource()));
         OuvrageRM ouvrageRM = new OuvrageRM();

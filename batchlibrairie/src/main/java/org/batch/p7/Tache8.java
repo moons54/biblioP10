@@ -49,7 +49,7 @@ public class Tache8 implements Tasklet {
 
 //CORRECTED TICKET 1
     /**
-     * nous mettons en place un mail permettant d'avertir le lecteur que son mail l'attend pdt 48H
+     * nous mettons en place un mail permettant d'avertir le lecteur que son livre l'attend pdt 48H
      * les lecteurs ayant reservé
      */
     //LIAISON AVEC WEBSERVICE EMPRUNT

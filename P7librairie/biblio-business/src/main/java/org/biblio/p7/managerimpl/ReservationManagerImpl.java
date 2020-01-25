@@ -115,7 +115,8 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
                 if (reservation.getDateNotification()==null) {
                     reservation.setDateNotification(new Date());
                     getDaoFactory().getReservationDao().modifieReservation(reservation);
-                }}
+                }
+            }
         }
         return null;
     }
@@ -130,7 +131,6 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
         List<Reservation> reservationList1=reservationList.stream()
                 .limit(1)
                 .collect(Collectors.toList());
-
         return reservationList1;
     }
 
