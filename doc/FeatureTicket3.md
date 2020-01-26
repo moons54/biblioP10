@@ -38,8 +38,8 @@ L'objectif etant de tester les méthode d'integration de la bd et de voir leur c
 | :------------: | :-------------: | :-------------: |
 |Test d'intégration |   <ul>Nous utilisons deux utilitaires afin d'effectuer nos tests unitaires </ul><ul>Postman https://www.getpostman.com/</ul> <ul>widzler qui permet directment via google chrome d'extraire la methode au format pour la transferer dans postman</ul>   |        ![Texte alternatif](images/feature3/postman.png) |
 | Test Unitaire    |   <ul>test des beans </ul> |      ![Texte alternatif](images/feature3/bean.png) |
-|      |    Test de la couche consumer en complement du test d'integration  |![Texte alternatif](images/feature3/consumer.png)<ul>Le lecteur n'a pas la possibilité de renouveler son emprunt comme initialement|
-|      |    Test de la couche business! |![Texte alternatif](images/feature3/business.png)<ul>Le lecteur n'a pas la possibilité de renouveler son emprunt comme initialement|
+|      |    Test de la couche consumer en complement du test d'integration  |![Texte alternatif](images/feature3/consumer.png)|
+|      |    Test de la couche business! |![Texte alternatif](images/feature3/business.png)|
 
 
 
