@@ -1,4 +1,4 @@
-|![Texte alternatif](images/feature3/imageiconea.jpg)|__TICKET 3 - Gestion des tests unitaires/integration__
+|![Texte alternatif](images/feature3/imageicone.jpg)|__TICKET 3 - Gestion des tests unitaires/integration__
 |:-------------------:|:-------------------:|
 
  |Objectif : Fiabiliser les evolutions. controle qualité de code|
