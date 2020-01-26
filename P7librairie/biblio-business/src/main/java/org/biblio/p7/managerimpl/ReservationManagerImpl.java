@@ -25,6 +25,11 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
     }
     public static final Date DATE_JOUR= new Date();
 
+    public ReservationManagerImpl() {
+    }
+
+
+
     @Override
     public List<Reservation> Listerlesreservation() {
         return getDaoFactory().getReservationDao().listerlesreservations();
@@ -57,21 +62,6 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
 
     @Override
     public Reservation addreservation(Reservation reservation) {
-
-       /* List<Reservation> maliste=getDaoFactory().getReservationDao().listerlesreservationparouvrage(reservation.getOuvrage().getiD());
-        List<Exemplaire> exemplaireList=getDaoFactory().getExemplaireDao().afficherExemplaire();
-        for (Exemplaire exemplaire:exemplaireList){
-            if(exemplaire.getOuvrage()!=reservation.getOuvrage()){
-                exemplaireList.remove(exemplaire);
-            }
-        }
-        System.out.println("affiche la taille de ma liste d'exemplaire"+ exemplaireList.size());
-
-
-        if (maliste.size()<3){
-
-
-        }*/
         return getDaoFactory().getReservationDao().addreservation(reservation);
     }
 
@@ -141,13 +131,9 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
         for (Exemplaire exemplaire : exemplaireList) {
             reservationList = listerLesReservationParPriorite(exemplaire.getOuvrage().getiD());
             for (Reservation reservation:reservationList){
-                System.out.println("val date jour "+ajouterJour(DATE_JOUR,-2));
-                System.out.println("val de date resa "+reservation.getDateNotification());
-                System.out.println("val de resa id"+reservation.getiD());
                 if (ajouterJour(DATE_JOUR,-2).after(reservation.getDateNotification())){
                     reservation.setNotification(true);
                     getDaoFactory().getReservationDao().modifieReservation(reservation);
-
                 }
             }
         }
