@@ -139,7 +139,7 @@ public class Tache1 implements Tasklet {
                 email.send();
 
             } catch (EmailException e) {
-                // TODO Auto-generated catch block
+
                 System.out.println("Unable to send an email" + e.getMessage());
             }
         }

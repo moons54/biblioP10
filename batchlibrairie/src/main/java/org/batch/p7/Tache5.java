@@ -91,10 +91,10 @@ public class Tache5 implements Tasklet {
 
         }
         for (Lecteur lecteur: lecteurList1){
-            System.out.println("liste des reservation en cours"+lecteur.getNom());
+
             List<Reservation> reservationList1=por4.listerlesreservationparlecteur(lecteur.getId());
 
-             reservationList=reservationList1.stream()
+            reservationList=reservationList1.stream()
                     .filter(x->x.getDateNotification()!=null)
                     .collect(Collectors.toList());
 

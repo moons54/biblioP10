@@ -1,6 +1,5 @@
 package org.biblio.p7;
 
-
 import org.biblio.p7.bean.Lecteur;
 import org.biblio.p7.bean.Ouvrage;
 import org.biblio.p7.bean.Reservation;
@@ -10,17 +9,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReservationTest {
-
-
 
     List<Reservation> reservationList=new ArrayList<>();
 
@@ -50,6 +44,7 @@ public class ReservationTest {
 
     @Test
     public void ReservationTest_controledesSetter(){
+
         Reservation reservationTest3=new Reservation();
         reservationTest3.setiD(6);
         reservationTest3.setDateNotification(new Date());
@@ -58,9 +53,7 @@ public class ReservationTest {
         reservationTest3.setOuvrage(ouvrageMock);
         Assert.assertNotNull(reservationTest3);
 
-
     }
-
 
     @Test
     public void comparatorDatedemandeTest_controledesdate(){

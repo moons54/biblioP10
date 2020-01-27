@@ -47,11 +47,12 @@ public class Tache8 implements Tasklet {
     Lecteur lecteur;
     Exemplaire exemplaire;
 
-//CORRECTED TICKET 1
     /**
      * nous mettons en place un mail permettant d'avertir le lecteur que son livre l'attend pdt 48H
      * les lecteurs ayant reservé
      */
+
+
     //LIAISON AVEC WEBSERVICE EMPRUNT
     AuthentificationService_Service authentificationService_service=new AuthentificationService_Service();
     AuthentificationService por=authentificationService_service.getAuthentificationServicePort();
@@ -75,8 +76,7 @@ public class Tache8 implements Tasklet {
         List<Reservation> reservationList=por4.listerlesreservation();
         for (Reservation res:reservationList
              ) {
-           // if(res.getDateNotification()==null){
-             //   reservationList.remove(res);
+        reservationList.remove(res);
 
         }
 

@@ -1,6 +1,5 @@
 package org.biblio.p7;
 
-import javafx.beans.binding.When;
 import org.biblio.p7.bean.*;
 import org.biblio.p7.manager.ReservationManager;
 import org.biblio.p7.managerimpl.ReservationManagerImpl;
