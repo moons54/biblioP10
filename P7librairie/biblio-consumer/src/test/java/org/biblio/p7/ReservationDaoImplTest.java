@@ -16,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,15 +43,45 @@ public class ReservationDaoImplTest {
 
     @Test
     public void ListerlesReservationTest() {
-
-      List<Reservation> reservationListTest=reservationDao.listerlesreservations();
+        List<Reservation> reservationListTest=reservationDao.listerlesreservations();
       Assert.assertEquals("true",reservationListTest.get(0).getNotification().toString());
     }
 
     @Test
     public void ListerlesReservationparLecteur(){
-       List<Reservation> reservationListTest=reservationDao.listerlesreservationparlecteur(1);
+        List<Reservation> reservationListTest=reservationDao.listerlesreservationparlecteur(1);
         Assert.assertEquals(true,reservationListTest.get(0).getNotification().booleanValue());
+    }
+
+    @Test
+    public void listerlesreservationparouvrage(){
+        List<Reservation> reservationListTest=reservationDao.listerlesreservationparouvrage(1);
+        Assert.assertEquals(true,reservationListTest.get(0).getNotification().booleanValue());
+    }
+
+
+   @Test
+   public void addReservationTest(){
+        Reservation reservation=jeureservation();
+        reservationDao.addreservation(reservation);
+        Assert.assertEquals("true",reservationDao.listerlesreservations().get(1).getNotification().toString());
+    }
+
+    @Test
+    public void annuleReservationTest(){
+        List<Reservation> reservationListTest=reservationDao.listerlesreservations();
+        reservationDao.supprimerReservation(reservationListTest.get(0).getiD());
+        Assert.assertFalse(reservationListTest.size()<1);
+    }
+
+    @Test
+    public void modifieReservationTest(){
+
+       Reservation reservation=reservationDao.listerlesreservations().get(1);
+
+       reservation.setNotification(false);
+        reservationDao.modifieReservation(reservation);
+        Assert.assertEquals("false",reservation.getNotification().toString());
     }
 
     public Reservation jeureservation() {
@@ -64,8 +95,34 @@ public class ReservationDaoImplTest {
             return null;
         }
 
-        public MapSqlParameterSource getMapSqlParameterSource(){
+
+        public NamedParameterJdbcTemplate getNameParameterJdbcTemplate() {
             return null;
+        }
+
+
+       public MapSqlParameterSource getMapSqlParameterSource(){
+            return null;
+        }
+
+
+        @Override
+        protected void addreservationQuery(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, String querySqlAjoutReservation) {
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+
+        }
+
+        @Override
+        protected void annulereservationQuery(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, String querySqlAjoutReservation) {
+            List<Reservation> reservationList=new ArrayList<>();
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+            lecteur.setId(3);
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
+            reservationList.add(reservation);
+            reservationList.add(reservation2);
+
         }
 
         @Override
@@ -74,12 +131,56 @@ public class ReservationDaoImplTest {
             lecteur.setId(1);
             Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
             lecteur.setId(3);
-            Reservation reservation2 = new Reservation(4, new Date(), false, new Date(), ouvrage, lecteur);
-
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
             reservationList.add(reservation);
             reservationList.add(reservation2);
-
             return reservationList;
+        }
+
+        @Override
+        public List<Reservation> getQueryListerLesReservationParLecteur(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, ReservationRM reservationRM) {
+            List<Reservation> reservationList=new ArrayList<>();
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+            lecteur.setId(3);
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
+            reservationList.add(reservation);
+            reservationList.add(reservation2);
+            return reservationList;
+        }
+
+
+        @Override
+        public List<Reservation> getQueryListerLesReservationParOuvrage(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, ReservationRM reservationRM) {
+            List<Reservation> reservationList=new ArrayList<>();
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+            lecteur.setId(3);
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
+            reservationList.add(reservation);
+            reservationList.add(reservation2);
+            return reservationList;
+        }
+
+        @Override
+        public List<Reservation> getQueryListerLesReservationParPriorite(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, ReservationRM reservationRM) {
+            List<Reservation> reservationList=new ArrayList<>();
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+            lecteur.setId(3);
+            Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
+            reservationList.add(reservation);
+            reservationList.add(reservation2);
+            return reservationList;
+        }
+
+
+        @Override
+        protected void modifiereservationQuery(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams, String querySqlAjoutReservation) {
+            lecteur.setId(1);
+            Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
+
+
         }
     }
 }

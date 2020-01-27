@@ -20,20 +20,22 @@ import java.util.List;
 import java.util.Timer;
 
 public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDao {
+
     private static final Logger LOGGER=(Logger) LogManager.getLogger(ReservationDao.class);
 
     private JdbcTemplate jdbcTemplate;
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
-
     public ReservationDaoImpl(JdbcTemplate jdbcTemplate){
+
         this.jdbcTemplate=jdbcTemplate;
     }
 
+    public ReservationDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
+        this.namedParameterJdbcTemplate=namedParameterJdbcTemplate;
+    }
 
-    //Constructeur
     public ReservationDaoImpl() {
         super();
     }
@@ -44,20 +46,23 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         cal.add(Calendar.DAY_OF_MONTH, nbJour);
         return cal.getTime();
     }
-//-----------------------------------------------------------------------------------------------------------------//
-//---------------ENSEMBLE DES METHODES D"AFFICHAGE-----------------------------------------------------------------//
-//-----------------------------------------------------------------------------------------------------------------//
 
     //CORRECTED TICKET 3
-    //REFACTORISATION DES METHODES RESERVATION
 
 
+    /**
+     * AFFICHER LES RESERVATIONS PAR LECTEUR
+     * @return
+     */
     private static String querySqlListerLesReservations() {
+
         return "SELECT * FROM public.reservation";
     }
 
     public List<Reservation> getQueryListerLesReservations(JdbcTemplate jdbcTemplate,ReservationRM reservationRM){
-        return jdbcTemplate.query(querySqlListerLesReservations(),reservationRM);
+        return
+                jdbcTemplate.query(querySqlListerLesReservations(),reservationRM)
+                ;
     }
 
     @Override
@@ -68,29 +73,98 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         return reservationList;
     }
 
-  /*  private static String querySqlListerLesReservationsParLecteur(){
-        return "SELECT * FROM public.reservation where lecteurid=?";
+    /**
+     * AFFICHER LES RESERVATIONS PAR LECTEUR
+     * @return
+     */
+    private static String querySqlListerLesReservationsParLecteur(){
+        return "SELECT * FROM public.reservation where lecteurid = :lecteurid";
     }
 
-    public List<Reservation> getQueryListerLesReservationParLecteur(JdbcTemplate jdbcTemplate,int iD,ReservationRM reservationRM){
-        return jdbcTemplate.query(querySqlListerLesReservationsParLecteur(),new Object[]{iD},reservationRM);
+    public List<Reservation> getQueryListerLesReservationParLecteur(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams,ReservationRM reservationRM){
+        return vJdbcTemplate.query(querySqlListerLesReservationsParLecteur(),vSqlParams,reservationRM);
     }
-*/
 
     @Override
-    public List<Reservation> listerlesreservationparlecteur(int iD) {
-        String vsql="SELECT * FROM public.reservation where lecteurid=?";
-        JdbcTemplate jdbcTemplate= getJdbcTemplate();
+    public List<Reservation> listerlesreservationparlecteur(int lecteurid) {
+        NamedParameterJdbcTemplate vJdbcTemplate = getNameParameterJdbcTemplate();
+
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("lecteurid", lecteurid);
         ReservationRM reservationRM=new ReservationRM();
-        List<Reservation> reservationList=jdbcTemplate.query(vsql,new Object[]{iD},reservationRM);
-  //  List<Reservation> reservationList=getQueryListerLesReservationParLecteur(jdbcTemplate,iD,reservationRM);
+        List<Reservation> reservationList=getQueryListerLesReservationParLecteur(vJdbcTemplate,vSqlParams,reservationRM);
         return reservationList;
     }
 
+    /**
+     * AFFICHER LES RESERVATIONS PAR OUVRAGE
+     * @return
+     */
+    private static String querySqlListerLesReservationParOuvrage(){
+        return "SELECT * FROM public.reservation where ouvrageid = :ouvrageid";
+    }
 
+    public List<Reservation> getQueryListerLesReservationParOuvrage(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams,ReservationRM reservationRM){
+        return vJdbcTemplate.query(querySqlListerLesReservationParOuvrage(),vSqlParams,reservationRM);
+    }
 
+    @Override
+    public List<Reservation> listerlesreservationparouvrage(int ouvrageid) {
+        NamedParameterJdbcTemplate vJdbcTemplate = getNameParameterJdbcTemplate();
 
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("ouvrageid", ouvrageid);
+        ReservationRM reservationRM=new ReservationRM();
+        List<Reservation> reservationList=getQueryListerLesReservationParOuvrage(vJdbcTemplate,vSqlParams,reservationRM);
 
+        return reservationList;
+    }
+
+    /**
+     * Prioriser les reservations
+     * @return
+     */
+    private static String querySqlListerLesReservationParPriorité(){
+        return "SELECT * FROM public.reservation where ouvrageid = :ouvrageid";
+    }
+
+    public List<Reservation> getQueryListerLesReservationParPriorite(NamedParameterJdbcTemplate vJdbcTemplate, MapSqlParameterSource vSqlParams,ReservationRM reservationRM){
+        return vJdbcTemplate.query(querySqlListerLesReservationParPriorité(),vSqlParams,reservationRM);
+    }
+
+    public List<Reservation> listerLesReservationParPriorite(int ouvrageid) {
+        LOGGER.info("dans la methode listerlesresaparpriorite");
+        System.out.println("numero de l'ouvrage   " +ouvrageid);
+        NamedParameterJdbcTemplate vJdbcTemplate = getNameParameterJdbcTemplate();
+
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("ouvrageid", ouvrageid);
+
+        ReservationRM reservationRM=new ReservationRM();
+        List<Reservation> reservationList=getQueryListerLesReservationParPriorite(vJdbcTemplate,vSqlParams,reservationRM);
+
+        return reservationList;
+    }
+
+    /**
+     * AFFICHER LES RESERVATIONS NOTIFIES
+     * @return
+     */
+    private static String querySqlListerLesReservationNotifie(){
+        return "SELECT * FROM public.reservation where notification=true";
+    }
+
+    public List<Reservation> getQueryListerLesReservationParNotification(JdbcTemplate jdbcTemplate,ReservationRM reservationRM) {
+        return jdbcTemplate.query(querySqlListerLesReservationNotifie(),reservationRM);
+    }
+
+    public List<Reservation> listerLesReservationnNotifie() {
+        JdbcTemplate jdbcTemplate= getJdbcTemplate();
+        ReservationRM reservationRM=new ReservationRM();
+        List<Reservation> reservationList=getQueryListerLesReservationParNotification(jdbcTemplate,reservationRM);
+
+        return reservationList;
+    }
 
     @Override
     public void ajouterUneReservation(Reservation reservation) {
@@ -100,95 +174,91 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         NamedParameterJdbcTemplate jdbcTemplate=new NamedParameterJdbcTemplate(getDataSource());
         jdbcTemplate.update(vsql,vParams);
     }
-//-----------------------------------------------------------------------------------------------------------------//
-//---------------ENSEMBLE DES METHODES D"Insertion de reservation--------------------------------------------------//
-//-----------------------------------------------------------------------------------------------------------------//
 
-private static String querySqlAjoutReservation(){
+    /**
+     * METHODES D"Insertion de reservation
+     * @return
+     */
+
+    private static String querySqlAjoutReservation(){
         return "INSERT into public.reservation(ouvrageid, date_de_demande, notification, date_notification, lecteurid) VALUES "+
-                "(:ouvrage,:dateDemande,:notification,:dateNotification,:lecteur)";
-}
+                "(:ouvrage, :dateDemande, :notification, :dateNotification, :lecteur)";
+    }
+
+    protected void addreservationQuery(NamedParameterJdbcTemplate vJdbcTemplate,MapSqlParameterSource vSqlParams,String querySqlAjoutReservation){
+        vJdbcTemplate.update(querySqlAjoutReservation,vSqlParams);
+    }
+
 
     public Reservation addreservation(Reservation reservation) {
-        LOGGER.warn("dans la methode addreservation");
-      /*  String vSQL="INSERT into public.reservation(ouvrageid, date_de_demande, notification, date_notification, lecteurid) VALUES "+
-                "(:ouvrage,:dateDemande,:notification,:dateNotification,:lecteur)";*/
-        SqlParameterSource vParams= getMapSqlParameterSource()
+        MapSqlParameterSource vParams= new MapSqlParameterSource()
                 .addValue("ouvrage",reservation.getOuvrage().getiD())
                 .addValue("dateDemande", new Date())
                 .addValue("notification",false)
                 .addValue("dateNotification",null)
                 .addValue("lecteur",reservation.getLecteur().getId());
-       NamedParameterJdbcTemplate vJdbcTemplate=new NamedParameterJdbcTemplate(getDataSource());
-        vJdbcTemplate.update(querySqlAjoutReservation(),vParams);
+        NamedParameterJdbcTemplate vJdbcTemplate=getNameParameterJdbcTemplate();
+        addreservationQuery(vJdbcTemplate,vParams,querySqlAjoutReservation());
         return reservation;
     }
 
     private MapSqlParameterSource getMapSqlParameterSource() {
+
         return new MapSqlParameterSource();
     }
 
+    /**
+     * Methode D"Annulation de reservation
+     * @return
+     */
+    private static String queryAnnuleReservation(){
+        return "DELETE from reservation where id = :id";
+    }
+
+    protected void annulereservationQuery(NamedParameterJdbcTemplate vJdbcTemplate,MapSqlParameterSource vSqlParams,String querySqlAjoutReservation){
+        vJdbcTemplate.update(querySqlAjoutReservation,vSqlParams);
+    }
 
     @Override
     public Reservation supprimerReservation(Integer iD) {
-        String vsql="DELETE from reservation where id=?";
-        JdbcTemplate jdbcTemplate= getJdbcTemplate();
+        NamedParameterJdbcTemplate vJdbcTemplate = getNameParameterJdbcTemplate();
+
+        MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
+        vSqlParams.addValue("id", iD);
+
         ReservationRM reservationRM=new ReservationRM();
-        jdbcTemplate.update(vsql,new Object[]{iD});
+        annulereservationQuery(vJdbcTemplate,vSqlParams,queryAnnuleReservation());
         return null;
     }
 
 
+    /**
+     * METHODES De modification de reservation
+     * @return
+     */
+
+    private static String queryModifieReservation(){
+        return "update reservation set ouvrageid = :ouvrageid,date_de_demande = :dateDemande,notification = :notification, date_notification = :dateNotification, lecteurid = :lecteurid where id = :id";
+
+    }
+
+        protected void modifiereservationQuery(NamedParameterJdbcTemplate vJdbcTemplate,MapSqlParameterSource vSqlParams,String querySqlAjoutReservation){
+        vJdbcTemplate.update(queryModifieReservation(),vSqlParams);
+    }
 
     @Override
     public Reservation modifieReservation(Reservation reservation) {
-        LOGGER.warn("dans la methode modifier reservation");
-        String vsql="update reservation set ouvrageid=:ouvrage,date_de_demande=:dateDemande,notification=:notification,date_notification=:dateNotification,lecteurid=:lecteur where id=:id";
-        SqlParameterSource vParams= getMapSqlParameterSource()
-                .addValue("ouvrage",reservation.getOuvrage().getiD())
+        LOGGER.warn("Methode modifier reservation.");
+         NamedParameterJdbcTemplate vJdbcTemplate = getNameParameterJdbcTemplate();
+        MapSqlParameterSource vParams= getMapSqlParameterSource()
+                .addValue("ouvrageid",reservation.getOuvrage().getiD())
                 .addValue("dateDemande", reservation.getDateDemande())
                 .addValue("notification",reservation.getNotification())
                 .addValue("dateNotification",new Date())
-                .addValue("lecteur",reservation.getLecteur().getId())
+                .addValue("lecteurid",reservation.getLecteur().getId())
                 .addValue("id",reservation.getiD());
-        NamedParameterJdbcTemplate jdbcTemplate=new NamedParameterJdbcTemplate(getDataSource());
-        jdbcTemplate.update(vsql,vParams);
-
+         modifiereservationQuery(vJdbcTemplate,vParams,queryModifieReservation());
         return reservation;
     }
-
-
-
-    @Override
-    public List<Reservation> listerlesreservationparouvrage(int iD) {
-        String vsql="SELECT * FROM public.reservation where ouvrageid=?";
-        JdbcTemplate jdbcTemplate= getJdbcTemplate();
-        ReservationRM reservationRM=new ReservationRM();
-        List<Reservation> reservationList=jdbcTemplate.query(vsql,new Object[]{iD},reservationRM);
-
-        return reservationList;
-    }
-    public List<Reservation> listerLesReservationParPriorite(int iD) {
-        LOGGER.info("dans la methode listerlesresaparpriorite");
-        String vsql="SELECT * FROM public.reservation where ouvrageid=?";
-        JdbcTemplate jdbcTemplate= getJdbcTemplate();
-        ReservationRM reservationRM=new ReservationRM();
-        List<Reservation> reservationList=jdbcTemplate.query(vsql,new Object[]{iD},reservationRM);
-
-        return reservationList;
-    }
-
-
-    public List<Reservation> listerLesReservationnNotifie() {
-        String vsql="SELECT * FROM public.reservation where notification=true";
-        JdbcTemplate jdbcTemplate= getJdbcTemplate();
-        ReservationRM reservationRM=new ReservationRM();
-        List<Reservation> reservationList=jdbcTemplate.query(vsql,reservationRM);
-
-        return reservationList;
-    }
-
-
-
 }
 

@@ -23,15 +23,21 @@ public abstract class AbstractDaoimpl {
     private static DataSource dataSource;
 
     public DataSource getDataSource() {
+
         return dataSource;
     }
 
     public static void setDataSource(DataSource dataSource) {
+
         AbstractDaoimpl.dataSource = dataSource;
     }
 
     public JdbcTemplate getJdbcTemplate() {
         return new JdbcTemplate(getDataSource());
+    }
+
+    public NamedParameterJdbcTemplate getNameParameterJdbcTemplate(){
+        return new NamedParameterJdbcTemplate(getDataSource());
     }
 }
 

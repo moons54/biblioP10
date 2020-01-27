@@ -69,11 +69,6 @@ public class ExemplaireManagerImpl extends AbstractManagerImpl implements Exempl
         return getDaoFactory().getExemplaireDao().getCountExemplaire(numexemplaire);
     }
 
-    //TODO creer une methode permettant de passer en boucle les exemplaires disponibles
-    //via true / false
-    //true etant livre indisponible
-    //false etant livre disponible
-
 
 public boolean etatStatus(int ouvrageid){
     boolean etatStatus=false;

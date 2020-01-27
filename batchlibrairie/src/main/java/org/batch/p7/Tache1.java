@@ -125,8 +125,6 @@ public class Tache1 implements Tasklet {
                for (Emprunt em : empruntList) {
                     text += "<li><strong>" + em.getExemplaire().getOuvrage().getIntituleOuvrage() + "Indentification :  " + em.getExemplaire().getReferenceInterne() + "</strong></li>" + "\n";
                 }
-                // }
-                // text+="<p>Vous devez retourner les livres suivant  :  "+"<strong>" + emprunt.getExemplaire().getOuvrage().getIntituleOuvrage()  + "Indentification :  "+emprunt.getExemplaire().getReferenceInterne()+"</strong>"+ "\n" +
                 text += "<p class='row'>" +
                         "<p class='red-text'><strong>merci de les retourner des que possible afin que nous puissions les proposer rapidement &agrave d'autres lecteurs</strong>" + "\n" + "</p>" +
                          "<p class='card-head alert-info'>L'equipe oc Classbook</p>" +
@@ -139,7 +137,7 @@ public class Tache1 implements Tasklet {
                 email.send();
 
             } catch (EmailException e) {
-                // TODO Auto-generated catch block
+
                 System.out.println("Unable to send an email" + e.getMessage());
             }
         }
