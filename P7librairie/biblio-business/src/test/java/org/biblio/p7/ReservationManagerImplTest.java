@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 public class ReservationManagerImplTest {
 
-
     ReservationManagerImpl reservationManager;
     @Mock
     Lecteur lecteur;
@@ -31,8 +30,6 @@ public class ReservationManagerImplTest {
 
     @Mock
     List<Genre> genre;
-
-
 
     @Mock
     Reservation reservationMock;

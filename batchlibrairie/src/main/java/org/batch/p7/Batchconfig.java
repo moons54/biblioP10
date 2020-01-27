@@ -82,7 +82,7 @@ public class Batchconfig {
         return jobs.get("demoJob")
                 .incrementer(new RunIdIncrementer())
                 .start(stepTwo())
-           //     .next(stepOne())
+                .next(stepOne())
                 .next(stepFour())
                 .next(stepThree())
                 .next(stepSix())

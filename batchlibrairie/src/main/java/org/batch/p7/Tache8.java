@@ -74,11 +74,11 @@ public class Tache8 implements Tasklet {
 
 
         List<Reservation> reservationList=por4.listerlesreservation();
-        for (Reservation res:reservationList
+     /*   for (Reservation res:reservationList
              ) {
         reservationList.remove(res);
 
-        }
+        }*/
 
         List<Lecteur> lecteurList=por.rechercherlesLecteurs();
         List<Lecteur> lecteurList1=new ArrayList<>();
@@ -98,7 +98,7 @@ public class Tache8 implements Tasklet {
             }
         }
         for (Lecteur lecteur1: lecteurList1){
-            System.out.println("liste des res"+lecteur1.getNom());
+         //   System.out.println("liste des res"+lecteur1.getNom());
             List<Reservation> reservationList1=por4.listerlesreservationparlecteur(lecteur1.getId());
 
              reservationList=reservationList1.stream()
@@ -146,8 +146,6 @@ public class Tache8 implements Tasklet {
                for (Reservation em : reservationList) {
                     text += "<li><strong>" + em.getOuvrage().getIntituleOuvrage() + "Indentification :  " + em.getOuvrage().getIsbn() + "</strong></li>" + "\n";
                 }
-                // }
-                // text+="<p>Vous devez retourner les livres suivant  :  "+"<strong>" + emprunt.getExemplaire().getOuvrage().getIntituleOuvrage()  + "Indentification :  "+emprunt.getExemplaire().getReferenceInterne()+"</strong>"+ "\n" +
                 text += "<p class='row'>" +
                         "<p class='red-text'><strong>Bonjour votre livre vous attend a notre librairie, vous avez 48 heure pour le reccuperer. Au dela de ce délais, votre reservation sera perdu.</strong>" + "\n" + "</p>" +
                          "<p class='card-head alert-info'>L'equipe oc Classbook</p>" +
