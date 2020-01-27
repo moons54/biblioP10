@@ -1,7 +1,6 @@
 package org.biblio.p7;
 
 import org.biblio.p7.bean.*;
-import org.biblio.p7.manager.ReservationManager;
 import org.biblio.p7.managerimpl.ReservationManagerImpl;
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,13 +39,13 @@ public class ReservationManagerImplTest {
 
     @Before
     public void initialize(){
-        reservationManager =new ReservationManagerFake();
+        reservationManager = new ReservationManagerFake();
 
     }
 
     @Test
-    public void ListerlesreservationTest(){
-       List<Reservation> reservationList=new ArrayList<>();
+    public void ListerlesreservationTest() {
+       List<Reservation> reservationList = new ArrayList<>();
         Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
         Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
         reservationList.add(reservation);
@@ -56,26 +55,26 @@ public class ReservationManagerImplTest {
 
 
     @Test
-    public void addreservationTest(){
+    public void addreservationTest() {
         Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
-        Assert.assertNotNull(reservation.toString(),reservationManager.addreservation(reservation));
+        Assert.assertNotNull(reservation.toString() , reservationManager.addreservation(reservation));
     }
 
     @Test
     public void listerlesreservationparprioriteTest_retournerlareservationclassepardatededemande(){
 
 
-      List <Reservation> reservationListTest=reservationManager.listerLesReservationParPriorite(2);
+      List <Reservation> reservationListTest = reservationManager.listerLesReservationParPriorite(2);
 
       Assert.assertEquals(4,reservationListTest.get(0).getiD());
 
     }
 
     @Test
-    public void listerlesreservationparprioriteTest_retourneunereservation(){
+    public void listerlesreservationparprioriteTest_retourneunereservation() {
 
 
-        List <Reservation> reservationListTest=reservationManager.listerLesReservationParPriorite(2);
+        List <Reservation> reservationListTest = reservationManager.listerLesReservationParPriorite(2);
 
         Assert.assertEquals(1,reservationListTest.size());
 
@@ -83,13 +82,13 @@ public class ReservationManagerImplTest {
 
 
 
-    public class ReservationManagerFake extends ReservationManagerImpl{
+    public class ReservationManagerFake extends ReservationManagerImpl {
 
 
 
         @Override
     public List<Reservation> Listerlesreservation() {
-        List<Reservation> reservationListTest=new ArrayList<>();
+        List<Reservation> reservationListTest = new ArrayList<>();
         Reservation reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
         Reservation reservation2 = new Reservation(4, new Date(), true, new Date(), ouvrage, lecteur);
         reservationListTest.add(reservation);
@@ -101,16 +100,14 @@ public class ReservationManagerImplTest {
         @Override
         public Reservation addreservation(Reservation reservation) {
 
-         //   reservation = new Reservation(1, new Date(), true, new Date(), ouvrage, lecteur);
-
             return reservation;
         }
 
         @Override
         public List<Reservation> listerLesReservationParPriorite(int iD) {
-            List<Reservation> reservationListTest=new ArrayList<>();
+            List<Reservation> reservationListTest = new ArrayList<>();
 
-            Ouvrage ouvrage1=new Ouvrage();
+            Ouvrage ouvrage1 = new Ouvrage();
             ouvrage1.setiD(2);
             ouvrage1.setAuteur(auteur);
             ouvrage1.setDescription("test");
@@ -127,7 +124,7 @@ public class ReservationManagerImplTest {
             reservationListTest.add(reservation2);
             Collections.sort(reservationListTest,Reservation.comparatorDatedemande);
 
-            List<Reservation> reservationList1=reservationListTest.stream()
+            List<Reservation> reservationList1 = reservationListTest.stream()
                     .limit(1)
                     .collect(Collectors.toList());
             return reservationList1;

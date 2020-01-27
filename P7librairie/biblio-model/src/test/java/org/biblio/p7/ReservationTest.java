@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Test du bean reservation
+ */
+
 @RunWith(MockitoJUnitRunner.class)
 public class ReservationTest {
 
@@ -35,6 +39,9 @@ public class ReservationTest {
         Reservation reservationTest1=new Reservation(1,new Date(),true,new Date(),ouvrageMock,lecteurMock);
     }
 
+    /**
+     * Test du contructeur
+     */
     @Test
     public void ReservationTest_constructeur(){
         Reservation reservationTest=new Reservation(1,new Date(),true,new Date(),ouvrageMock,lecteurMock);

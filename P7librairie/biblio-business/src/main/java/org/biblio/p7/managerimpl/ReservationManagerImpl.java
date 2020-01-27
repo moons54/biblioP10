@@ -95,7 +95,7 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
             List<Reservation> reservationList = listerLesReservationParPriorite(exemplaire.getOuvrage().getiD());
 
             for (Reservation reservation: reservationList) {
-                if (reservation.getDateNotification()== null) {
+                if (reservation.getDateNotification() == null) {
                     reservation.setDateNotification(new Date());
                     getDaoFactory().getReservationDao().modifieReservation(reservation);
                 }
@@ -109,11 +109,11 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
 
     @Override
     public List<Reservation> listerLesReservationParPriorite(int iD) {
-        List<Reservation> reservationList= getDaoFactory().getReservationDao().listerLesReservationParPriorite(iD);
+        List<Reservation> reservationList = getDaoFactory().getReservationDao().listerLesReservationParPriorite(iD);
 
         Collections.sort(reservationList,Reservation.comparatorDatedemande);
 
-        List<Reservation> reservationList1=reservationList.stream()
+        List<Reservation> reservationList1 = reservationList.stream()
                 .limit(1)
                 .collect(Collectors.toList());
 
@@ -130,7 +130,7 @@ public class ReservationManagerImpl extends AbstractManagerImpl implements Reser
             reservationList = listerLesReservationParPriorite(exemplaire.getOuvrage().getiD());
 
             for (Reservation reservation:reservationList){
-                if (ajouterJour(DATE_JOUR,-2).after(reservation.getDateNotification())){
+                if (ajouterJour(DATE_JOUR ,-2).after(reservation.getDateNotification())){
                     reservation.setNotification(true);
                     getDaoFactory().getReservationDao().modifieReservation(reservation);
                 }

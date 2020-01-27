@@ -20,23 +20,22 @@ import java.util.List;
 import java.util.Timer;
 
 public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDao {
+
     private static final Logger LOGGER=(Logger) LogManager.getLogger(ReservationDao.class);
 
     private JdbcTemplate jdbcTemplate;
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-
-
     public ReservationDaoImpl(JdbcTemplate jdbcTemplate){
+
         this.jdbcTemplate=jdbcTemplate;
     }
 
-    public ReservationDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate){this.namedParameterJdbcTemplate=namedParameterJdbcTemplate;}
+    public ReservationDaoImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
+        this.namedParameterJdbcTemplate=namedParameterJdbcTemplate;
+    }
 
-
-
-    //Constructeur
     public ReservationDaoImpl() {
         super();
     }
@@ -47,25 +46,23 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         cal.add(Calendar.DAY_OF_MONTH, nbJour);
         return cal.getTime();
     }
-//-----------------------------------------------------------------------------------------------------------------//
-//---------------ENSEMBLE DES METHODES-----------------------------------------------------------------------------//
-//-----------------------------------------------------------------------------------------------------------------//
 
     //CORRECTED TICKET 3
-    //REFACTORISATION DES METHODES RESERVATION
 
-    //------------------------------------------------------//
-    //---------------LES METHODES D'AFFICHAGE---------------//
-    //------------------------------------------------------//
 
-    //-1)------------AFFICHER LES RESERVATIONS------------------------------------------------------------//
-
+    /**
+     * AFFICHER LES RESERVATIONS PAR LECTEUR
+     * @return
+     */
     private static String querySqlListerLesReservations() {
+
         return "SELECT * FROM public.reservation";
     }
 
     public List<Reservation> getQueryListerLesReservations(JdbcTemplate jdbcTemplate,ReservationRM reservationRM){
-        return jdbcTemplate.query(querySqlListerLesReservations(),reservationRM);
+        return
+                jdbcTemplate.query(querySqlListerLesReservations(),reservationRM)
+                ;
     }
 
     @Override
@@ -76,8 +73,10 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         return reservationList;
     }
 
-    //-2)------------AFFICHER LES RESERVATIONS PAR LECTEUR-------------------------------------------------//
-
+    /**
+     * AFFICHER LES RESERVATIONS PAR LECTEUR
+     * @return
+     */
     private static String querySqlListerLesReservationsParLecteur(){
         return "SELECT * FROM public.reservation where lecteurid = :lecteurid";
     }
@@ -96,8 +95,11 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         List<Reservation> reservationList=getQueryListerLesReservationParLecteur(vJdbcTemplate,vSqlParams,reservationRM);
         return reservationList;
     }
-    //-3)------------AFFICHER LES RESERVATIONS PAR OUVRAGE-------------------------------------------------//
 
+    /**
+     * AFFICHER LES RESERVATIONS PAR OUVRAGE
+     * @return
+     */
     private static String querySqlListerLesReservationParOuvrage(){
         return "SELECT * FROM public.reservation where ouvrageid = :ouvrageid";
     }
@@ -108,7 +110,6 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
 
     @Override
     public List<Reservation> listerlesreservationparouvrage(int ouvrageid) {
-      //  NamedParameterJdbcTemplate jdbcTemplate= getJdbcTemplate();
         NamedParameterJdbcTemplate vJdbcTemplate = getNameParameterJdbcTemplate();
 
         MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
@@ -118,8 +119,11 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
 
         return reservationList;
     }
-    //-4)------------AFFICHER LES RESERVATIONS PAR PRIORITE-------------------------------------------------//
 
+    /**
+     * Prioriser les reservations
+     * @return
+     */
     private static String querySqlListerLesReservationParPriorité(){
         return "SELECT * FROM public.reservation where ouvrageid = :ouvrageid";
     }
@@ -142,8 +146,10 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         return reservationList;
     }
 
-    //-5)------------AFFICHER LES RESERVATIONS NOTIFIES-------------------------------------------------//
-
+    /**
+     * AFFICHER LES RESERVATIONS NOTIFIES
+     * @return
+     */
     private static String querySqlListerLesReservationNotifie(){
         return "SELECT * FROM public.reservation where notification=true";
     }
@@ -168,13 +174,15 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         NamedParameterJdbcTemplate jdbcTemplate=new NamedParameterJdbcTemplate(getDataSource());
         jdbcTemplate.update(vsql,vParams);
     }
-//-----------------------------------------------------------------------------------------------------------------//
-//---------------ENSEMBLE DES METHODES D"Insertion de reservation--------------------------------------------------//
-//-----------------------------------------------------------------------------------------------------------------//
+
+    /**
+     * METHODES D"Insertion de reservation
+     * @return
+     */
 
     private static String querySqlAjoutReservation(){
         return "INSERT into public.reservation(ouvrageid, date_de_demande, notification, date_notification, lecteurid) VALUES "+
-                "(:ouvrage,:dateDemande,:notification,:dateNotification,:lecteur)";
+                "(:ouvrage, :dateDemande, :notification, :dateNotification, :lecteur)";
     }
 
     protected void addreservationQuery(NamedParameterJdbcTemplate vJdbcTemplate,MapSqlParameterSource vSqlParams,String querySqlAjoutReservation){
@@ -195,13 +203,14 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
     }
 
     private MapSqlParameterSource getMapSqlParameterSource() {
+
         return new MapSqlParameterSource();
     }
 
-//-----------------------------------------------------------------------------------------------------------------//
-//---------------METHODES D"Annulation de reservation--------------------------------------------------------------//
-//-----------------------------------------------------------------------------------------------------------------//
-
+    /**
+     * Methode D"Annulation de reservation
+     * @return
+     */
     private static String queryAnnuleReservation(){
         return "DELETE from reservation where id = :id";
     }
@@ -210,12 +219,8 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         vJdbcTemplate.update(querySqlAjoutReservation,vSqlParams);
     }
 
-
-
-
     @Override
     public Reservation supprimerReservation(Integer iD) {
-     //  JdbcTemplate jdbcTemplate= getJdbcTemplate();
         NamedParameterJdbcTemplate vJdbcTemplate = getNameParameterJdbcTemplate();
 
         MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
@@ -223,19 +228,17 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
 
         ReservationRM reservationRM=new ReservationRM();
         annulereservationQuery(vJdbcTemplate,vSqlParams,queryAnnuleReservation());
-       // addreservationQueryupdate(vsql,new Object[]{iD});
         return null;
     }
 
 
-
-//-----------------------------------------------------------------------------------------------------------------//
-//---------------METHODES De modification de reservation--------------------------------------------------------------//
-//-----------------------------------------------------------------------------------------------------------------//
-
+    /**
+     * METHODES De modification de reservation
+     * @return
+     */
 
     private static String queryModifieReservation(){
-        return "update reservation set ouvrageid = :ouvrageid,date_de_demande = :dateDemande,notification = :notification,date_notification = :dateNotification,lecteurid = :lecteurid where id = :id";
+        return "update reservation set ouvrageid = :ouvrageid,date_de_demande = :dateDemande,notification = :notification, date_notification = :dateNotification, lecteurid = :lecteurid where id = :id";
 
     }
 
@@ -243,15 +246,10 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
         vJdbcTemplate.update(queryModifieReservation(),vSqlParams);
     }
 
-
     @Override
     public Reservation modifieReservation(Reservation reservation) {
-        LOGGER.warn("dans la methode modifier reservation");
-       // String vsql="update reservation set ouvrageid=:ouvrage,date_de_demande=:dateDemande,notification=:notification,date_notification=:dateNotification,lecteurid=:lecteur where id=:id";
-        NamedParameterJdbcTemplate vJdbcTemplate = getNameParameterJdbcTemplate();
-
-      //  MapSqlParameterSource vSqlParams = new MapSqlParameterSource();
-
+        LOGGER.warn("Methode modifier reservation.");
+         NamedParameterJdbcTemplate vJdbcTemplate = getNameParameterJdbcTemplate();
         MapSqlParameterSource vParams= getMapSqlParameterSource()
                 .addValue("ouvrageid",reservation.getOuvrage().getiD())
                 .addValue("dateDemande", reservation.getDateDemande())
@@ -259,17 +257,8 @@ public class ReservationDaoImpl extends AbstractDaoimpl implements ReservationDa
                 .addValue("dateNotification",new Date())
                 .addValue("lecteurid",reservation.getLecteur().getId())
                 .addValue("id",reservation.getiD());
-       // NamedParameterJdbcTemplate jdbcTemplate=new NamedParameterJdbcTemplate(getDataSource());
-       // jdbcTemplate.update(vsql,vParams);
-        modifiereservationQuery(vJdbcTemplate,vParams,queryModifieReservation());
+         modifiereservationQuery(vJdbcTemplate,vParams,queryModifieReservation());
         return reservation;
     }
-
-
-
-
-
-
-
 }
 

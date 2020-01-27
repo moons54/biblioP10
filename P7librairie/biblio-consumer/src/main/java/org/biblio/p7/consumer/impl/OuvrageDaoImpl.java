@@ -28,7 +28,7 @@ public class OuvrageDaoImpl extends AbstractDaoimpl implements OuvrageDao {
      */
     @Override
     public List<Ouvrage> afficherOuvrage() {
-        LOGGER.info("methode affiche ouvrage");
+        LOGGER.info("Methode affiche ouvrage.");
         String vSQL="select id, intitule_ouvrage, description, photo, num_isbn, auteurid from ouvrage";
         JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
       OuvrageRM ouvrageRM = new OuvrageRM();
@@ -42,7 +42,7 @@ public class OuvrageDaoImpl extends AbstractDaoimpl implements OuvrageDao {
      */
     @Override
     public void ajouterOuvrage(Ouvrage ouvrage) {
-        LOGGER.info("methode ajoute ouvrage");
+        LOGGER.info("Methode ajoute ouvrage.");
         String vSQL="insert into ouvrage(intitule_ouvrage, description, photo, num_isbn)"+
                 " VALUES (:intituleOuvrage,:description,:photo,:isbn)";
         SqlParameterSource vParams=new BeanPropertySqlParameterSource(ouvrage);
@@ -58,7 +58,7 @@ public class OuvrageDaoImpl extends AbstractDaoimpl implements OuvrageDao {
      */
     @Override
     public Ouvrage supprimerOuvrage(Integer iD) {
-        LOGGER.info("methode supprime ouvrage ");
+        LOGGER.info("Methode supprime ouvrage.");
         String vSQL="delete from ouvrage where id=?";
 
         JdbcTemplate vJdbcTemplate = new JdbcTemplate((getDataSource()));
@@ -74,7 +74,7 @@ public class OuvrageDaoImpl extends AbstractDaoimpl implements OuvrageDao {
      */
     @Override
     public void modifierOuvrage(Ouvrage ouvrage) {
-        LOGGER.info("methode modifie ouvrage");
+        LOGGER.info("Methode modifie ouvrage");
         String vSQL="UPDATE ouvrage set intitule_ouvrage=:intituleOuvrage, description=:description,photo=:photo,num_isbn=:isbn";
         SqlParameterSource vParams=new BeanPropertySqlParameterSource(ouvrage);
         NamedParameterJdbcTemplate vJdbcTemplate=new NamedParameterJdbcTemplate(getDataSource());
@@ -88,7 +88,7 @@ public class OuvrageDaoImpl extends AbstractDaoimpl implements OuvrageDao {
      */
     @Override
     public Ouvrage rechercherparOuvrage(String intituleOuvrage) {
-        LOGGER.info("methode rechercher ouvrage");
+        LOGGER.info("Methode rechercher ouvrage.");
         String vsql = "SELECT * FROM public.ouvrage WHERE intitule_ouvrage=?";
         JdbcTemplate vJdbcTemplate = new JdbcTemplate((getDataSource()));
         OuvrageRM ouvrageRM=new OuvrageRM();
@@ -104,7 +104,7 @@ public class OuvrageDaoImpl extends AbstractDaoimpl implements OuvrageDao {
      */
     @Override
     public Ouvrage rechercherparId(Integer id) {
-        LOGGER.info("methode rechercher ouvrage par l'id");
+        LOGGER.info("Methode rechercher ouvrage par l'id.");
         String vsql = "SELECT  id,intitule_ouvrage, description, photo, num_isbn, auteurid FROM public.ouvrage WHERE id=?";
         JdbcTemplate vJdbcTemplate = new JdbcTemplate((getDataSource()));
         OuvrageRM ouvrageRM = new OuvrageRM();
@@ -154,7 +154,7 @@ public class OuvrageDaoImpl extends AbstractDaoimpl implements OuvrageDao {
      */
     @Override
     public List<Ouvrage> multichoix(Integer id, Integer autid){
-        LOGGER.info("methode recehrcer multichoix ouvrage");
+        LOGGER.info("Methode rechercher multichoix ouvrage.");
 
         String vsql = "SELECT  * from ouvrage join ouvrage_genre og on ouvrage.id = og.ouvrageid where ((genreid=? and auteurid=?) or genreid=? or ouvrageid=?)";
 
